@@ -1,0 +1,51 @@
+[ncbi_gene2pubmed]
+description = "NCBI gene2pubmed: links between genes and PubMed articles"
+downloader = "ftp"
+host = "ftp.ncbi.nlm.nih.gov"
+path = "/gene/DATA/gene2pubmed.gz"
+
+[ncbi_gene_info]
+description = "NCBI gene_info: gene symbols, names, chromosomal location, and identifiers"
+downloader = "ftp"
+host = "ftp.ncbi.nlm.nih.gov"
+path = "/gene/DATA/gene_info.gz"
+
+[ncbi_gene2go]
+description = "NCBI gene2go: gene-to-GO term associations"
+downloader = "ftp"
+host = "ftp.ncbi.nlm.nih.gov"
+path = "/gene/DATA/gene2go.gz"
+
+[ncbi_gene_history]
+description = "NCBI gene_history: discontinued and merged gene ID history"
+downloader = "ftp"
+host = "ftp.ncbi.nlm.nih.gov"
+path = "/gene/DATA/gene_history.gz"
+
+[ncbi_generifs]
+description = "NCBI GeneRIFs: gene-to-literature functional annotation summaries"
+downloader = "ftp"
+host = "ftp.ncbi.nlm.nih.gov"
+path = "/gene/GeneRIF/generifs_basic.gz"
+
+[ncbi_taxdump]
+description = "NCBI Taxonomy dump: full taxonomy nodes, names, and lineage"
+downloader = "ftp"
+host = "ftp.ncbi.nlm.nih.gov"
+path = "/pub/taxonomy/taxdump.tar.gz"
+
+[icite]
+description = "iCite Database Snapshots — NIH Open Citation Collection (monthly)"
+downloader = "figshare"
+collection_id = "4586573"
+# Remove the 'files' key to download all files (~32 GB per snapshot).
+# Available per snapshot: icite_metadata.zip, open_citation_collection.zip, icite_metadata.tar.gz
+files = ["icite_metadata.zip"]
+
+[harmonizome]
+description = "Harmonizome gene-to-attribute matrices for all available datasets (~150 datasets)"
+downloader = "harmonizome"
+
+[openalex]
+description = "OpenAlex snapshot — all entity types under data/ (excludes legacy-data/)"
+downloader = "openalex"
