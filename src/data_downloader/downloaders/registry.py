@@ -2,12 +2,14 @@ from .base import BaseDownloader
 from .figshare import FigshareDownloader
 from .ftp import FtpDownloader
 from .harmonizome import HarmonizomeDownloader
+from .nih_exporter import NihExporterDownloader
 from .openalex import OpenAlexDownloader
 
 _DOWNLOADERS: dict[str, type[BaseDownloader]] = {
     "ftp": FtpDownloader,
     "figshare": FigshareDownloader,
     "harmonizome": HarmonizomeDownloader,
+    "nih_exporter": NihExporterDownloader,
     "openalex": OpenAlexDownloader,
 }
 
