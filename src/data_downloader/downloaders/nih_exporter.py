@@ -1,11 +1,10 @@
 """
-NIH ExPORTER downloader.
+NIH ExPORTER downloader — all sections in one pass.
 
-Supports year-based sections (projects, abstracts, publications, linktables)
-and single-file sections (patents, clinicalstudies).
-
-Year-based: https://reporter.nih.gov/exporter/{section}/download/{year}
-Single-file: https://reporter.nih.gov/exporter/{section}/download
+Year-based sections (projects, abstracts, publications, linktables):
+    https://reporter.nih.gov/exporter/{section}/download/{year}
+Single-file sections (patents, clinicalstudies):
+    https://reporter.nih.gov/exporter/{section}/download
 """
 import ssl
 import urllib.error
@@ -30,9 +29,9 @@ _YEAR_SECTIONS: dict[str, tuple[int, str]] = {
     "linktables":   (1985, "RePORTER_PUBLNK_C_FY{year}.zip"),
 }
 
-# section -> expected filename in the response
+# section -> filename saved locally
 _SINGLE_SECTIONS: dict[str, str] = {
-    "patents":        "Patents.csv",
+    "patents":         "Patents.csv",
     "clinicalstudies": "ClinicalStudies.csv",
 }
 
@@ -46,9 +45,8 @@ def _single_url(section: str) -> str:
 
 
 def _year_available(section: str, year: int) -> bool:
-    req = urllib.request.Request(_year_url(section, year))
     try:
-        with urllib.request.urlopen(req, context=_SSL) as r:
+        with urllib.request.urlopen(_year_url(section, year), context=_SSL) as r:
             return r.status == 200
     except urllib.error.HTTPError:
         return False
@@ -62,15 +60,9 @@ def _latest_year(section: str) -> int:
     raise RuntimeError(f"Could not determine latest NIH ExPORTER year for section '{section}'")
 
 
-def _single_last_modified(section: str) -> str:
-    with urllib.request.urlopen(_single_url(section), context=_SSL) as r:
-        return r.headers.get("Last-Modified", "unknown")
-
-
 def _download_year(section: str, year: int, filename: str, dest: Path) -> Path:
     local_path = dest / filename
-    url = _year_url(section, year)
-    with urllib.request.urlopen(url, context=_SSL) as response:
+    with urllib.request.urlopen(_year_url(section, year), context=_SSL) as response:
         size = int(response.headers.get("Content-Length", 0)) or None
         with (
             open(local_path, "wb") as f,
@@ -84,8 +76,7 @@ def _download_year(section: str, year: int, filename: str, dest: Path) -> Path:
 
 def _download_single(section: str, filename: str, dest: Path) -> Path:
     local_path = dest / filename
-    url = _single_url(section)
-    with urllib.request.urlopen(url, context=_SSL) as response:
+    with urllib.request.urlopen(_single_url(section), context=_SSL) as response:
         size = int(response.headers.get("Content-Length", 0)) or None
         with (
             open(local_path, "wb") as f,
@@ -100,29 +91,20 @@ def _download_single(section: str, filename: str, dest: Path) -> Path:
 class NihExporterDownloader(BaseDownloader):
 
     def latest_version(self, config: dict) -> str:
-        section = config["section"]
-        if section in _YEAR_SECTIONS:
-            return str(_latest_year(section))
-        if section in _SINGLE_SECTIONS:
-            return _single_last_modified(section)
-        raise ValueError(f"Unknown NIH ExPORTER section: '{section}'")
+        return date.today().strftime("%Y-%m-%d")
 
     def fetch(self, config: dict, dest: Path) -> list[Path]:
-        section = config["section"]
+        written = []
 
-        if section in _YEAR_SECTIONS:
-            earliest, pattern = _YEAR_SECTIONS[section]
+        for section, (earliest, pattern) in _YEAR_SECTIONS.items():
             end_year = _latest_year(section)
-            written = []
             for year in range(earliest, end_year + 1):
                 if not _year_available(section, year):
                     continue
                 filename = pattern.format(year=year)
                 written.append(_download_year(section, year, filename, dest))
-            return written
 
-        if section in _SINGLE_SECTIONS:
-            filename = _SINGLE_SECTIONS[section]
-            return [_download_single(section, filename, dest)]
+        for section, filename in _SINGLE_SECTIONS.items():
+            written.append(_download_single(section, filename, dest))
 
-        raise ValueError(f"Unknown NIH ExPORTER section: '{section}'")
+        return written

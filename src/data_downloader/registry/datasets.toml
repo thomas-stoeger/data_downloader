@@ -50,32 +50,6 @@ downloader = "harmonizome"
 description = "OpenAlex snapshot — all entity types under data/ (excludes legacy-data/)"
 downloader = "openalex"
 
-[nih_exporter_projects]
-description = "NIH ExPORTER project data — RePORTER_PRJ_C_FY{year}.zip for FY1985–present"
+[nih_exporter]
+description = "NIH ExPORTER bulk data — projects, abstracts, publications, link tables, patents, clinical studies"
 downloader = "nih_exporter"
-section = "projects"
-
-[nih_exporter_abstracts]
-description = "NIH ExPORTER abstracts — RePORTER_PRJABS_C_FY{year}.zip for FY1985–present"
-downloader = "nih_exporter"
-section = "abstracts"
-
-[nih_exporter_publications]
-description = "NIH ExPORTER publications — RePORTER_PUB_C_FY{year}.zip for FY1985–present"
-downloader = "nih_exporter"
-section = "publications"
-
-[nih_exporter_linktables]
-description = "NIH ExPORTER link tables (project–publication) — RePORTER_PUBLNK_C_FY{year}.zip for FY1985–present"
-downloader = "nih_exporter"
-section = "linktables"
-
-[nih_exporter_patents]
-description = "NIH ExPORTER patents — Patents.csv (single file, updated monthly)"
-downloader = "nih_exporter"
-section = "patents"
-
-[nih_exporter_clinicalstudies]
-description = "NIH ExPORTER clinical studies — ClinicalStudies.csv (single file, updated monthly)"
-downloader = "nih_exporter"
-section = "clinicalstudies"
