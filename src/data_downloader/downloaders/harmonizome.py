@@ -21,7 +21,7 @@ from pathlib import Path
 import certifi
 from tqdm import tqdm
 
-from .base import BaseDownloader
+from .base import BaseDownloader, _with_retries
 
 _BASE_URL = "https://maayanlab.cloud/Harmonizome"
 _CHUNK = 1024 * 1024  # 1 MB
@@ -102,6 +102,25 @@ def _filename_from_url(url: str, dataset_href: str) -> str:
     return f"{slug}__gene_attribute_matrix.txt.gz"
 
 
+def _download_file(url: str, filename: str, size: int, dest: Path) -> Path:
+    local_path = dest / filename
+    label = filename.split("__")[0]
+    bytes_written = 0
+    with urllib.request.urlopen(url, context=_SSL) as response:
+        with (
+            open(local_path, "wb") as f,
+            tqdm(total=size or None, unit="B", unit_scale=True, desc=label) as bar,
+        ):
+            while chunk := response.read(_CHUNK):
+                f.write(chunk)
+                bytes_written += len(chunk)
+                bar.update(len(chunk))
+    if size and bytes_written != size:
+        local_path.unlink(missing_ok=True)
+        raise RuntimeError(f"{filename}: size mismatch — expected {size} bytes, got {bytes_written}")
+    return local_path
+
+
 class HarmonizomeDownloader(BaseDownloader):
 
     def latest_version(self, _: dict) -> str:
@@ -144,21 +163,6 @@ class HarmonizomeDownloader(BaseDownloader):
             except urllib.error.HTTPError:
                 continue
 
-            label = filename.split("__")[0]
-            with urllib.request.urlopen(download_url, context=_SSL) as response:
-                with (
-                    open(local_path, "wb") as f,
-                    tqdm(
-                        total=size or None,
-                        unit="B",
-                        unit_scale=True,
-                        desc=label,
-                    ) as bar,
-                ):
-                    while chunk := response.read(_CHUNK):
-                        f.write(chunk)
-                        bar.update(len(chunk))
-
-            written.append(local_path)
+            written.append(_with_retries(lambda u=download_url, f=filename, s=size, d=dest: _download_file(u, f, s, d)))
 
         return written

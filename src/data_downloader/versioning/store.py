@@ -1,12 +1,14 @@
 """
 Creates versioned directories and coordinates the download + manifest update.
 """
+import shutil
 from pathlib import Path
 
 from ..config import get_data_root
 from ..downloaders.registry import get_downloader
 from ..registry.loader import get_dataset
 from . import manifest as manifest_mod
+from .integrity import verify_file
 
 
 def fetch_dataset(name: str, force: bool = False) -> Path:
@@ -34,7 +36,14 @@ def fetch_dataset(name: str, force: bool = False) -> Path:
     version_dir.mkdir(parents=True, exist_ok=True)
 
     print(f"{name}: downloading version {remote_version} ...")
-    files = downloader.fetch(config, version_dir)
+    try:
+        files = downloader.fetch(config, version_dir)
+        print(f"{name}: verifying {len(files)} file(s)...")
+        for f in files:
+            verify_file(f)
+    except Exception:
+        shutil.rmtree(version_dir, ignore_errors=True)
+        raise
 
     manifest_mod.record_version(dataset_root, remote_version, files)
     print(f"{name}: done. {len(files)} file(s) written to {version_dir}")

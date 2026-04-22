@@ -10,6 +10,7 @@ Required config keys:
 Optional config keys:
     files          — list of filenames to download (downloads all if omitted)
 """
+import hashlib
 import json
 import re
 import ssl
@@ -19,7 +20,7 @@ from pathlib import Path
 import certifi
 from tqdm import tqdm
 
-from .base import BaseDownloader
+from .base import BaseDownloader, _with_retries
 
 _API = "https://api.figshare.com/v2"
 _CHUNK = 1024 * 1024  # 1 MB
@@ -53,6 +54,29 @@ def _version_from_title(title: str) -> str:
     return m.group(0) if m else title
 
 
+def _download_file(url: str, name: str, expected_size: int, expected_md5: str | None, dest: Path) -> Path:
+    local_path = dest / name
+    md5 = hashlib.md5()
+    bytes_written = 0
+    with urllib.request.urlopen(url, context=_SSL) as response:
+        with (
+            open(local_path, "wb") as f,
+            tqdm(total=expected_size, unit="B", unit_scale=True, desc=name) as bar,
+        ):
+            while chunk := response.read(_CHUNK):
+                f.write(chunk)
+                md5.update(chunk)
+                bytes_written += len(chunk)
+                bar.update(len(chunk))
+    if bytes_written != expected_size:
+        local_path.unlink(missing_ok=True)
+        raise RuntimeError(f"{name}: size mismatch — expected {expected_size} bytes, got {bytes_written}")
+    if expected_md5 and md5.hexdigest() != expected_md5:
+        local_path.unlink(missing_ok=True)
+        raise RuntimeError(f"{name}: MD5 mismatch — expected {expected_md5}, got {md5.hexdigest()}")
+    return local_path
+
+
 class FigshareDownloader(BaseDownloader):
 
     def latest_version(self, config: dict) -> str:
@@ -78,24 +102,11 @@ class FigshareDownloader(BaseDownloader):
         written = []
         for file_info in files:
             name = file_info["name"]
-            size = file_info["size"]
+            expected_size = file_info["size"]
+            expected_md5 = file_info.get("computed_md5")
             url = file_info["download_url"]
             local_path = dest / name
 
-            with urllib.request.urlopen(url, context=_SSL) as response:
-                with (
-                    open(local_path, "wb") as f,
-                    tqdm(
-                        total=size,
-                        unit="B",
-                        unit_scale=True,
-                        desc=name,
-                    ) as bar,
-                ):
-                    while chunk := response.read(_CHUNK):
-                        f.write(chunk)
-                        bar.update(len(chunk))
-
-            written.append(local_path)
+            written.append(_with_retries(lambda u=url, n=name, s=expected_size, m=expected_md5, d=dest: _download_file(u, n, s, m, d)))
 
         return written
