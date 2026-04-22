@@ -15,7 +15,7 @@ from pathlib import Path
 import certifi
 from tqdm import tqdm
 
-from .base import BaseDownloader
+from .base import BaseDownloader, _with_retries
 
 _BASE = "https://reporter.nih.gov/exporter"
 _CHUNK = 1024 * 1024  # 1 MB
@@ -63,28 +63,42 @@ def _latest_year(section: str) -> int:
 def _download_year(section: str, year: int, filename: str, dest: Path) -> Path:
     local_path = dest / filename
     with urllib.request.urlopen(_year_url(section, year), context=_SSL) as response:
-        size = int(response.headers.get("Content-Length", 0)) or None
+        expected = int(response.headers.get("Content-Length", 0)) or None
+        bytes_written = 0
         with (
             open(local_path, "wb") as f,
-            tqdm(total=size, unit="B", unit_scale=True, desc=filename) as bar,
+            tqdm(total=expected, unit="B", unit_scale=True, desc=filename) as bar,
         ):
             while chunk := response.read(_CHUNK):
                 f.write(chunk)
+                bytes_written += len(chunk)
                 bar.update(len(chunk))
+    if expected is not None and bytes_written != expected:
+        local_path.unlink(missing_ok=True)
+        raise RuntimeError(
+            f"{filename}: size mismatch — expected {expected} bytes, got {bytes_written}"
+        )
     return local_path
 
 
 def _download_single(section: str, filename: str, dest: Path) -> Path:
     local_path = dest / filename
     with urllib.request.urlopen(_single_url(section), context=_SSL) as response:
-        size = int(response.headers.get("Content-Length", 0)) or None
+        expected = int(response.headers.get("Content-Length", 0)) or None
+        bytes_written = 0
         with (
             open(local_path, "wb") as f,
-            tqdm(total=size, unit="B", unit_scale=True, desc=filename) as bar,
+            tqdm(total=expected, unit="B", unit_scale=True, desc=filename) as bar,
         ):
             while chunk := response.read(_CHUNK):
                 f.write(chunk)
+                bytes_written += len(chunk)
                 bar.update(len(chunk))
+    if expected is not None and bytes_written != expected:
+        local_path.unlink(missing_ok=True)
+        raise RuntimeError(
+            f"{filename}: size mismatch — expected {expected} bytes, got {bytes_written}"
+        )
     return local_path
 
 
@@ -102,9 +116,9 @@ class NihExporterDownloader(BaseDownloader):
                 if not _year_available(section, year):
                     continue
                 filename = pattern.format(year=year)
-                written.append(_download_year(section, year, filename, dest))
+                written.append(_with_retries(lambda s=section, y=year, f=filename, d=dest: _download_year(s, y, f, d)))
 
         for section, filename in _SINGLE_SECTIONS.items():
-            written.append(_download_single(section, filename, dest))
+            written.append(_with_retries(lambda s=section, f=filename, d=dest: _download_single(s, f, d)))
 
         return written

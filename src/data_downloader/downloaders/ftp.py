@@ -30,6 +30,7 @@ class FtpDownloader(BaseDownloader):
         with ftplib.FTP(host) as ftp:
             ftp.login()
             total = ftp.size(remote_path)
+            bytes_written = 0
             with (
                 open(local_path, "wb") as f,
                 tqdm(
@@ -40,10 +41,18 @@ class FtpDownloader(BaseDownloader):
                 ) as bar,
             ):
                 def write_chunk(chunk: bytes) -> None:
+                    nonlocal bytes_written
                     f.write(chunk)
+                    bytes_written += len(chunk)
                     bar.update(len(chunk))
 
                 ftp.retrbinary(f"RETR {remote_path}", write_chunk)
+
+        if total is not None and bytes_written != total:
+            local_path.unlink(missing_ok=True)
+            raise RuntimeError(
+                f"{filename}: size mismatch — expected {total} bytes, got {bytes_written}"
+            )
 
         return [local_path]
 
