@@ -97,6 +97,7 @@ Each dataset is stored under `<data-root>/<dataset-name>/<version>/`. Version st
   icite/
     2026-03/
       icite_metadata.zip
+      open_citation_collection.zip
   harmonizome/
     2020-08-03/
       achilles__gene_attribute_matrix.txt.gz

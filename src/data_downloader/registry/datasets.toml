@@ -40,7 +40,7 @@ downloader = "figshare"
 collection_id = "4586573"
 # Remove the 'files' key to download all files (~32 GB per snapshot).
 # Available per snapshot: icite_metadata.zip, open_citation_collection.zip, icite_metadata.tar.gz
-files = ["icite_metadata.zip"]
+files = ["icite_metadata.zip", "open_citation_collection.zip"]
 
 [harmonizome]
 description = "Harmonizome gene-to-attribute matrices for all available datasets (~150 datasets)"
