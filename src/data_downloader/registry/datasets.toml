@@ -53,3 +53,7 @@ downloader = "openalex"
 [nih_exporter]
 description = "NIH ExPORTER bulk data — projects, abstracts, publications, link tables, patents, clinical studies"
 downloader = "nih_exporter"
+
+[ncbi_pubmed]
+description = "NCBI PubMed XML — annual baseline plus updatefiles, with MD5 verification (large, ~45 GB)"
+downloader = "pubmed"

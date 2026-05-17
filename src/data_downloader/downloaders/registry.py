@@ -4,6 +4,7 @@ from .ftp import FtpDownloader
 from .harmonizome import HarmonizomeDownloader
 from .nih_exporter import NihExporterDownloader
 from .openalex import OpenAlexDownloader
+from .pubmed import PubmedDownloader
 
 _DOWNLOADERS: dict[str, type[BaseDownloader]] = {
     "ftp": FtpDownloader,
@@ -11,6 +12,7 @@ _DOWNLOADERS: dict[str, type[BaseDownloader]] = {
     "harmonizome": HarmonizomeDownloader,
     "nih_exporter": NihExporterDownloader,
     "openalex": OpenAlexDownloader,
+    "pubmed": PubmedDownloader,
 }
 
 

@@ -73,6 +73,7 @@ Opens at http://127.0.0.1:8000 — shows all datasets, their download status, an
 | `harmonizome` | Harmonizome — all distribution files per dataset (except similarity matrices) plus JSON metadata sidecars (~150 datasets) |
 | `openalex` | OpenAlex full snapshot — all entity types, excludes legacy-data (~600 GB, requires AWS CLI) |
 | `nih_exporter` | NIH ExPORTER bulk data — projects, abstracts, publications, link tables, patents, clinical studies |
+| `ncbi_pubmed` | NCBI PubMed XML — annual baseline plus updatefiles, MD5-verified (~45 GB, sequential FTP) |
 
 ## Resuming interrupted downloads
 
@@ -111,4 +112,14 @@ Each dataset is stored under `<data-root>/<dataset-name>/<version>/`. Version st
       data/works/...
       data/authors/...
       ...
+  ncbi_pubmed/
+    2026/
+      baseline/
+        pubmed26n0001.xml.gz
+        pubmed26n0001.xml.gz.md5
+        ...
+      updatefiles/
+        pubmed26n1335.xml.gz
+        pubmed26n1335.xml.gz.md5
+        ...
 ```
