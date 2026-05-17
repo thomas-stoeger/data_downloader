@@ -70,7 +70,7 @@ Opens at http://127.0.0.1:8000 — shows all datasets, their download status, an
 | `ncbi_generifs` | NCBI GeneRIFs — gene functional annotation summaries |
 | `ncbi_taxdump` | NCBI Taxonomy dump — full taxonomy nodes, names, and lineage |
 | `icite` | iCite NIH Open Citation Collection (monthly snapshots) |
-| `harmonizome` | Harmonizome gene-to-attribute matrices (~150 datasets) |
+| `harmonizome` | Harmonizome — all distribution files per dataset (except similarity matrices) plus JSON metadata sidecars (~150 datasets) |
 | `openalex` | OpenAlex full snapshot — all entity types, excludes legacy-data (~600 GB, requires AWS CLI) |
 | `nih_exporter` | NIH ExPORTER bulk data — projects, abstracts, publications, link tables, patents, clinical studies |
 
@@ -101,6 +101,9 @@ Each dataset is stored under `<data-root>/<dataset-name>/<version>/`. Version st
   harmonizome/
     2020-08-03/
       achilles__gene_attribute_matrix.txt.gz
+      achilles__gene_attribute_edges.txt.gz
+      achilles__gene_set_library_up_crisp.gmt.gz
+      achilles__metadata.json
       ...
   openalex/
     2026-03-31/
