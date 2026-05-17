@@ -43,7 +43,7 @@ collection_id = "4586573"
 files = ["icite_metadata.zip", "open_citation_collection.zip"]
 
 [harmonizome]
-description = "Harmonizome gene-to-attribute matrices for all available datasets (~150 datasets)"
+description = "Harmonizome — all distribution files per dataset (except similarity matrices) plus a JSON metadata sidecar (~150 datasets)"
 downloader = "harmonizome"
 
 [openalex]
