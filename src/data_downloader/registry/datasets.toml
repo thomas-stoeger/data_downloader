@@ -57,3 +57,11 @@ downloader = "nih_exporter"
 [ncbi_pubmed]
 description = "NCBI PubMed XML — annual baseline plus updatefiles, with MD5 verification (large, ~45 GB)"
 downloader = "pubmed"
+
+[ncbi_pubtator3]
+description = "PubTator3 — PubMed/PMC entity and relation annotation tables plus BioCXML archives (~225 GB)"
+downloader = "pubtator3"
+host = "ftp.ncbi.nlm.nih.gov"
+path = "/pub/lu/PubTator3"
+# By default every *.gz in the directory is downloaded. Add a 'files' allowlist
+# to restrict to a subset, e.g. files = ["bioconcepts2pubtator3.gz", ...].

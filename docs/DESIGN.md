@@ -78,6 +78,7 @@ Each downloader type maps to a real upstream source and contact host(s):
 |---|---|---|---|
 | `ftp` | NCBI gene_info, gene2pubmed, gene2go, gene_history, GeneRIFs, taxdump | `ftp.ncbi.nlm.nih.gov` | Anonymous FTP |
 | `pubmed` | NCBI PubMed baseline + updatefiles | `ftp.ncbi.nlm.nih.gov` | Anonymous FTP |
+| `pubtator3` | PubTator3 entity/relation annotation tables (optionally BioCXML archives) | `ftp.ncbi.nlm.nih.gov` | Anonymous FTP |
 | `figshare` | iCite / NIH Open Citation Collection | `api.figshare.com` for metadata; file bytes from Figshare download URLs (`ndownloader.figshare.com`, may redirect to AWS S3) | HTTPS |
 | `harmonizome` | Harmonizome (~150 datasets) | `maayanlab.cloud` for the dataset index and per-dataset JSON-LD; distribution files from the S3 `contentUrl` each page advertises | HTTPS |
 | `nih_exporter` | NIH ExPORTER bulk data | `reporter.nih.gov` | HTTPS |
@@ -94,6 +95,8 @@ avoidable, so that "is this current?" can be answered by comparison:
 
 - `ftp`: file modification time (`MDTM`) as `YYYY-MM-DD`.
 - `pubmed`: the four-digit baseline year (e.g. `2026`).
+- `pubtator3`: the max `MDTM` across the selected files as `YYYY-MM-DD`
+  (NCBI refreshes the snapshot in lockstep each month).
 - `figshare`: `YYYY-MM` parsed from the latest article title.
 - `harmonizome`: the max `Last-Modified` date across datasets' gene-attribute
   matrices, used as a cheap freshness proxy for the whole collection.
