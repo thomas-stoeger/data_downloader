@@ -20,3 +20,5 @@ env/
 
 # Claude Code
 .claude/
+scratch/
+CLAUDE.local.md
