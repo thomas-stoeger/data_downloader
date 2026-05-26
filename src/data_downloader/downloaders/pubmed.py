@@ -22,9 +22,10 @@ from pathlib import Path
 
 from tqdm import tqdm
 
-from .base import BaseDownloader
+from .base import BaseDownloader, is_doc_filename
 
 _HOST = "ftp.ncbi.nlm.nih.gov"
+_ROOT_DIR = "/pubmed"
 _BASELINE_DIR = "/pubmed/baseline"
 _UPDATES_DIR = "/pubmed/updatefiles"
 _XML_PATTERN = re.compile(r"^pubmed(\d{2})n\d+\.xml\.gz$")
@@ -44,6 +45,29 @@ def _list_xml_files(ftp: ftplib.FTP, remote_dir: str) -> list[str]:
     entries = ftp.nlst(remote_dir)
     names = sorted({Path(e).name for e in entries if _XML_PATTERN.match(Path(e).name)})
     return names
+
+
+def _list_doc_files(ftp: ftplib.FTP, remote_dir: str) -> list[str]:
+    try:
+        entries = ftp.nlst(remote_dir)
+    except ftplib.error_perm:
+        return []
+    return sorted(
+        {Path(e).name for e in entries if is_doc_filename(Path(e).name)}
+    )
+
+
+def _fetch_docs(remote_dir: str, dest: Path) -> list[Path]:
+    """Pull README-shaped companion docs from `remote_dir` into `dest`."""
+    with _connect() as ftp:
+        doc_names = _list_doc_files(ftp, remote_dir)
+    written: list[Path] = []
+    for name in doc_names:
+        local = dest / name
+        with _connect() as ftp:
+            _retrieve(ftp, f"{remote_dir}/{name}", local)
+        written.append(local)
+    return written
 
 
 def _baseline_year_prefix(filenames: list[str]) -> str:
@@ -71,6 +95,9 @@ def _file_md5(path: Path) -> str:
 
 
 def _retrieve(ftp: ftplib.FTP, remote_path: str, local_path: Path) -> None:
+    # ftp.nlst() / LIST flip the server to ASCII (TYPE A); NCBI then refuses
+    # SIZE in that mode, so set TYPE I before asking.
+    ftp.voidcmd("TYPE I")
     total = ftp.size(remote_path)
     bytes_written = 0
     with (
@@ -148,6 +175,9 @@ class PubmedDownloader(BaseDownloader):
 
     def fetch(self, config: dict, dest: Path) -> list[Path]:
         written: list[Path] = []
+
+        written.extend(_fetch_docs(_ROOT_DIR, dest))
+
         for remote_dir, label in [(_BASELINE_DIR, "baseline"), (_UPDATES_DIR, "updatefiles")]:
             with _connect() as ftp:
                 files = _list_xml_files(ftp, remote_dir)
@@ -155,6 +185,8 @@ class PubmedDownloader(BaseDownloader):
 
             subdir = dest / label
             subdir.mkdir(parents=True, exist_ok=True)
+
+            written.extend(_fetch_docs(remote_dir, subdir))
 
             for filename in tqdm(files, desc=label, unit="file"):
                 xml_local = subdir / filename

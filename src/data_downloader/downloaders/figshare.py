@@ -8,7 +8,9 @@ Required config keys:
     collection_id  — numeric Figshare collection ID
 
 Optional config keys:
-    files          — list of filenames to download (downloads all if omitted)
+    files          — list of filenames to download (downloads all if omitted).
+                     README-shaped companion files in the article are always
+                     included even when this allowlist is set.
 """
 import hashlib
 import json
@@ -20,7 +22,7 @@ from pathlib import Path
 import certifi
 from tqdm import tqdm
 
-from .base import BaseDownloader, _with_retries
+from .base import BaseDownloader, _with_retries, is_doc_filename
 
 _API = "https://api.figshare.com/v2"
 _CHUNK = 1024 * 1024  # 1 MB
@@ -92,12 +94,16 @@ class FigshareDownloader(BaseDownloader):
         files = _article_files(article_id)
 
         if wanted:
-            files = [f for f in files if f["name"] in wanted]
-            if not files:
+            selected = [
+                f for f in files
+                if f["name"] in wanted or is_doc_filename(f["name"])
+            ]
+            if not any(f["name"] in wanted for f in selected):
                 raise RuntimeError(
                     f"None of the requested files {wanted} found in article {article_id}. "
-                    f"Available: {[f['name'] for f in _article_files(article_id)]}"
+                    f"Available: {[f['name'] for f in files]}"
                 )
+            files = selected
 
         written = []
         for file_info in files:

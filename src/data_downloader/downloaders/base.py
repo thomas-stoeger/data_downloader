@@ -1,3 +1,4 @@
+import re
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Callable, TypeVar
@@ -5,6 +6,19 @@ from typing import Callable, TypeVar
 _T = TypeVar("_T")
 
 DOWNLOAD_RETRIES = 2
+
+_DOC_PATTERN = re.compile(
+    r"^(readme|changes|changelog|notes|release[._-]?notes)([._-].*)?$",
+    re.IGNORECASE,
+)
+
+
+def is_doc_filename(name: str) -> bool:
+    """True if `name` looks like a README, CHANGES, CHANGELOG, NOTES, or
+    RELEASE_NOTES companion file (with or without an extension such as
+    `.txt` / `.md`). Used by downloaders to grab upstream docs that sit
+    alongside the data files."""
+    return bool(_DOC_PATTERN.match(name))
 
 
 def _with_retries(fn: Callable[[], _T]) -> _T:

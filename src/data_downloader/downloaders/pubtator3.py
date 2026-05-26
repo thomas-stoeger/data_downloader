@@ -10,13 +10,19 @@ PubTator3 does not publish checksum sidecars. Each file is verified by size
 match during transfer and gzip read-through afterwards via the standard
 store pipeline; a failure in any file wipes the version directory.
 
+README and other companion docs (CHANGES, CHANGELOG, NOTES, RELEASE_NOTES)
+present in the directory are downloaded alongside the data files. They do
+not contribute to the version string, so an isolated README touch upstream
+does not look like a new snapshot.
+
 Required config keys:
     host  - FTP hostname
     path  - directory containing the PubTator3 files (no trailing slash)
 Optional config keys:
     files - explicit list of filenames to download. If omitted, every
             *.gz file in the directory is taken (~225 GB including the
-            BioCXML.{0-9}.tar.gz archives).
+            BioCXML.{0-9}.tar.gz archives). Companion docs are picked up
+            regardless of this allowlist.
 """
 import ftplib
 from datetime import datetime, timezone
@@ -24,7 +30,7 @@ from pathlib import Path
 
 from tqdm import tqdm
 
-from .base import BaseDownloader, _with_retries
+from .base import BaseDownloader, _with_retries, is_doc_filename
 
 _FTP_TIMEOUT = 60
 
@@ -42,6 +48,13 @@ def _list_gz_files(ftp: ftplib.FTP, remote_dir: str) -> list[str]:
     )
 
 
+def _list_doc_files(ftp: ftplib.FTP, remote_dir: str) -> list[str]:
+    entries = ftp.nlst(remote_dir)
+    return sorted(
+        Path(e).name for e in entries if is_doc_filename(Path(e).name)
+    )
+
+
 def _mdtm(ftp: ftplib.FTP, remote_path: str) -> datetime:
     resp = ftp.sendcmd(f"MDTM {remote_path}")
     timestamp_str = resp.split()[1]
@@ -51,6 +64,9 @@ def _mdtm(ftp: ftplib.FTP, remote_path: str) -> datetime:
 
 
 def _retrieve(ftp: ftplib.FTP, remote_path: str, local_path: Path) -> None:
+    # ftp.nlst() / LIST flip the server to ASCII (TYPE A); NCBI then refuses
+    # SIZE in that mode, so set TYPE I before asking.
+    ftp.voidcmd("TYPE I")
     total = ftp.size(remote_path)
     bytes_written = 0
     with (
@@ -95,10 +111,11 @@ class Pubtator3Downloader(BaseDownloader):
         host = config["host"]
         remote_dir = config["path"].rstrip("/")
         with _connect(host) as ftp:
-            names = _selected_filenames(config, ftp, remote_dir)
+            data_names = _selected_filenames(config, ftp, remote_dir)
+            doc_names = _list_doc_files(ftp, remote_dir)
 
         written: list[Path] = []
-        for name in names:
+        for name in data_names + doc_names:
             remote_path = f"{remote_dir}/{name}"
             local_path = dest / name
 

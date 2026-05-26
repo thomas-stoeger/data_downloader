@@ -88,6 +88,19 @@ Note that `figshare` and `harmonizome` discover their actual byte-download URLs
 at runtime from API responses and scraped HTML. Those URLs are upstream data,
 not configuration (see Invariants).
 
+## Companion documents
+
+Each downloader (except `harmonizome`, which already writes a per-dataset
+metadata sidecar, and `nih_exporter`, which has no documentation convention)
+also pulls README-shaped files that sit alongside the data: `README*`,
+`CHANGES`, `CHANGELOG`, `NOTES`, and `RELEASE_NOTES`, with or without a
+text/markdown extension. The shared matcher is `is_doc_filename` in
+[downloaders/base.py](../src/data_downloader/downloaders/base.py).
+
+These docs are downloaded into the version directory but never participate in
+the version string, so an upstream README touch does not look like a new
+snapshot. `openalex` already gets them through `aws s3 sync`.
+
 ## Versioning
 
 A version string comes from the remote source, never from the local clock where
