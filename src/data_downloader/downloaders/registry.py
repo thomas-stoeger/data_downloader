@@ -3,6 +3,7 @@ from .figshare import FigshareDownloader
 from .ftp import FtpDownloader
 from .harmonizome import HarmonizomeDownloader
 from .nih_exporter import NihExporterDownloader
+from .nlmcatalog import NlmCatalogDownloader
 from .openalex import OpenAlexDownloader
 from .pubmed import PubmedDownloader
 from .pubtator3 import Pubtator3Downloader
@@ -12,6 +13,7 @@ _DOWNLOADERS: dict[str, type[BaseDownloader]] = {
     "figshare": FigshareDownloader,
     "harmonizome": HarmonizomeDownloader,
     "nih_exporter": NihExporterDownloader,
+    "nlmcatalog": NlmCatalogDownloader,
     "openalex": OpenAlexDownloader,
     "pubmed": PubmedDownloader,
     "pubtator3": Pubtator3Downloader,

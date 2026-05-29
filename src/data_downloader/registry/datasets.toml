@@ -65,3 +65,8 @@ host = "ftp.ncbi.nlm.nih.gov"
 path = "/pub/lu/PubTator3"
 # By default every *.gz in the directory is downloaded. Add a 'files' allowlist
 # to restrict to a subset, e.g. files = ["bioconcepts2pubtator3.gz", ...].
+
+[ncbi_nlmcatalog_reportedmedline]
+description = "NLM Catalog journals that report MEDLINE indexing status (term=reportedmedline, full XML via E-utilities)"
+downloader = "nlmcatalog"
+term = "reportedmedline"

@@ -79,6 +79,7 @@ Each downloader type maps to a real upstream source and contact host(s):
 | `ftp` | NCBI gene_info, gene2pubmed, gene2go, gene_history, GeneRIFs, taxdump | `ftp.ncbi.nlm.nih.gov` | Anonymous FTP |
 | `pubmed` | NCBI PubMed baseline + updatefiles | `ftp.ncbi.nlm.nih.gov` | Anonymous FTP |
 | `pubtator3` | PubTator3 entity/relation annotation tables (optionally BioCXML archives) | `ftp.ncbi.nlm.nih.gov` | Anonymous FTP |
+| `nlmcatalog` | NLM Catalog records matching a configurable Entrez search term (e.g. `reportedmedline`) | `eutils.ncbi.nlm.nih.gov` | HTTPS (E-utilities esearch + efetch) |
 | `figshare` | iCite / NIH Open Citation Collection | `api.figshare.com` for metadata; file bytes from Figshare download URLs (`ndownloader.figshare.com`, may redirect to AWS S3) | HTTPS |
 | `harmonizome` | Harmonizome (~150 datasets) | `maayanlab.cloud` for the dataset index and per-dataset JSON-LD; distribution files from the S3 `contentUrl` each page advertises | HTTPS |
 | `nih_exporter` | NIH ExPORTER bulk data | `reporter.nih.gov` | HTTPS |

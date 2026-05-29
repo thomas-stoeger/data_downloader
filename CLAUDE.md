@@ -39,6 +39,8 @@ This repo has network egress permission, because downloading is its purpose.
 That permission is scoped. Confine all network activity to these domains:
 
 - `ftp.ncbi.nlm.nih.gov` — NCBI gene data, taxonomy, and PubMed (FTP).
+- `eutils.ncbi.nlm.nih.gov` — NCBI E-utilities (esearch + efetch) for NLM
+  Catalog snapshots.
 - `api.figshare.com` — Figshare metadata API (iCite).
 - `ndownloader.figshare.com` and the AWS S3 endpoints it redirects to — Figshare
   file bytes.
