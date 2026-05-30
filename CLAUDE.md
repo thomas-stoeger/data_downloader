@@ -50,6 +50,14 @@ That permission is scoped. Confine all network activity to these domains:
 - `reporter.nih.gov` — NIH ExPORTER bulk files.
 - the `openalex` public AWS S3 bucket (`s3://openalex`), via
   `aws s3 sync --no-sign-request` and unsigned boto3 calls.
+- `gitlab.com` — Crossref's Retraction Watch data repository: the commits/tree
+  API (`/api/v4`) for versioning and the raw blob endpoint (`/-/raw/`) for the
+  `retraction_watch.csv` file and its README.
+- `docs.google.com` — public Google Sheets: the gviz API for the version cell
+  and the CSV `export` endpoint (e.g. the Retraction Watch Hijacked Journal
+  Checker).
+- the `googleusercontent.com` hosts that the Google Sheets `export` endpoint
+  redirects to for the CSV bytes.
 
 If a task seems to require reaching any other host, stop and ask rather than
 expanding this list on your own. When you add a dataset or downloader, update

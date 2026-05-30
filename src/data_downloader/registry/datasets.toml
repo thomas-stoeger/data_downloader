@@ -70,3 +70,14 @@ path = "/pub/lu/PubTator3"
 description = "NLM Catalog journals that report MEDLINE indexing status (term=reportedmedline, full XML via E-utilities)"
 downloader = "nlmcatalog"
 term = "reportedmedline"
+
+[retractionwatch_retractiondatabase]
+description = "Retraction Watch retraction database — Crossref's daily CSV of retractions (single retraction_watch.csv plus README)"
+downloader = "retractionwatch"
+
+[retractionwatch_hijackedjournals]
+description = "Retraction Watch Hijacked Journal Checker — public Google Sheet of hijacked (clone) journals, exported as CSV"
+downloader = "google_sheet"
+sheet_id = "1ak985WGOgGbJRJbZFanoktAN_UFeExpE"
+gid = "5255084"
+filename = "hijacked_journals.csv"

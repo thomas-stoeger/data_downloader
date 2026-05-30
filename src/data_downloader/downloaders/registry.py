@@ -1,22 +1,26 @@
 from .base import BaseDownloader
 from .figshare import FigshareDownloader
 from .ftp import FtpDownloader
+from .google_sheet import GoogleSheetDownloader
 from .harmonizome import HarmonizomeDownloader
 from .nih_exporter import NihExporterDownloader
 from .nlmcatalog import NlmCatalogDownloader
 from .openalex import OpenAlexDownloader
 from .pubmed import PubmedDownloader
 from .pubtator3 import Pubtator3Downloader
+from .retractionwatch import RetractionWatchDownloader
 
 _DOWNLOADERS: dict[str, type[BaseDownloader]] = {
     "ftp": FtpDownloader,
     "figshare": FigshareDownloader,
+    "google_sheet": GoogleSheetDownloader,
     "harmonizome": HarmonizomeDownloader,
     "nih_exporter": NihExporterDownloader,
     "nlmcatalog": NlmCatalogDownloader,
     "openalex": OpenAlexDownloader,
     "pubmed": PubmedDownloader,
     "pubtator3": Pubtator3Downloader,
+    "retractionwatch": RetractionWatchDownloader,
 }
 
 

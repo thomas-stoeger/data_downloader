@@ -84,6 +84,8 @@ Each downloader type maps to a real upstream source and contact host(s):
 | `harmonizome` | Harmonizome (~150 datasets) | `maayanlab.cloud` for the dataset index and per-dataset JSON-LD; distribution files from the S3 `contentUrl` each page advertises | HTTPS |
 | `nih_exporter` | NIH ExPORTER bulk data | `reporter.nih.gov` | HTTPS |
 | `openalex` | OpenAlex full snapshot | `s3://openalex` (public bucket) | `aws s3 sync --no-sign-request` + boto3 unsigned `head_object` |
+| `retractionwatch` | Retraction Watch database (Crossref's daily CSV) | `gitlab.com` (`crossref/retraction-watch-data`): `/api/v4` commits+tree for versioning, `/-/raw/` for bytes | HTTPS |
+| `google_sheet` | Public Google Sheet tabs exported as CSV (e.g. Retraction Watch Hijacked Journal Checker) | `docs.google.com` for the gviz version cell and CSV `export`; bytes from the `googleusercontent.com` host it redirects to | HTTPS |
 
 Note that `figshare` and `harmonizome` discover their actual byte-download URLs
 at runtime from API responses and scraped HTML. Those URLs are upstream data,
@@ -115,6 +117,12 @@ avoidable, so that "is this current?" can be answered by comparison:
 - `harmonizome`: the max `Last-Modified` date across datasets' gene-attribute
   matrices, used as a cheap freshness proxy for the whole collection.
 - `openalex`: `LastModified` of `RELEASE_NOTES.txt`.
+- `retractionwatch`: `committed_date` of the latest commit on the tracked
+  branch as `YYYY-MM-DD` (Crossref's bot commits one rebuilt CSV per working
+  day), read from the GitLab commits API without downloading the file.
+- `google_sheet`: the last `Month D, YYYY` date in a designated cell (default
+  A1, e.g. "...last updated May 17, 2026") as `YYYY-MM-DD`, read via the gviz
+  API without exporting the sheet.
 - `nih_exporter`: today's date. This source has no single release marker, so
   this downloader cannot detect "no change"; `check` always reports an update
   available and `fetch` re-downloads if run on a new day. This is a known
