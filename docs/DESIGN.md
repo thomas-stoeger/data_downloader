@@ -87,10 +87,12 @@ Each downloader type maps to a real upstream source and contact host(s):
 | `retractionwatch` | Retraction Watch database (Crossref's daily CSV) | `gitlab.com` (`crossref/retraction-watch-data`): `/api/v4` commits+tree for versioning, `/-/raw/` for bytes | HTTPS |
 | `google_sheet` | Public Google Sheet tabs exported as CSV (e.g. Retraction Watch Hijacked Journal Checker) | `docs.google.com` for the gviz version cell and CSV `export`; bytes from the `googleusercontent.com` host it redirects to | HTTPS |
 | `google_sheet_hashed` | Public Google Sheet tabs with no version marker, exported as CSV (predatory publishers, predatory journals) | `docs.google.com` CSV `export`; bytes from the `googleusercontent.com` host it redirects to | HTTPS |
+| `opentargets` | Open Targets Platform release datasets (Parquet), plus the field-level schema (`croissant.json`) and the per-dataset Downloads-page descriptions (`downloads.json`) | `ftp.ebi.ac.uk` for data, schema, checksums; `api.platform.opentargets.org` for the descriptions | HTTPS |
 
 Note that `figshare` and `harmonizome` discover their actual byte-download URLs
-at runtime from API responses and scraped HTML. Those URLs are upstream data,
-not configuration (see Invariants).
+at runtime from API responses and scraped HTML, and `opentargets` reads the FTP
+autoindex to learn the per-dataset Parquet part-file names. Those URLs and names
+are upstream data, not configuration (see Invariants).
 
 ## Companion documents
 
@@ -105,6 +107,13 @@ These docs are downloaded into the version directory but never participate in
 the version string, so an upstream README touch does not look like a new
 snapshot. `openalex` already gets them through `aws s3 sync`.
 
+`opentargets` additionally captures, per release, `croissant.json` (the
+field-level schema for every dataset), `release_data_integrity.sha1` (the
+checksums it verifies Parquet files against), `manifest.json` (provenance), and
+`downloads.json` (the per-dataset text descriptions shown on the platform's
+Downloads page). These cover the schema and description for every dataset and
+are fetched regardless of which datasets' Parquet bytes are selected.
+
 ## Versioning
 
 A version string comes from the remote source, never from the local clock where
@@ -118,6 +127,10 @@ avoidable, so that "is this current?" can be answered by comparison:
 - `harmonizome`: the max `Last-Modified` date across datasets' gene-attribute
   matrices, used as a cheap freshness proxy for the whole collection.
 - `openalex`: `LastModified` of `RELEASE_NOTES.txt`.
+- `opentargets`: the release tag (`YY.MM`, e.g. `26.03`), the newest such
+  directory in the FTP listing, read without downloading anything. A `version`
+  config key can pin an older release. The Parquet files are verified against
+  the release's `release_data_integrity.sha1` checksums when available.
 - `retractionwatch`: `committed_date` of the latest commit on the tracked
   branch as `YYYY-MM-DD` (Crossref's bot commits one rebuilt CSV per working
   day), read from the GitLab commits API without downloading the file.

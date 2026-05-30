@@ -95,3 +95,16 @@ downloader = "google_sheet_hashed"
 sheet_id = "1Qa1lAlSbl7iiKddYINNsDB4wxI7uUA4IVseeLnCc5U4"
 gid = "0"
 filename = "predatory_journals.csv"
+[opentargets]
+description = "Open Targets Platform — release Parquet datasets, plus the field-level schema (croissant.json) and the per-dataset text descriptions shown on the Downloads page (downloads.json)"
+downloader = "opentargets"
+# Which output datasets to download the Parquet bytes for. The schema and the
+# descriptions for the whole release are captured regardless of this list.
+# Set datasets = ["*"] to fetch every dataset in the release (large: release
+# 26.03 has 55 datasets, well over 100 GB). Dataset names change between
+# releases; if a name is not present, the downloader fails and prints the full
+# list of names available in that release (also visible by browsing
+# https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/<version>/output/).
+datasets = ["target", "disease", "drug_molecule", "association_overall_direct", "mouse_phenotype", "target_essentiality"]
+# Optional: pin a specific release instead of tracking the latest YY.MM.
+# version = "25.06"

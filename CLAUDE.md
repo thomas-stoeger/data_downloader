@@ -58,6 +58,13 @@ That permission is scoped. Confine all network activity to these domains:
   Checker).
 - the `googleusercontent.com` hosts that the Google Sheets `export` endpoint
   redirects to for the CSV bytes.
+- `ftp.ebi.ac.uk` — Open Targets Platform releases (served over HTTPS): the
+  Parquet datasets under `.../platform/<version>/output/`, the `croissant.json`
+  schema, the `release_data_integrity.sha1` checksums, and the release
+  `manifest.json`.
+- `api.platform.opentargets.org` — Open Targets GraphQL API, used only to read
+  the `meta.downloads` payload that holds the per-dataset text descriptions
+  shown on the Downloads page.
 
 If a task seems to require reaching any other host, stop and ask rather than
 expanding this list on your own. When you add a dataset or downloader, update

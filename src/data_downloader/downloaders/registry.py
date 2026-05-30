@@ -7,6 +7,7 @@ from .harmonizome import HarmonizomeDownloader
 from .nih_exporter import NihExporterDownloader
 from .nlmcatalog import NlmCatalogDownloader
 from .openalex import OpenAlexDownloader
+from .opentargets import OpenTargetsDownloader
 from .pubmed import PubmedDownloader
 from .pubtator3 import Pubtator3Downloader
 from .retractionwatch import RetractionWatchDownloader
@@ -20,6 +21,7 @@ _DOWNLOADERS: dict[str, type[BaseDownloader]] = {
     "nih_exporter": NihExporterDownloader,
     "nlmcatalog": NlmCatalogDownloader,
     "openalex": OpenAlexDownloader,
+    "opentargets": OpenTargetsDownloader,
     "pubmed": PubmedDownloader,
     "pubtator3": Pubtator3Downloader,
     "retractionwatch": RetractionWatchDownloader,
