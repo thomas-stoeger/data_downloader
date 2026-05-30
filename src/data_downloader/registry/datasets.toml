@@ -81,3 +81,17 @@ downloader = "google_sheet"
 sheet_id = "1ak985WGOgGbJRJbZFanoktAN_UFeExpE"
 gid = "5255084"
 filename = "hijacked_journals.csv"
+
+[predatory_publishers]
+description = "Predatory publishers — public Google Sheet list, exported as CSV (no upstream version; versioned by capture date plus content hash)"
+downloader = "google_sheet_hashed"
+sheet_id = "1BHM4aJljhbOAzSpkX1kXDUEvy6vxREZu5WJaDH6M1Vk"
+gid = "0"
+filename = "predatory_publishers.csv"
+
+[predatory_journals]
+description = "Predatory journals — public Google Sheet list, exported as CSV (no upstream version; versioned by capture date plus content hash)"
+downloader = "google_sheet_hashed"
+sheet_id = "1Qa1lAlSbl7iiKddYINNsDB4wxI7uUA4IVseeLnCc5U4"
+gid = "0"
+filename = "predatory_journals.csv"

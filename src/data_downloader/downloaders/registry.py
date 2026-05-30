@@ -2,6 +2,7 @@ from .base import BaseDownloader
 from .figshare import FigshareDownloader
 from .ftp import FtpDownloader
 from .google_sheet import GoogleSheetDownloader
+from .google_sheet_hashed import GoogleSheetHashedDownloader
 from .harmonizome import HarmonizomeDownloader
 from .nih_exporter import NihExporterDownloader
 from .nlmcatalog import NlmCatalogDownloader
@@ -14,6 +15,7 @@ _DOWNLOADERS: dict[str, type[BaseDownloader]] = {
     "ftp": FtpDownloader,
     "figshare": FigshareDownloader,
     "google_sheet": GoogleSheetDownloader,
+    "google_sheet_hashed": GoogleSheetHashedDownloader,
     "harmonizome": HarmonizomeDownloader,
     "nih_exporter": NihExporterDownloader,
     "nlmcatalog": NlmCatalogDownloader,

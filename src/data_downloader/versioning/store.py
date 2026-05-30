@@ -19,6 +19,9 @@ def fetch_dataset(name: str, force: bool = False) -> Path:
     Skips download if the local version is already up-to-date, unless force=True.
     """
     config = get_dataset(name)
+    # Expose the dataset name to downloaders that need to consult the local
+    # manifest while computing a version (e.g. google_sheet_hashed).
+    config["_dataset_name"] = name
     downloader = get_downloader(config["downloader"])
 
     data_root = get_data_root()
@@ -57,6 +60,8 @@ def check_dataset(name: str) -> dict:
     Returns a dict with keys: name, local_version, remote_version, up_to_date.
     """
     config = get_dataset(name)
+    # See fetch_dataset: lets manifest-aware downloaders date a snapshot.
+    config["_dataset_name"] = name
     downloader = get_downloader(config["downloader"])
 
     data_root = get_data_root()

@@ -86,6 +86,7 @@ Each downloader type maps to a real upstream source and contact host(s):
 | `openalex` | OpenAlex full snapshot | `s3://openalex` (public bucket) | `aws s3 sync --no-sign-request` + boto3 unsigned `head_object` |
 | `retractionwatch` | Retraction Watch database (Crossref's daily CSV) | `gitlab.com` (`crossref/retraction-watch-data`): `/api/v4` commits+tree for versioning, `/-/raw/` for bytes | HTTPS |
 | `google_sheet` | Public Google Sheet tabs exported as CSV (e.g. Retraction Watch Hijacked Journal Checker) | `docs.google.com` for the gviz version cell and CSV `export`; bytes from the `googleusercontent.com` host it redirects to | HTTPS |
+| `google_sheet_hashed` | Public Google Sheet tabs with no version marker, exported as CSV (predatory publishers, predatory journals) | `docs.google.com` CSV `export`; bytes from the `googleusercontent.com` host it redirects to | HTTPS |
 
 Note that `figshare` and `harmonizome` discover their actual byte-download URLs
 at runtime from API responses and scraped HTML. Those URLs are upstream data,
@@ -123,6 +124,17 @@ avoidable, so that "is this current?" can be answered by comparison:
 - `google_sheet`: the last `Month D, YYYY` date in a designated cell (default
   A1, e.g. "...last updated May 17, 2026") as `YYYY-MM-DD`, read via the gviz
   API without exporting the sheet.
+- `google_sheet_hashed`: `YYYY-MM-DD (hash)`, where `hash` is the first 12 hex
+  characters of the SHA-256 of the exported CSV and the date is the day the
+  content was first captured. These sheets (predatory publishers, predatory
+  journals) carry no version marker, so this is a sanctioned exception to
+  "version comes cheaply from the remote": `latest_version` downloads the CSV
+  to hash it, and the date is local. The hash, not the date, is the identity:
+  when the hash matches a snapshot already in the manifest, `latest_version`
+  returns that existing version string (preserving its capture date) so an
+  unchanged sheet reads up-to-date rather than new every day; a changed hash
+  yields a fresh version dated today. To read the manifest, the store injects
+  the dataset name into the config as `_dataset_name`.
 - `nih_exporter`: today's date. This source has no single release marker, so
   this downloader cannot detect "no change"; `check` always reports an update
   available and `fetch` re-downloads if run on a new day. This is a known

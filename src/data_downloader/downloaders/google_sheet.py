@@ -72,32 +72,49 @@ def _version_from_cell(text: str, cell: str) -> str:
     return datetime.strptime(matches[-1], "%B %d, %Y").strftime("%Y-%m-%d")
 
 
-def _download_csv(sheet_id: str, gid: str, name: str, dest: Path) -> Path:
-    local_path = dest / name
+def _stream_csv(sheet_id: str, gid: str, desc: str, out) -> None:
+    """Export the sheet tab as CSV and write the bytes to the binary file-like
+    `out` (a real file or an in-memory buffer). Validates the content type and
+    the Content-Length, raising on mismatch; the caller owns any cleanup of a
+    partially written destination."""
     with urllib.request.urlopen(_export_url(sheet_id, gid), context=_SSL) as response:
         content_type = response.headers.get_content_type()
         if content_type != "text/csv":
             # A private or removed sheet redirects to an HTML sign-in page that
             # still returns 200; reject it rather than saving HTML as CSV.
             raise RuntimeError(
-                f"{name}: expected text/csv from Google Sheets export, got "
+                f"{desc}: expected text/csv from Google Sheets export, got "
                 f"{content_type!r} (is the sheet public?)"
             )
         expected = int(response.headers.get("Content-Length", 0)) or None
         bytes_written = 0
-        with (
-            open(local_path, "wb") as f,
-            tqdm(total=expected, unit="B", unit_scale=True, desc=name) as bar,
-        ):
+        with tqdm(total=expected, unit="B", unit_scale=True, desc=desc) as bar:
             while chunk := response.read(_CHUNK):
-                f.write(chunk)
+                out.write(chunk)
                 bytes_written += len(chunk)
                 bar.update(len(chunk))
     if expected is not None and bytes_written != expected:
-        local_path.unlink(missing_ok=True)
         raise RuntimeError(
-            f"{name}: size mismatch — expected {expected} bytes, got {bytes_written}"
+            f"{desc}: size mismatch — expected {expected} bytes, got {bytes_written}"
         )
+
+
+def _fetch_csv_bytes(sheet_id: str, gid: str, desc: str) -> bytes:
+    """Export the sheet tab as CSV and return the bytes (kept in memory). Used
+    when the caller needs the content itself, e.g. to hash it for versioning."""
+    buf = io.BytesIO()
+    _stream_csv(sheet_id, gid, desc, buf)
+    return buf.getvalue()
+
+
+def _download_csv(sheet_id: str, gid: str, name: str, dest: Path) -> Path:
+    local_path = dest / name
+    try:
+        with open(local_path, "wb") as f:
+            _stream_csv(sheet_id, gid, name, f)
+    except Exception:
+        local_path.unlink(missing_ok=True)
+        raise
     return local_path
 
 
