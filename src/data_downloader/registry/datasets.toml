@@ -16,6 +16,18 @@ downloader = "ftp"
 host = "ftp.ncbi.nlm.nih.gov"
 path = "/gene/DATA/gene2go.gz"
 
+[ncbi_gene2accession]
+description = "NCBI gene2accession: gene-to-RefSeq/GenBank nucleotide and protein accession mappings"
+downloader = "ftp"
+host = "ftp.ncbi.nlm.nih.gov"
+path = "/gene/DATA/gene2accession.gz"
+
+[ncbi_gene2ensembl]
+description = "NCBI gene2ensembl: Entrez Gene to Ensembl gene, transcript, and protein identifier mappings"
+downloader = "ftp"
+host = "ftp.ncbi.nlm.nih.gov"
+path = "/gene/DATA/gene2ensembl.gz"
+
 [ncbi_gene_history]
 description = "NCBI gene_history: discontinued and merged gene ID history"
 downloader = "ftp"

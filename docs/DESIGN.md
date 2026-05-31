@@ -76,7 +76,7 @@ Each downloader type maps to a real upstream source and contact host(s):
 
 | Downloader | Datasets | Source host(s) | Transport |
 |---|---|---|---|
-| `ftp` | NCBI gene_info, gene2pubmed, gene2go, gene_history, GeneRIFs, taxdump | `ftp.ncbi.nlm.nih.gov` | Anonymous FTP |
+| `ftp` | NCBI gene_info, gene2pubmed, gene2go, gene2accession, gene2ensembl, gene_history, GeneRIFs, taxdump | `ftp.ncbi.nlm.nih.gov` | Anonymous FTP |
 | `pubmed` | NCBI PubMed baseline + updatefiles | `ftp.ncbi.nlm.nih.gov` | Anonymous FTP |
 | `pubtator3` | PubTator3 entity/relation annotation tables (optionally BioCXML archives) | `ftp.ncbi.nlm.nih.gov` | Anonymous FTP |
 | `nlmcatalog` | NLM Catalog records matching a configurable Entrez search term (e.g. `reportedmedline`) | `eutils.ncbi.nlm.nih.gov` | HTTPS (E-utilities esearch + efetch) |
