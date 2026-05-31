@@ -89,11 +89,12 @@ Each downloader type maps to a real upstream source and contact host(s):
 | `google_sheet_hashed` | Public Google Sheet tabs with no version marker, exported as CSV (predatory publishers, predatory journals) | `docs.google.com` CSV `export`; bytes from the `googleusercontent.com` host it redirects to | HTTPS |
 | `opentargets` | Open Targets Platform release datasets (Parquet), plus the field-level schema (`croissant.json`) and the per-dataset Downloads-page descriptions (`downloads.json`) | `ftp.ebi.ac.uk` for data, schema, checksums; `api.platform.opentargets.org` for the descriptions | HTTPS |
 | `obo` | OBO-format ontology files (Gene Ontology `go-basic.obo`) | `purl.obolibrary.org` (PURL) redirecting to `current.geneontology.org` for the bytes | HTTPS |
+| `ensembl_tsv` | Ensembl per-species TSV cross-reference tables (Entrez, RefSeq, UniProt, ENA, karyotype) under `current_tsv`, plus `CHECKSUMS` and `README_*` | `ftp.ensembl.org` | HTTPS |
 
 Note that `figshare` and `harmonizome` discover their actual byte-download URLs
-at runtime from API responses and scraped HTML, and `opentargets` reads the FTP
-autoindex to learn the per-dataset Parquet part-file names. Those URLs and names
-are upstream data, not configuration (see Invariants).
+at runtime from API responses and scraped HTML, and `opentargets` and
+`ensembl_tsv` read the FTP autoindex to learn the per-folder file names. Those
+URLs and names are upstream data, not configuration (see Invariants).
 
 ## Companion documents
 
@@ -132,6 +133,11 @@ avoidable, so that "is this current?" can be answered by comparison:
   directory in the FTP listing, read without downloading anything. A `version`
   config key can pin an older release. The Parquet files are verified against
   the release's `release_data_integrity.sha1` checksums when available.
+- `ensembl_tsv`: the Ensembl release number (e.g. `115`), read from the
+  single-integer `/pub/VERSION` file without downloading any data. `current_tsv`
+  is a symlink to that release's `tsv` tree. Files are verified against each
+  folder's `CHECKSUMS` (the classic Unix `sum` BSD checksum and block count)
+  where present, in addition to the size and gzip checks.
 - `obo`: the ontology's own `data-version` header (e.g. GO's
   `data-version: releases/2026-05-19`), read from the first few kilobytes of the
   file with the `releases/` prefix stripped to `2026-05-19`. No full download is

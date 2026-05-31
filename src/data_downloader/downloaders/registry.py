@@ -1,4 +1,5 @@
 from .base import BaseDownloader
+from .ensembl_tsv import EnsemblTsvDownloader
 from .figshare import FigshareDownloader
 from .ftp import FtpDownloader
 from .google_sheet import GoogleSheetDownloader
@@ -15,6 +16,7 @@ from .retractionwatch import RetractionWatchDownloader
 
 _DOWNLOADERS: dict[str, type[BaseDownloader]] = {
     "ftp": FtpDownloader,
+    "ensembl_tsv": EnsemblTsvDownloader,
     "figshare": FigshareDownloader,
     "google_sheet": GoogleSheetDownloader,
     "google_sheet_hashed": GoogleSheetHashedDownloader,

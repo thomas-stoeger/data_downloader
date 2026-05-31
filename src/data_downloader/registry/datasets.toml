@@ -46,6 +46,14 @@ downloader = "ftp"
 host = "ftp.ncbi.nlm.nih.gov"
 path = "/pub/taxonomy/taxdump.tar.gz"
 
+[ensembl_tsv]
+description = "Ensembl TSV cross-references — per-species gzipped tables mapping Ensembl gene/transcript/protein IDs to Entrez, RefSeq, UniProt, ENA, plus karyotype; versioned by Ensembl release number"
+downloader = "ensembl_tsv"
+# Which species directories to download. Set species = ["*"] to fetch every
+# species in the release (large: 350+ species). Unknown names fail with the
+# list of what is available (browse https://ftp.ensembl.org/pub/current_tsv/).
+species = ["homo_sapiens", "mus_musculus", "rattus_norvegicus", "danio_rerio", "drosophila_melanogaster", "caenorhabditis_elegans", "saccharomyces_cerevisiae", "gallus_gallus"]
+
 [icite]
 description = "iCite Database Snapshots — NIH Open Citation Collection (monthly)"
 downloader = "figshare"

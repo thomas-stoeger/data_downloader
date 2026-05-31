@@ -70,6 +70,10 @@ That permission is scoped. Confine all network activity to these domains:
   release host.
 - `current.geneontology.org` — the Gene Ontology release host that the
   `go-basic.obo` PURL redirects to for the file bytes.
+- `ftp.ensembl.org` — Ensembl release files (served over HTTPS): the
+  `current_tsv` per-species cross-reference tables and their `CHECKSUMS` and
+  `README_*` companions, and the `/pub/VERSION` file used to read the release
+  number.
 
 If a task seems to require reaching any other host, stop and ask rather than
 expanding this list on your own. When you add a dataset or downloader, update
