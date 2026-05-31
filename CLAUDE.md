@@ -65,6 +65,11 @@ That permission is scoped. Confine all network activity to these domains:
 - `api.platform.opentargets.org` — Open Targets GraphQL API, used only to read
   the `meta.downloads` payload that holds the per-dataset text descriptions
   shown on the Downloads page.
+- `purl.obolibrary.org` — OBO Foundry persistent URLs for ontology files (e.g.
+  the Gene Ontology `go-basic.obo`); a PURL that redirects to the current
+  release host.
+- `current.geneontology.org` — the Gene Ontology release host that the
+  `go-basic.obo` PURL redirects to for the file bytes.
 
 If a task seems to require reaching any other host, stop and ask rather than
 expanding this list on your own. When you add a dataset or downloader, update

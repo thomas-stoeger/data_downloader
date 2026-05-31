@@ -6,6 +6,7 @@ from .google_sheet_hashed import GoogleSheetHashedDownloader
 from .harmonizome import HarmonizomeDownloader
 from .nih_exporter import NihExporterDownloader
 from .nlmcatalog import NlmCatalogDownloader
+from .obo import OboDownloader
 from .openalex import OpenAlexDownloader
 from .opentargets import OpenTargetsDownloader
 from .pubmed import PubmedDownloader
@@ -20,6 +21,7 @@ _DOWNLOADERS: dict[str, type[BaseDownloader]] = {
     "harmonizome": HarmonizomeDownloader,
     "nih_exporter": NihExporterDownloader,
     "nlmcatalog": NlmCatalogDownloader,
+    "obo": OboDownloader,
     "openalex": OpenAlexDownloader,
     "opentargets": OpenTargetsDownloader,
     "pubmed": PubmedDownloader,

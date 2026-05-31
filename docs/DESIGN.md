@@ -88,6 +88,7 @@ Each downloader type maps to a real upstream source and contact host(s):
 | `google_sheet` | Public Google Sheet tabs exported as CSV (e.g. Retraction Watch Hijacked Journal Checker) | `docs.google.com` for the gviz version cell and CSV `export`; bytes from the `googleusercontent.com` host it redirects to | HTTPS |
 | `google_sheet_hashed` | Public Google Sheet tabs with no version marker, exported as CSV (predatory publishers, predatory journals) | `docs.google.com` CSV `export`; bytes from the `googleusercontent.com` host it redirects to | HTTPS |
 | `opentargets` | Open Targets Platform release datasets (Parquet), plus the field-level schema (`croissant.json`) and the per-dataset Downloads-page descriptions (`downloads.json`) | `ftp.ebi.ac.uk` for data, schema, checksums; `api.platform.opentargets.org` for the descriptions | HTTPS |
+| `obo` | OBO-format ontology files (Gene Ontology `go-basic.obo`) | `purl.obolibrary.org` (PURL) redirecting to `current.geneontology.org` for the bytes | HTTPS |
 
 Note that `figshare` and `harmonizome` discover their actual byte-download URLs
 at runtime from API responses and scraped HTML, and `opentargets` reads the FTP
@@ -131,6 +132,10 @@ avoidable, so that "is this current?" can be answered by comparison:
   directory in the FTP listing, read without downloading anything. A `version`
   config key can pin an older release. The Parquet files are verified against
   the release's `release_data_integrity.sha1` checksums when available.
+- `obo`: the ontology's own `data-version` header (e.g. GO's
+  `data-version: releases/2026-05-19`), read from the first few kilobytes of the
+  file with the `releases/` prefix stripped to `2026-05-19`. No full download is
+  needed to learn the version.
 - `retractionwatch`: `committed_date` of the latest commit on the tracked
   branch as `YYYY-MM-DD` (Crossref's bot commits one rebuilt CSV per working
   day), read from the GitLab commits API without downloading the file.

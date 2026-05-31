@@ -95,6 +95,12 @@ downloader = "google_sheet_hashed"
 sheet_id = "1Qa1lAlSbl7iiKddYINNsDB4wxI7uUA4IVseeLnCc5U4"
 gid = "0"
 filename = "predatory_journals.csv"
+[geneontology_basic]
+description = "Gene Ontology (go-basic) — the filtered, cycle-free OBO release suitable for most uses; versioned by the file's own data-version date"
+downloader = "obo"
+url = "https://purl.obolibrary.org/obo/go/go-basic.obo"
+filename = "go-basic.obo"
+
 [opentargets]
 description = "Open Targets Platform — release Parquet datasets, plus the field-level schema (croissant.json) and the per-dataset text descriptions shown on the Downloads page (downloads.json)"
 downloader = "opentargets"
