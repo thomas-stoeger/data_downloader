@@ -116,6 +116,43 @@ checksums it verifies Parquet files against), `manifest.json` (provenance), and
 Downloads page). These cover the schema and description for every dataset and
 are fetched regardless of which datasets' Parquet bytes are selected.
 
+## Licenses
+
+Each dataset may declare its license in the registry under a nested
+`[<name>.license]` table. License capture is generic and orchestrated in the
+store (not per-downloader), so adding a license is a TOML edit and it applies
+uniformly to every dataset. Two things are recorded so the question "what is
+this dataset's license and where did it come from" can be answered later:
+
+- `declared_at` — a provenance reference (URL or list) to where the license is
+  stated upstream. Recorded verbatim, never fetched.
+- `url` — the license document(s) (URL or list) downloaded into the version's
+  `<version>/_license/` directory and hashed (SHA-256). This is a byte-exact
+  copy of the terms that governed that snapshot.
+
+Optional `spdx` and `note` are recorded as documentation. The handling lives in
+[versioning/license.py](../src/data_downloader/versioning/license.py); the
+record is stored in each version's manifest entry under a `license` key.
+
+The license is captured **per version**: it is re-fetched into each snapshot
+when the data is fetched, mirroring the immutable-snapshot model. Capture is
+**best-effort** — a license download failure is recorded as an `error` and
+warned about, but never discards an already-verified data version (the one
+sanctioned exception to "any failure wipes the version").
+
+**Drift detection** runs at two points. At `fetch`, the freshly captured
+license is compared to the previous version's recorded hashes; a difference
+sets `changed_from_previous` and prints a prominent `LICENSE CHANGED` warning.
+At `check`, the tiny license document is fetched into memory and hashed (no
+disk writes) and compared to the last recorded hashes, so a license change is
+caught even when the data version is unchanged. `dl check` reports a
+`license=<status>` column (`none` / `new` / `ok` / `changed` / `error`), and
+`dl license <name>` prints the recorded provenance and the stored copy's path
+and hash for the latest (or all) versions.
+
+License document hosts are part of the allowed-domain list in
+[CLAUDE.md](../CLAUDE.md) and are added there as datasets gain license URLs.
+
 ## Versioning
 
 A version string comes from the remote source, never from the local clock where

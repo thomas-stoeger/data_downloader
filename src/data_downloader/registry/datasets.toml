@@ -1,8 +1,23 @@
+# Each dataset may declare a license under a nested [<name>.license] table:
+#   declared_at - where the license is stated upstream (recorded, never fetched;
+#                 adds no allowed-domain). May be a string or a list.
+#   url         - license document(s) downloaded into each version's _license/
+#                 dir and hashed (the byte-exact copy). Omit when no clean
+#                 fetchable license exists (declared-only); the note then
+#                 explains why. Every url host must be in CLAUDE.md.
+#   spdx, note  - optional documentation, recorded verbatim.
+# See docs/DESIGN.md "Licenses" for the full contract.
+
 [ncbi_gene2pubmed]
 description = "NCBI gene2pubmed: links between genes and PubMed articles"
 downloader = "ftp"
 host = "ftp.ncbi.nlm.nih.gov"
 path = "/gene/DATA/gene2pubmed.gz"
+
+[ncbi_gene2pubmed.license]
+declared_at = "https://www.ncbi.nlm.nih.gov/home/about/policies/"
+url = "https://www.ncbi.nlm.nih.gov/home/about/policies/"
+note = "US Government public domain; NCBI places no restrictions on the use or distribution of the data."
 
 [ncbi_gene_info]
 description = "NCBI gene_info: gene symbols, names, chromosomal location, and identifiers"
@@ -10,11 +25,21 @@ downloader = "ftp"
 host = "ftp.ncbi.nlm.nih.gov"
 path = "/gene/DATA/gene_info.gz"
 
+[ncbi_gene_info.license]
+declared_at = "https://www.ncbi.nlm.nih.gov/home/about/policies/"
+url = "https://www.ncbi.nlm.nih.gov/home/about/policies/"
+note = "US Government public domain; NCBI places no restrictions on the use or distribution of the data."
+
 [ncbi_gene2go]
 description = "NCBI gene2go: gene-to-GO term associations"
 downloader = "ftp"
 host = "ftp.ncbi.nlm.nih.gov"
 path = "/gene/DATA/gene2go.gz"
+
+[ncbi_gene2go.license]
+declared_at = "https://www.ncbi.nlm.nih.gov/home/about/policies/"
+url = "https://www.ncbi.nlm.nih.gov/home/about/policies/"
+note = "US Government public domain; NCBI places no restrictions on the use or distribution of the data."
 
 [ncbi_gene2accession]
 description = "NCBI gene2accession: gene-to-RefSeq/GenBank nucleotide and protein accession mappings"
@@ -22,11 +47,21 @@ downloader = "ftp"
 host = "ftp.ncbi.nlm.nih.gov"
 path = "/gene/DATA/gene2accession.gz"
 
+[ncbi_gene2accession.license]
+declared_at = "https://www.ncbi.nlm.nih.gov/home/about/policies/"
+url = "https://www.ncbi.nlm.nih.gov/home/about/policies/"
+note = "US Government public domain; NCBI places no restrictions on the use or distribution of the data."
+
 [ncbi_gene2ensembl]
 description = "NCBI gene2ensembl: Entrez Gene to Ensembl gene, transcript, and protein identifier mappings"
 downloader = "ftp"
 host = "ftp.ncbi.nlm.nih.gov"
 path = "/gene/DATA/gene2ensembl.gz"
+
+[ncbi_gene2ensembl.license]
+declared_at = "https://www.ncbi.nlm.nih.gov/home/about/policies/"
+url = "https://www.ncbi.nlm.nih.gov/home/about/policies/"
+note = "US Government public domain; NCBI places no restrictions on the use or distribution of the data."
 
 [ncbi_gene_history]
 description = "NCBI gene_history: discontinued and merged gene ID history"
@@ -34,17 +69,32 @@ downloader = "ftp"
 host = "ftp.ncbi.nlm.nih.gov"
 path = "/gene/DATA/gene_history.gz"
 
+[ncbi_gene_history.license]
+declared_at = "https://www.ncbi.nlm.nih.gov/home/about/policies/"
+url = "https://www.ncbi.nlm.nih.gov/home/about/policies/"
+note = "US Government public domain; NCBI places no restrictions on the use or distribution of the data."
+
 [ncbi_generifs]
 description = "NCBI GeneRIFs: gene-to-literature functional annotation summaries"
 downloader = "ftp"
 host = "ftp.ncbi.nlm.nih.gov"
 path = "/gene/GeneRIF/generifs_basic.gz"
 
+[ncbi_generifs.license]
+declared_at = "https://www.ncbi.nlm.nih.gov/home/about/policies/"
+url = "https://www.ncbi.nlm.nih.gov/home/about/policies/"
+note = "US Government public domain; NCBI places no restrictions on the use or distribution of the data."
+
 [ncbi_taxdump]
 description = "NCBI Taxonomy dump: full taxonomy nodes, names, and lineage"
 downloader = "ftp"
 host = "ftp.ncbi.nlm.nih.gov"
 path = "/pub/taxonomy/taxdump.tar.gz"
+
+[ncbi_taxdump.license]
+declared_at = "https://www.ncbi.nlm.nih.gov/home/about/policies/"
+url = "https://www.ncbi.nlm.nih.gov/home/about/policies/"
+note = "US Government public domain; NCBI places no restrictions on the use or distribution of the data."
 
 [ensembl_tsv]
 description = "Ensembl TSV cross-references — per-species gzipped tables mapping Ensembl gene/transcript/protein IDs to Entrez, RefSeq, UniProt, ENA, plus karyotype; versioned by Ensembl release number"
@@ -54,6 +104,13 @@ downloader = "ensembl_tsv"
 # list of what is available (browse https://ftp.ensembl.org/pub/current_tsv/).
 species = ["homo_sapiens", "mus_musculus", "rattus_norvegicus", "danio_rerio", "drosophila_melanogaster", "caenorhabditis_elegans", "saccharomyces_cerevisiae", "gallus_gallus"]
 
+# Declared-only: Ensembl-generated data is available without restriction, but
+# the legal page 302-redirects to a regional mirror (useast/uswest/...), a poor
+# stable fetch target, so no copy is downloaded.
+[ensembl_tsv.license]
+declared_at = "https://www.ensembl.org/info/about/legal/disclaimer.html"
+note = "Ensembl-generated data is available without restriction; some included third-party data may carry constraints. No license file is fetched (the legal page redirects to a regional mirror)."
+
 [icite]
 description = "iCite Database Snapshots — NIH Open Citation Collection (monthly)"
 downloader = "figshare"
@@ -62,21 +119,57 @@ collection_id = "4586573"
 # Available per snapshot: icite_metadata.zip, open_citation_collection.zip, icite_metadata.tar.gz
 files = ["icite_metadata.zip", "open_citation_collection.zip"]
 
+# Figshare tags every iCite snapshot article CC BY 4.0 (visible on each
+# snapshot's article page and in the figshare API `license` field). The
+# collection page does not display a license. Note: the NIH-OCC paper describes
+# the underlying collection as CC0, but the actual figshare distribution we
+# download asserts CC BY 4.0, so that is what is recorded.
+[icite.license]
+declared_at = "https://nih.figshare.com/articles/dataset/iCite_Database_Snapshot_2026-04/32209434"
+url = "https://creativecommons.org/licenses/by/4.0/legalcode.txt"
+spdx = "CC-BY-4.0"
+note = "Each iCite snapshot is tagged CC BY 4.0 on figshare (per-article license field). The NIH-OCC paper describes the source collection as CC0, but the figshare distribution asserts CC BY 4.0."
+
 [harmonizome]
 description = "Harmonizome — all distribution files per dataset (except similarity matrices) plus a JSON metadata sidecar (~150 datasets)"
 downloader = "harmonizome"
+
+[harmonizome.license]
+declared_at = "https://maayanlab.cloud/Harmonizome/terms"
+url = "https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.txt"
+spdx = "CC-BY-NC-SA-4.0"
+note = "Harmonizome is licensed CC BY-NC-SA 4.0 (non-commercial); commercial use via Mount Sinai Innovation Partners. Individual contained datasets may be under a more restrictive license."
 
 [openalex]
 description = "OpenAlex snapshot — all entity types under data/ (excludes legacy-data/)"
 downloader = "openalex"
 
+# CC0 is stated on the developers FAQ ("Our complete dataset is free under the
+# CC0 license"); the Pricing page is also listed for context.
+[openalex.license]
+declared_at = ["https://developers.openalex.org/additional-help/faq", "https://help.openalex.org/hc/en-us/articles/24397762024087-Pricing"]
+url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt"
+spdx = "CC0-1.0"
+note = "OpenAlex data is CC0 1.0. The MAG-format snapshot (not fetched here) is ODC-BY per the original Microsoft license."
+
 [nih_exporter]
 description = "NIH ExPORTER bulk data — projects, abstracts, publications, link tables, patents, clinical studies"
 downloader = "nih_exporter"
 
+# Declared-only: NIH RePORTER/ExPORTER is a US Government work in the public
+# domain with no explicit license file to capture.
+[nih_exporter.license]
+declared_at = "https://catalog.data.gov/dataset/nih-exported-research-portfolio-online-reporting-tools-expenditures-and-results-exporter-f7455"
+note = "US Government work (NIH RePORTER/ExPORTER); public domain, no explicit license file."
+
 [ncbi_pubmed]
 description = "NCBI PubMed XML — annual baseline plus updatefiles, with MD5 verification (large, ~45 GB)"
 downloader = "pubmed"
+
+[ncbi_pubmed.license]
+declared_at = "https://www.nlm.nih.gov/databases/download/terms_and_conditions.html"
+url = "https://www.nlm.nih.gov/databases/download/terms_and_conditions.html"
+note = "NLM data terms: acknowledge 'Courtesy of the U.S. National Library of Medicine'. US Government works are not under US copyright, but some abstracts may be copyrighted."
 
 [ncbi_pubtator3]
 description = "PubTator3 — PubMed/PMC entity and relation annotation tables plus BioCXML archives (~225 GB)"
@@ -86,14 +179,35 @@ path = "/pub/lu/PubTator3"
 # By default every *.gz in the directory is downloaded. Add a 'files' allowlist
 # to restrict to a subset, e.g. files = ["bioconcepts2pubtator3.gz", ...].
 
+[ncbi_pubtator3.license]
+declared_at = "https://www.ncbi.nlm.nih.gov/home/about/policies/"
+url = "https://www.ncbi.nlm.nih.gov/home/about/policies/"
+note = "US Government public domain; NCBI places no restrictions on the use or distribution of the data."
+
 [ncbi_nlmcatalog_reportedmedline]
 description = "NLM Catalog journals that report MEDLINE indexing status (term=reportedmedline, full XML via E-utilities)"
 downloader = "nlmcatalog"
 term = "reportedmedline"
 
+[ncbi_nlmcatalog_reportedmedline.license]
+declared_at = "https://www.nlm.nih.gov/databases/download/terms_and_conditions.html"
+url = "https://www.nlm.nih.gov/databases/download/terms_and_conditions.html"
+note = "NLM data terms: acknowledge 'Courtesy of the U.S. National Library of Medicine'. US Government works are not under US copyright."
+
 [retractionwatch_retractiondatabase]
 description = "Retraction Watch retraction database — Crossref's daily CSV of retractions (single retraction_watch.csv plus README)"
 downloader = "retractionwatch"
+
+# Declared-only: no explicit license is attached to the data. The GitLab repo
+# has no LICENSE file and its README states no terms; Crossref's Retraction
+# Watch documentation names no license for the data (only the Crossref website
+# itself is CC BY 4.0). Crossref describes the database as a public resource and
+# treats its metadata as uncopyrightable facts (its general CC0 stance), and
+# requests a citation, but asserts no license on the data. Verify before relying
+# on a specific license for redistribution.
+[retractionwatch_retractiondatabase.license]
+declared_at = ["https://www.crossref.org/documentation/retrieve-metadata/retraction-watch/", "https://gitlab.com/crossref/retraction-watch-data"]
+note = "No explicit license attached to the data (no LICENSE in the GitLab repo; none named on the Crossref docs page). Crossref describes it as a public resource and treats its metadata as public-domain facts (CC0 stance); a citation to the source is requested."
 
 [retractionwatch_hijackedjournals]
 description = "Retraction Watch Hijacked Journal Checker — public Google Sheet of hijacked (clone) journals, exported as CSV"
@@ -102,6 +216,12 @@ sheet_id = "1ak985WGOgGbJRJbZFanoktAN_UFeExpE"
 gid = "5255084"
 filename = "hijacked_journals.csv"
 
+# Declared-only: Center for Scientific Integrity / Retraction Watch project;
+# no explicit data-reuse license is stated.
+[retractionwatch_hijackedjournals.license]
+declared_at = "https://centerforscientificintegrity.org/our-projects/retraction-watch-hijacked-journal-checker/"
+note = "Center for Scientific Integrity / Retraction Watch project; no explicit data-reuse license stated."
+
 [predatory_publishers]
 description = "Predatory publishers — public Google Sheet list, exported as CSV (no upstream version; versioned by capture date plus content hash)"
 downloader = "google_sheet_hashed"
@@ -109,17 +229,34 @@ sheet_id = "1BHM4aJljhbOAzSpkX1kXDUEvy6vxREZu5WJaDH6M1Vk"
 gid = "0"
 filename = "predatory_publishers.csv"
 
+# Declared-only: community-maintained public Google Sheet; no upstream license.
+[predatory_publishers.license]
+declared_at = "https://docs.google.com/spreadsheets/d/1BHM4aJljhbOAzSpkX1kXDUEvy6vxREZu5WJaDH6M1Vk"
+note = "Community-maintained public Google Sheet (https://www.predatoryjournals.org); no upstream license stated."
+
 [predatory_journals]
 description = "Predatory journals — public Google Sheet list, exported as CSV (no upstream version; versioned by capture date plus content hash)"
 downloader = "google_sheet_hashed"
 sheet_id = "1Qa1lAlSbl7iiKddYINNsDB4wxI7uUA4IVseeLnCc5U4"
 gid = "0"
 filename = "predatory_journals.csv"
+
+# Declared-only: community-maintained public Google Sheet; no upstream license.
+[predatory_journals.license]
+declared_at = "https://docs.google.com/spreadsheets/d/1Qa1lAlSbl7iiKddYINNsDB4wxI7uUA4IVseeLnCc5U4"
+note = "Community-maintained public Google Sheet (https://www.predatoryjournals.org); no upstream license stated."
+
 [geneontology_basic]
 description = "Gene Ontology (go-basic) — the filtered, cycle-free OBO release suitable for most uses; versioned by the file's own data-version date"
 downloader = "obo"
 url = "https://purl.obolibrary.org/obo/go/go-basic.obo"
 filename = "go-basic.obo"
+
+[geneontology_basic.license]
+declared_at = "https://geneontology.org/docs/go-citation-policy/"
+url = "https://creativecommons.org/licenses/by/4.0/legalcode.txt"
+spdx = "CC-BY-4.0"
+note = "Gene Ontology content is licensed CC BY 4.0"
 
 [opentargets]
 description = "Open Targets Platform — release Parquet datasets, plus the field-level schema (croissant.json) and the per-dataset text descriptions shown on the Downloads page (downloads.json)"
@@ -134,3 +271,26 @@ downloader = "opentargets"
 datasets = ["target", "disease", "drug_molecule", "association_overall_direct", "mouse_phenotype", "target_essentiality"]
 # Optional: pin a specific release instead of tracking the latest YY.MM.
 # version = "25.06"
+
+# CC0 1.0 covers the Open Targets COMPILATION only (the aggregation, scoring,
+# and schema OT authors) -- confirmed by the release croissant.json top-level
+# `license` field. It does NOT relicense the constituent sources, which keep
+# their own licenses on redistribution. croissant.json records no per-source
+# license (single top-level CC0); the authoritative per-source table is only on
+# the declared_at licence page. Obligation tiers that matter for redistribution,
+# especially commercial:
+#   - attribution: most sources are CC-BY (UniProt, Ensembl, GO, Reactome, MGI,
+#     MONDO, ...);
+#   - share-alike (viral): ChEMBL and Human Protein Atlas are CC-BY-SA 3.0;
+#   - EMBL-EBI terms: ClinVar/EVA, Gene2Phenotype, IntAct, Signor, GWAS Catalog;
+#   - "commercial use for Open Targets" (licensed TO Open Targets, not a blanket
+#     grant to third-party redistributors): Cancer Gene Census/COSMIC, Genomics
+#     England PanelApp, Project Score -- clear independently before commercial reuse.
+# Of the datasets selected above: drug_molecule includes ChEMBL (CC-BY-SA),
+# target_essentiality includes Project Score (commercial-use-for-OT), and
+# association_overall_direct aggregates many of the above.
+[opentargets.license]
+declared_at = "https://platform-docs.opentargets.org/licence"
+url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt"
+spdx = "CC0-1.0"
+note = "CC0 1.0 applies to the Open Targets compilation ONLY (confirmed by croissant.json top-level license). Constituent sources keep their own licenses: attribution (CC-BY), share-alike (ChEMBL + Human Protein Atlas, CC-BY-SA 3.0), EMBL-EBI terms (ClinVar/EVA, Gene2Phenotype, IntAct, Signor, GWAS Catalog), and 'commercial use for Open Targets' (COSMIC/Cancer Gene Census, Genomics England PanelApp, Project Score) which is NOT a blanket grant to downstream redistributors. Clear share-alike and commercial-use sources before redistributing, especially commercially. Full per-source table is at the declared_at licence page."

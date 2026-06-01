@@ -31,17 +31,34 @@ def record_version(
     dataset_root: Path,
     version: str,
     files: list[Path],
+    license: dict | None = None,
 ) -> None:
-    """Append a new version entry to the manifest."""
+    """Append a new version entry to the manifest.
+
+    `license`, when present, is the per-version license record produced by
+    versioning/license.py (provenance plus the hashes of the captured license
+    copies, or an error if capture failed). License copies live under the
+    version's `_license/` dir and are recorded here, not in `files`.
+    """
     manifest = load_manifest(dataset_root)
-    manifest["versions"].append(
-        {
-            "version": version,
-            "downloaded_at": datetime.now(timezone.utc).isoformat(),
-            "files": [str(f.relative_to(dataset_root)) for f in files],
-        }
-    )
+    entry = {
+        "version": version,
+        "downloaded_at": datetime.now(timezone.utc).isoformat(),
+        "files": [str(f.relative_to(dataset_root)) for f in files],
+    }
+    if license is not None:
+        entry["license"] = license
+    manifest["versions"].append(entry)
     save_manifest(dataset_root, manifest)
+
+
+def latest_license_record(dataset_root: Path) -> dict | None:
+    """Return the license record of the most recent version that has one, or
+    None. Used to compare a freshly captured license against the last one."""
+    for entry in reversed(load_manifest(dataset_root)["versions"]):
+        if entry.get("license"):
+            return entry["license"]
+    return None
 
 
 def latest_local_version(dataset_root: Path) -> str | None:

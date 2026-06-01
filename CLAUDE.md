@@ -74,6 +74,20 @@ That permission is scoped. Confine all network activity to these domains:
   `current_tsv` per-species cross-reference tables and their `CHECKSUMS` and
   `README_*` companions, and the `/pub/VERSION` file used to read the release
   number.
+- `creativecommons.org` — Creative Commons legal-code text captured by license
+  tracking: the CC BY 4.0, CC0 1.0, and CC BY-NC-SA 4.0 `legalcode.txt` files
+  stored as the license copy for the Gene Ontology, the CC0 datasets (iCite,
+  OpenAlex, Open Targets, Retraction Watch database), and Harmonizome.
+- `www.ncbi.nlm.nih.gov` — the NCBI Website and Data Usage Policies page,
+  captured as the license copy for the NCBI gene/taxonomy datasets, GeneRIFs,
+  and PubTator3.
+- `www.nlm.nih.gov` — the NLM data Terms and Conditions page, captured as the
+  license copy for PubMed and the NLM Catalog.
+
+License capture (see "Licenses" in [docs/DESIGN.md](docs/DESIGN.md)) downloads
+each dataset's license document from the host named in its `[<name>.license]`
+config. Those hosts must be added to this list whenever a dataset gains a
+license URL; license fetching must never reach an undeclared host.
 
 If a task seems to require reaching any other host, stop and ask rather than
 expanding this list on your own. When you add a dataset or downloader, update

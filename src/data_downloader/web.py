@@ -18,6 +18,19 @@ _jobs: dict[str, str] = {}
 _jobs_lock = threading.Lock()
 
 
+def _license_summary(config: dict, versions: list[dict]) -> str:
+    """Short label describing the latest version's captured license, read from
+    the manifest only (no network)."""
+    latest = versions[-1].get("license") if versions else None
+    if latest is None:
+        return "—" if not config.get("license") else "not captured"
+    if latest.get("error"):
+        return "failed"
+    if latest.get("changed_from_previous"):
+        return "changed"
+    return "recorded"
+
+
 def _dataset_rows() -> list[dict]:
     registry = load_registry()
     data_root = get_data_root()
@@ -35,6 +48,7 @@ def _dataset_rows() -> list[dict]:
                 "latest_version": versions[-1]["version"] if versions else None,
                 "downloaded_at": versions[-1]["downloaded_at"] if versions else None,
                 "version_count": len(versions),
+                "license": _license_summary(config, versions),
                 "job": job,
             }
         )
@@ -111,6 +125,7 @@ code{{background:#f0f0f0;padding:2px 6px;border-radius:4px}}</style></head>
           <td>{status_badge}</td>
           {version_cell}
           <td>{r['version_count']}</td>
+          <td>{r['license']}</td>
           <td>{button}</td>
         </tr>"""
 
@@ -225,6 +240,7 @@ code{{background:#f0f0f0;padding:2px 6px;border-radius:4px}}</style></head>
         <th>Latest version</th>
         <th>Downloaded on</th>
         <th>Versions</th>
+        <th>License</th>
         <th></th>
       </tr>
     </thead>
