@@ -67,7 +67,9 @@ That permission is scoped. Confine all network activity to these domains:
   `/pub/databases/interpro/current_release/` (`protein2ipr.dat.gz` and its
   `.md5`, `ParentChildTreeFile.txt`, `entry.list`, `interpro.xml.gz` and its
   `interpro.dtd` schema, `names.dat`, `short_names.dat`, `interpro2go`, and
-  `release_notes.txt`).
+  `release_notes.txt`), and the NHGRI-EBI GWAS Catalog releases under
+  `/pub/databases/gwas/releases/latest/` (the EFO-annotated associations,
+  studies, ancestry, and trait-mapping files).
 - `api.platform.opentargets.org` — Open Targets GraphQL API, used only to read
   the `meta.downloads` payload that holds the per-dataset text descriptions
   shown on the Downloads page.

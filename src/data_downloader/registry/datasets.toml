@@ -360,6 +360,23 @@ url = "https://creativecommons.org/licenses/by/4.0/legalcode.txt"
 spdx = "CC-BY-4.0"
 note = "Human Protein Atlas data is licensed CC BY 4.0. Attribution required: cite the primary publication and 'Human Protein Atlas proteinatlas.org' (with the version, vNN.proteinatlas.org). Third-party data integrated into the Atlas keeps its own licenses."
 
+[gwas_catalog]
+description = "NHGRI-EBI GWAS Catalog — published variant-trait associations (EFO-annotated), their studies, ancestry, and trait-ontology mappings, from the latest EBI release; versioned by the release's Last-Modified date"
+downloader = "gwas_catalog"
+# Which files to download from releases/latest/. Defaults to the EFO-annotated
+# associations plus studies, ancestry, and the trait->EFO mapping. Other files
+# include the split/un-annotated association forms and the unpublished sets.
+files = ["gwas-catalog-associations_ontology-annotated-full.zip", "gwas-catalog-studies.tsv", "gwas-catalog-ancestry.tsv", "gwas-efo-trait-mappings.tsv"]
+
+# Declared-only: the GWAS Catalog is distributed under EMBL-EBI's standard terms
+# of use (the catalog data is treated as freely reusable facts; the full
+# summary-statistics datasets, not fetched here, are CC0). No single clean
+# legalcode file is published for the catalog download, and the EBI terms page
+# host is not contacted, so no license copy is captured.
+[gwas_catalog.license]
+declared_at = ["https://www.ebi.ac.uk/gwas/docs/about", "https://www.ebi.ac.uk/about/terms-of-use"]
+note = "NHGRI-EBI GWAS Catalog, a collaboration of EMBL-EBI and NHGRI. Distributed under EMBL-EBI's terms of use; the catalog content is freely reusable (cite the Catalog and the underlying studies). No fetchable license file; no copy captured."
+
 [disease_ontology]
 description = "Human Disease Ontology (DOID) — OBO release of standardized human disease terms and their hierarchy; versioned by the ontology's own data-version date"
 downloader = "obo"

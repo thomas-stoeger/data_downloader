@@ -5,6 +5,7 @@ from .figshare import FigshareDownloader
 from .ftp import FtpDownloader
 from .google_sheet import GoogleSheetDownloader
 from .google_sheet_hashed import GoogleSheetHashedDownloader
+from .gwas_catalog import GwasCatalogDownloader
 from .harmonizome import HarmonizomeDownloader
 from .interpro import InterProDownloader
 from .mesh import MeshDownloader
@@ -28,6 +29,7 @@ _DOWNLOADERS: dict[str, type[BaseDownloader]] = {
     "figshare": FigshareDownloader,
     "google_sheet": GoogleSheetDownloader,
     "google_sheet_hashed": GoogleSheetHashedDownloader,
+    "gwas_catalog": GwasCatalogDownloader,
     "harmonizome": HarmonizomeDownloader,
     "interpro": InterProDownloader,
     "mesh": MeshDownloader,
