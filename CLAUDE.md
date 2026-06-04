@@ -41,6 +41,10 @@ That permission is scoped. Confine all network activity to these domains:
 - `ftp.ncbi.nlm.nih.gov` — NCBI gene data, taxonomy, and PubMed (FTP).
 - `eutils.ncbi.nlm.nih.gov` — NCBI E-utilities (esearch + efetch) for NLM
   Catalog snapshots.
+- `thebiogrid.org` — the BioGRID home page, read only to parse the current
+  release number (e.g. "Version 5.0.257") for versioning.
+- `downloads.thebiogrid.org` — BioGRID file bytes: the stable Latest-Release
+  archives (e.g. `BIOGRID-ALL-LATEST.tab3.zip`).
 - `reactome.org` — Reactome pathway database: the release files under
   `/download/current/` (the gene/protein-to-pathway mappings, pathway list, and
   hierarchy relations) and the ContentService `data/database/version` endpoint

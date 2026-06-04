@@ -81,6 +81,7 @@ Each downloader type maps to a real upstream source and contact host(s):
 | `pubtator3` | PubTator3 entity/relation annotation tables (optionally BioCXML archives) | `ftp.ncbi.nlm.nih.gov` | Anonymous FTP |
 | `nlmcatalog` | NLM Catalog records matching a configurable Entrez search term (e.g. `reportedmedline`) | `eutils.ncbi.nlm.nih.gov` | HTTPS (E-utilities esearch + efetch) |
 | `mesh` | MeSH (Medical Subject Headings) XML record sets: descriptors (carry the tree numbers for parent/ancestor lookups), qualifiers, pharmacological actions, supplementary concept records | `nlmpubs.nlm.nih.gov` | HTTPS |
+| `biogrid` | BioGRID interactions (the stable Latest-Release TAB3 archive, default BIOGRID-ALL) | `downloads.thebiogrid.org` for bytes; `thebiogrid.org` home page for the release number | HTTPS |
 | `hgnc` | HGNC complete set, newest monthly archive snapshot (TSV) from the `public-download-files` GCS bucket | `storage.googleapis.com` | HTTPS |
 | `reactome` | Reactome release files (gene/protein-to-pathway mappings, pathway list, hierarchy relations) from `download/current/` | `reactome.org` | HTTPS |
 | `zenodo` | Research Organization Registry (ROR) data dump (latest version of a Zenodo concept record) | `zenodo.org` | HTTPS |
@@ -183,6 +184,11 @@ avoidable, so that "is this current?" can be answered by comparison:
 - `pubmed`: the four-digit baseline year (e.g. `2026`).
 - `pubtator3`: the max `MDTM` across the selected files as `YYYY-MM-DD`
   (NCBI refreshes the snapshot in lockstep each month).
+- `biogrid`: the BioGRID release number (e.g. `5.0.257`), parsed from the
+  BioGRID home page without downloading any data file. The data is fetched from
+  the stable `Latest-Release` file names, which are served chunked without a
+  Content-Length, so the size check is skipped and the `.zip` is validated by
+  the archive read-through.
 - `reactome`: the Reactome release number (e.g. `96`), read from the
   ContentService `data/database/version` endpoint without downloading any data
   file.

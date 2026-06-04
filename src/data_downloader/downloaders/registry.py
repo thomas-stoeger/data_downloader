@@ -1,5 +1,6 @@
 from .alliancegenome import AllianceGenomeDownloader
 from .base import BaseDownloader
+from .biogrid import BioGridDownloader
 from .ensembl_tsv import EnsemblTsvDownloader
 from .figshare import FigshareDownloader
 from .ftp import FtpDownloader
@@ -29,6 +30,7 @@ from .zenodo import ZenodoDownloader
 _DOWNLOADERS: dict[str, type[BaseDownloader]] = {
     "ftp": FtpDownloader,
     "alliancegenome": AllianceGenomeDownloader,
+    "biogrid": BioGridDownloader,
     "ensembl_tsv": EnsemblTsvDownloader,
     "figshare": FigshareDownloader,
     "google_sheet": GoogleSheetDownloader,
