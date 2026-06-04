@@ -360,6 +360,19 @@ url = "https://creativecommons.org/licenses/by/4.0/legalcode.txt"
 spdx = "CC-BY-4.0"
 note = "Human Protein Atlas data is licensed CC BY 4.0. Attribution required: cite the primary publication and 'Human Protein Atlas proteinatlas.org' (with the version, vNN.proteinatlas.org). Third-party data integrated into the Atlas keeps its own licenses."
 
+[ror]
+description = "Research Organization Registry (ROR) — the full registry of research-organization identifiers and metadata (names, locations, relationships, external IDs) as a single Zenodo data dump (JSON + CSV, schema v1 and v2); versioned by the ROR schema/release tag"
+downloader = "zenodo"
+# ROR publishes its data dump on Zenodo under this concept (all-versions)
+# record id, which always resolves to the newest release.
+concept_record_id = "6347574"
+
+[ror.license]
+declared_at = "https://ror.readme.io/docs/data-dump"
+url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt"
+spdx = "CC0-1.0"
+note = "All ROR IDs and metadata in the data dump are released under CC0 1.0 (the Zenodo record license is cc-zero)."
+
 [gwas_catalog]
 description = "NHGRI-EBI GWAS Catalog — published variant-trait associations (EFO-annotated), their studies, ancestry, and trait-ontology mappings, from the latest EBI release; versioned by the release's Last-Modified date"
 downloader = "gwas_catalog"

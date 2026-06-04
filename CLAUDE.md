@@ -41,6 +41,10 @@ That permission is scoped. Confine all network activity to these domains:
 - `ftp.ncbi.nlm.nih.gov` — NCBI gene data, taxonomy, and PubMed (FTP).
 - `eutils.ncbi.nlm.nih.gov` — NCBI E-utilities (esearch + efetch) for NLM
   Catalog snapshots.
+- `zenodo.org` — Zenodo REST API and file downloads: the Research Organization
+  Registry (ROR) data dump, published under concept record `6347574` (the API
+  resolves the concept id to the latest version and serves the dump zip bytes
+  directly).
 - `api.figshare.com` — Figshare metadata API (iCite, ORCID Public Data File).
 - `ndownloader.figshare.com` and the AWS S3 endpoints it redirects to — Figshare
   file bytes.

@@ -22,6 +22,7 @@ from .pubtator3 import Pubtator3Downloader
 from .retractionwatch import RetractionWatchDownloader
 from .uniprot import UniProtDownloader
 from .unknome import UnknomeDownloader
+from .zenodo import ZenodoDownloader
 
 _DOWNLOADERS: dict[str, type[BaseDownloader]] = {
     "ftp": FtpDownloader,
@@ -47,6 +48,7 @@ _DOWNLOADERS: dict[str, type[BaseDownloader]] = {
     "retractionwatch": RetractionWatchDownloader,
     "uniprot": UniProtDownloader,
     "unknome": UnknomeDownloader,
+    "zenodo": ZenodoDownloader,
 }
 
 

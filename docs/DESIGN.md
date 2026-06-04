@@ -81,6 +81,7 @@ Each downloader type maps to a real upstream source and contact host(s):
 | `pubtator3` | PubTator3 entity/relation annotation tables (optionally BioCXML archives) | `ftp.ncbi.nlm.nih.gov` | Anonymous FTP |
 | `nlmcatalog` | NLM Catalog records matching a configurable Entrez search term (e.g. `reportedmedline`) | `eutils.ncbi.nlm.nih.gov` | HTTPS (E-utilities esearch + efetch) |
 | `mesh` | MeSH (Medical Subject Headings) XML record sets: descriptors (carry the tree numbers for parent/ancestor lookups), qualifiers, pharmacological actions, supplementary concept records | `nlmpubs.nlm.nih.gov` | HTTPS |
+| `zenodo` | Research Organization Registry (ROR) data dump (latest version of a Zenodo concept record) | `zenodo.org` | HTTPS |
 | `figshare` | iCite / NIH Open Citation Collection; ORCID Public Data File | `api.figshare.com` for metadata; file bytes from Figshare download URLs (`ndownloader.figshare.com`, may redirect to AWS S3) | HTTPS |
 | `harmonizome` | Harmonizome (~150 datasets) | `maayanlab.cloud` for the dataset index and per-dataset JSON-LD; distribution files from the S3 `contentUrl` each page advertises | HTTPS |
 | `nih_exporter` | NIH ExPORTER bulk data | `reporter.nih.gov` | HTTPS |
@@ -180,6 +181,9 @@ avoidable, so that "is this current?" can be answered by comparison:
 - `pubmed`: the four-digit baseline year (e.g. `2026`).
 - `pubtator3`: the max `MDTM` across the selected files as `YYYY-MM-DD`
   (NCBI refreshes the snapshot in lockstep each month).
+- `zenodo`: the `metadata.version` tag of the latest version of a concept
+  record (e.g. ROR's `v2.8`), read from the record JSON (the concept id
+  redirects to the newest version) without downloading any file.
 - `figshare`: `YYYY-MM` parsed from the latest article title (iCite); a bare
   `YYYY` where the title carries only a year (ORCID's "ORCID Public Data File
   2025"). "Latest" is the article with the newest `published_date` in the
