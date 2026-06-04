@@ -268,7 +268,8 @@ downloader = "opentargets"
 # releases; if a name is not present, the downloader fails and prints the full
 # list of names available in that release (also visible by browsing
 # https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/<version>/output/).
-datasets = ["target", "disease", "drug_molecule", "association_overall_direct", "mouse_phenotype", "target_essentiality"]
+# datasets = ["target", "disease", "drug_molecule", "association_overall_direct", "mouse_phenotype", "target_essentiality"]
+datasets = ["*"]
 # Optional: pin a specific release instead of tracking the latest YY.MM.
 # version = "25.06"
 
