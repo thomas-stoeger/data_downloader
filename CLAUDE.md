@@ -41,6 +41,10 @@ That permission is scoped. Confine all network activity to these domains:
 - `ftp.ncbi.nlm.nih.gov` — NCBI gene data, taxonomy, and PubMed (FTP).
 - `eutils.ncbi.nlm.nih.gov` — NCBI E-utilities (esearch + efetch) for NLM
   Catalog snapshots.
+- `reactome.org` — Reactome pathway database: the release files under
+  `/download/current/` (the gene/protein-to-pathway mappings, pathway list, and
+  hierarchy relations) and the ContentService `data/database/version` endpoint
+  used to read the release number.
 - `storage.googleapis.com` — Google Cloud Storage public buckets: the HGNC
   (HUGO Gene Nomenclature Committee) complete-set monthly archive in the
   `public-download-files` bucket (the storage JSON API to list the archive and

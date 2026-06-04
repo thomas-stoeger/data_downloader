@@ -82,6 +82,7 @@ Each downloader type maps to a real upstream source and contact host(s):
 | `nlmcatalog` | NLM Catalog records matching a configurable Entrez search term (e.g. `reportedmedline`) | `eutils.ncbi.nlm.nih.gov` | HTTPS (E-utilities esearch + efetch) |
 | `mesh` | MeSH (Medical Subject Headings) XML record sets: descriptors (carry the tree numbers for parent/ancestor lookups), qualifiers, pharmacological actions, supplementary concept records | `nlmpubs.nlm.nih.gov` | HTTPS |
 | `hgnc` | HGNC complete set, newest monthly archive snapshot (TSV) from the `public-download-files` GCS bucket | `storage.googleapis.com` | HTTPS |
+| `reactome` | Reactome release files (gene/protein-to-pathway mappings, pathway list, hierarchy relations) from `download/current/` | `reactome.org` | HTTPS |
 | `zenodo` | Research Organization Registry (ROR) data dump (latest version of a Zenodo concept record) | `zenodo.org` | HTTPS |
 | `figshare` | iCite / NIH Open Citation Collection; ORCID Public Data File | `api.figshare.com` for metadata; file bytes from Figshare download URLs (`ndownloader.figshare.com`, may redirect to AWS S3) | HTTPS |
 | `harmonizome` | Harmonizome (~150 datasets) | `maayanlab.cloud` for the dataset index and per-dataset JSON-LD; distribution files from the S3 `contentUrl` each page advertises | HTTPS |
@@ -182,6 +183,9 @@ avoidable, so that "is this current?" can be answered by comparison:
 - `pubmed`: the four-digit baseline year (e.g. `2026`).
 - `pubtator3`: the max `MDTM` across the selected files as `YYYY-MM-DD`
   (NCBI refreshes the snapshot in lockstep each month).
+- `reactome`: the Reactome release number (e.g. `96`), read from the
+  ContentService `data/database/version` endpoint without downloading any data
+  file.
 - `hgnc`: the date embedded in the newest monthly complete-set file name (e.g.
   `2026-06-02`), found by listing the archive prefix via the GCS JSON API
   without downloading any data file. Files are verified against the bucket's

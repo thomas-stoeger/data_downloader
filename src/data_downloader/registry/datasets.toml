@@ -360,6 +360,19 @@ url = "https://creativecommons.org/licenses/by/4.0/legalcode.txt"
 spdx = "CC-BY-4.0"
 note = "Human Protein Atlas data is licensed CC BY 4.0. Attribution required: cite the primary publication and 'Human Protein Atlas proteinatlas.org' (with the version, vNN.proteinatlas.org). Third-party data integrated into the Atlas keeps its own licenses."
 
+[reactome]
+description = "Reactome — curated pathway database: gene/protein (Entrez, UniProt, Ensembl) to pathway mappings across all hierarchy levels, plus pathway names and parent/child relations; versioned by Reactome release number"
+downloader = "reactome"
+# Which files to download from download/current/. Defaults to the all-levels
+# identifier-to-pathway mappings plus the pathway list and hierarchy relations.
+files = ["NCBI2Reactome_All_Levels.txt", "UniProt2Reactome_All_Levels.txt", "Ensembl2Reactome_All_Levels.txt", "ReactomePathways.txt", "ReactomePathwaysRelation.txt"]
+
+[reactome.license]
+declared_at = "https://reactome.org/license"
+url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt"
+spdx = "CC0-1.0"
+note = "Reactome is licensed CC0 1.0 (the annotation files and Reactome-derived interaction data are distributed under CC0). Cite the Reactome publication; some cross-referenced third-party data keeps its own terms."
+
 [ror]
 description = "Research Organization Registry (ROR) — the full registry of research-organization identifiers and metadata (names, locations, relationships, external IDs) as a single Zenodo data dump (JSON + CSV, schema v1 and v2); versioned by the ROR schema/release tag"
 downloader = "zenodo"
