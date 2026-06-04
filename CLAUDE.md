@@ -41,6 +41,10 @@ That permission is scoped. Confine all network activity to these domains:
 - `ftp.ncbi.nlm.nih.gov` — NCBI gene data, taxonomy, and PubMed (FTP).
 - `eutils.ncbi.nlm.nih.gov` — NCBI E-utilities (esearch + efetch) for NLM
   Catalog snapshots.
+- `omim.org` — OMIM: the openly served `mim2gene.txt` cross-reference file
+  under `/static/omim/data/` (MIM number to Entrez/HGNC/Ensembl). Only this file
+  is fetched; the gated genemap2/morbidmap files are not. The OMIM agreement
+  page is recorded as provenance, never fetched.
 - `thebiogrid.org` — the BioGRID home page, read only to parse the current
   release number (e.g. "Version 5.0.257") for versioning.
 - `downloads.thebiogrid.org` — BioGRID file bytes: the stable Latest-Release

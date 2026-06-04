@@ -82,6 +82,7 @@ Each downloader type maps to a real upstream source and contact host(s):
 | `nlmcatalog` | NLM Catalog records matching a configurable Entrez search term (e.g. `reportedmedline`) | `eutils.ncbi.nlm.nih.gov` | HTTPS (E-utilities esearch + efetch) |
 | `mesh` | MeSH (Medical Subject Headings) XML record sets: descriptors (carry the tree numbers for parent/ancestor lookups), qualifiers, pharmacological actions, supplementary concept records | `nlmpubs.nlm.nih.gov` | HTTPS |
 | `biogrid` | BioGRID interactions (the stable Latest-Release TAB3 archive, default BIOGRID-ALL) | `downloads.thebiogrid.org` for bytes; `thebiogrid.org` home page for the release number | HTTPS |
+| `omim` | OMIM `mim2gene.txt` cross-reference (the only openly served OMIM file) | `omim.org` | HTTPS |
 | `hgnc` | HGNC complete set, newest monthly archive snapshot (TSV) from the `public-download-files` GCS bucket | `storage.googleapis.com` | HTTPS |
 | `reactome` | Reactome release files (gene/protein-to-pathway mappings, pathway list, hierarchy relations) from `download/current/` | `reactome.org` | HTTPS |
 | `zenodo` | Research Organization Registry (ROR) data dump (latest version of a Zenodo concept record) | `zenodo.org` | HTTPS |
@@ -190,6 +191,9 @@ avoidable, so that "is this current?" can be answered by comparison:
   newer ones can be placeholders without the matrices, so `check` compares the
   configured version to the local one. Files are verified against the MD5 GCS
   returns in the download response (`x-goog-hash: md5=`).
+- `omim`: the `# Generated: YYYY-MM-DD` date in the `mim2gene.txt` header, read
+  from the first few kilobytes (a ranged GET) without downloading the whole
+  file.
 - `biogrid`: the BioGRID release number (e.g. `5.0.257`), parsed from the
   BioGRID home page without downloading any data file. The data is fetched from
   the stable `Latest-Release` file names, which are served chunked without a

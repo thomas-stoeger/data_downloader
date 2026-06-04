@@ -178,6 +178,17 @@ url = "https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.txt"
 spdx = "CC-BY-NC-SA-4.0"
 note = "Harmonizome is licensed CC BY-NC-SA 4.0 (non-commercial); commercial use via Mount Sinai Innovation Partners. Individual contained datasets may be under a more restrictive license."
 
+[omim]
+description = "OMIM (Online Mendelian Inheritance in Man) — the openly served mim2gene.txt cross-reference (MIM number to entry type, Entrez Gene, HGNC symbol, Ensembl gene id); versioned by the file's '# Generated:' date. The gated genemap2/morbidmap files are out of scope (registration-only, no redistribution)"
+downloader = "omim"
+
+# Declared-only: mim2gene.txt is served openly but its use is governed by the
+# OMIM agreement, which restricts redistribution. The agreement page is recorded
+# as provenance, never fetched, and no copy of the data terms is captured.
+[omim.license]
+declared_at = "https://omim.org/help/agreement"
+note = "OMIM data is (c) Johns Hopkins University. mim2gene.txt is served openly but its use adheres to the OMIM agreement, which permits academic use and forbids redistribution. Not freely redistributable; clear terms before any reuse beyond local research. The richer OMIM files (genemap2/morbidmap) require registration and are not fetched."
+
 [openalex]
 description = "OpenAlex snapshot — all entity types under data/ (excludes legacy-data/)"
 downloader = "openalex"
