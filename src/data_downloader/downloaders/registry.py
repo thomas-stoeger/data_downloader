@@ -15,6 +15,7 @@ from .interpro import InterProDownloader
 from .mesh import MeshDownloader
 from .nih_exporter import NihExporterDownloader
 from .nlmcatalog import NlmCatalogDownloader
+from .nsf_awards import NsfAwardsDownloader
 from .obo import OboDownloader
 from .omim import OmimDownloader
 from .ols import OlsDownloader
@@ -46,6 +47,7 @@ _DOWNLOADERS: dict[str, type[BaseDownloader]] = {
     "mesh": MeshDownloader,
     "nih_exporter": NihExporterDownloader,
     "nlmcatalog": NlmCatalogDownloader,
+    "nsf_awards": NsfAwardsDownloader,
     "obo": OboDownloader,
     "ols": OlsDownloader,
     "omim": OmimDownloader,

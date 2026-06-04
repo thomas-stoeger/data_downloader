@@ -41,6 +41,12 @@ That permission is scoped. Confine all network activity to these domains:
 - `ftp.ncbi.nlm.nih.gov` — NCBI gene data, taxonomy, and PubMed (FTP).
 - `eutils.ncbi.nlm.nih.gov` — NCBI E-utilities (esearch + efetch) for NLM
   Catalog snapshots.
+- `www.research.gov` — NSF Award Search API: the public
+  `/awardapi-service/v2/s3/list-files` endpoint that lists the per-year bulk
+  award archives and their pre-signed S3 download URLs (no API key).
+- `dis-prod-awardsearch.s3.amazonaws.com` — the AWS S3 bucket that the NSF
+  list-files endpoint hands out pre-signed URLs for; the NSF award archive
+  bytes (`<YYYY>.zip`, `Historical.zip`, `timestamp.txt`).
 - `omim.org` — OMIM: the openly served `mim2gene.txt` cross-reference file
   under `/static/omim/data/` (MIM number to Entrez/HGNC/Ensembl). Only this file
   is fetched; the gated genemap2/morbidmap files are not. The OMIM agreement

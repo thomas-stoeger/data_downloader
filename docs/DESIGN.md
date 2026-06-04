@@ -83,6 +83,7 @@ Each downloader type maps to a real upstream source and contact host(s):
 | `mesh` | MeSH (Medical Subject Headings) XML record sets: descriptors (carry the tree numbers for parent/ancestor lookups), qualifiers, pharmacological actions, supplementary concept records | `nlmpubs.nlm.nih.gov` | HTTPS |
 | `biogrid` | BioGRID interaction data — `biogrid_interactions` (the stable Latest-Release TAB3 archive, default BIOGRID-ALL; the interaction database, not BioGRID ORCS) | `downloads.thebiogrid.org` for bytes; `thebiogrid.org` home page for the release number | HTTPS |
 | `omim` | OMIM `mim2gene.txt` cross-reference (the only openly served OMIM file) | `omim.org` | HTTPS |
+| `nsf_awards` | NSF per-fiscal-year bulk award archives (and the Historical set) via the Award Search list-files API and its pre-signed S3 URLs | `www.research.gov` for the listing; `dis-prod-awardsearch.s3.amazonaws.com` for bytes | HTTPS |
 | `hgnc` | HGNC complete set, newest monthly archive snapshot (TSV) from the `public-download-files` GCS bucket | `storage.googleapis.com` | HTTPS |
 | `reactome` | Reactome release files (gene/protein-to-pathway mappings, pathway list, hierarchy relations) from `download/current/` | `reactome.org` | HTTPS |
 | `zenodo` | Research Organization Registry (ROR) data dump (latest version of a Zenodo concept record) | `zenodo.org` | HTTPS |
@@ -191,6 +192,10 @@ avoidable, so that "is this current?" can be answered by comparison:
   newer ones can be placeholders without the matrices, so `check` compares the
   configured version to the local one. Files are verified against the MD5 GCS
   returns in the download response (`x-goog-hash: md5=`).
+- `nsf_awards`: the export build date (e.g. `2026-06-04`), the `lastModified`
+  date of the `timestamp.txt` entry in the Award Search list-files response,
+  read without downloading any data file. NSF rebuilds daily, so like
+  `nih_exporter` this can report a new version each day.
 - `omim`: the `# Generated: YYYY-MM-DD` date in the `mim2gene.txt` header, read
   from the first few kilobytes (a ranged GET) without downloading the whole
   file.

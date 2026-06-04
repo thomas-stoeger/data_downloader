@@ -211,6 +211,19 @@ downloader = "nih_exporter"
 declared_at = "https://catalog.data.gov/dataset/nih-exported-research-portfolio-online-reporting-tools-expenditures-and-results-exporter-f7455"
 note = "US Government work (NIH RePORTER/ExPORTER); public domain, no explicit license file."
 
+[nsf_awards]
+description = "NSF Awards — the per-fiscal-year bulk award archives (one record per award: title, abstract, amounts, dates, PI, institution) plus the Historical pre-1976 set, from the NSF Award Search list-files API; versioned by the export build date"
+downloader = "nsf_awards"
+# Which files to download. Defaults to every per-year .zip plus Historical.zip
+# and the timestamp marker. Restrict to recent years with e.g.
+# files = ["2023.zip", "2024.zip", "2025.zip", "2026.zip", "Historical.zip"].
+
+# Declared-only: NSF award data is a US Government work in the public domain;
+# no explicit license file is published to capture.
+[nsf_awards.license]
+declared_at = "https://www.nsf.gov/policies/foia"
+note = "US Government work (NSF Award Search / awardapi-service); public domain in the US, no explicit license file. Records are produced by the U.S. National Science Foundation."
+
 [mesh]
 description = "MeSH (Medical Subject Headings) — NLM annual MeSH in XML: descriptors (carry the tree numbers used for parent/ancestor lookups), qualifiers, pharmacological actions, and supplementary concept records; versioned by production year"
 downloader = "mesh"
