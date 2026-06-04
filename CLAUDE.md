@@ -68,10 +68,13 @@ That permission is scoped. Confine all network activity to these domains:
   the `meta.downloads` payload that holds the per-dataset text descriptions
   shown on the Downloads page.
 - `purl.obolibrary.org` — OBO Foundry persistent URLs for ontology files (e.g.
-  the Gene Ontology `go-basic.obo`); a PURL that redirects to the current
-  release host.
+  the Gene Ontology `go-basic.obo` and the Disease Ontology `doid.obo`); a PURL
+  that redirects to the current release host.
 - `current.geneontology.org` — the Gene Ontology release host that the
   `go-basic.obo` PURL redirects to for the file bytes.
+- `raw.githubusercontent.com` — the Disease Ontology release host that the
+  `doid.obo` PURL redirects to for the file bytes (the
+  `DiseaseOntology/HumanDiseaseOntology` repository).
 - `ftp.ensembl.org` — Ensembl release files (served over HTTPS): the
   `current_tsv` per-species cross-reference tables and their `CHECKSUMS` and
   `README_*` companions, and the `/pub/VERSION` file used to read the release

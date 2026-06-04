@@ -7,12 +7,14 @@ https://purl.obolibrary.org/obo/go/go-basic.obo) that redirects to the current
 release; urllib follows the redirect automatically.
 
 The version string is read from the ontology's own header. Every OBO file
-begins with a small set of header lines, one of which is
-`data-version: releases/YYYY-MM-DD` (the Gene Ontology dates each release this
-way). The downloader reads only the first few kilobytes to parse that line, so
-"is this current?" is answered without downloading the whole ontology. The
-`releases/` path prefix is stripped, leaving a filesystem-safe version such as
-`2026-05-19`.
+begins with a small set of header lines, one of which is `data-version:`
+carrying a release date. The downloader reads only the first few kilobytes to
+parse that line, so "is this current?" is answered without downloading the
+whole ontology. Ontologies wrap the date differently -- the Gene Ontology uses
+`releases/2026-05-19`, the Disease Ontology uses
+`releases/2026-05-30/doid.obo` -- so an embedded `YYYY-MM-DD` is extracted when
+present, leaving a filesystem-safe version such as `2026-05-30`; otherwise the
+last path segment is used.
 
 Required config keys:
     url       - the OBO file URL
@@ -20,6 +22,7 @@ Required config keys:
 Optional config keys (defaults shown):
     filename  - name to save the file under  (basename of the URL)
 """
+import re
 import ssl
 import urllib.parse
 import urllib.request
@@ -33,6 +36,7 @@ from .base import BaseDownloader, _with_retries
 _CHUNK = 1024 * 1024  # 1 MB
 _HEADER_CAP = 64 * 1024  # read at most this many bytes to find data-version
 _SSL = ssl.create_default_context(cafile=certifi.where())
+_DATE_RE = re.compile(r"\d{4}-\d{2}-\d{2}")
 # The OBO Foundry / Gene Ontology hosts reject the default Python-urllib
 # user agent with 403, so identify the tool explicitly.
 _HEADERS = {"User-Agent": "data_downloader (+https://geneontology.org)"}
@@ -62,8 +66,11 @@ def _data_version(url: str) -> str:
             value = line.split(":", 1)[1].strip()
             if not value:
                 break
-            # e.g. "releases/2026-05-19" -> "2026-05-19"
-            return value.rsplit("/", 1)[-1]
+            # Prefer an embedded release date, which ontologies wrap
+            # differently: GO "releases/2026-05-19", DOID
+            # "releases/2026-05-30/doid.obo". Fall back to the last segment.
+            m = _DATE_RE.search(value)
+            return m.group(0) if m else value.rsplit("/", 1)[-1]
     raise RuntimeError(f"No 'data-version' header found in OBO file at {url}")
 
 

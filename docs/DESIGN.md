@@ -92,7 +92,7 @@ Each downloader type maps to a real upstream source and contact host(s):
 | `ols` | Ontology Lookup Service (OLS) dated snapshot of all loaded ontologies as linked JSON (`ontology_jsons_linked.tgz`); other snapshot archives selectable | `ftp.ebi.ac.uk` | HTTPS |
 | `unknome` | Unknome (MRC LMB) per-release compressed protein summary and cluster summary TSVs (the full SQLite database is selectable but off by default) | `unknome.mrc-lmb.cam.ac.uk` | HTTPS |
 | `proteinatlas` | Human Protein Atlas bulk files (the per-gene summary `proteinatlas.tsv.zip` by default; the JSON and comprehensive XML are selectable) | `www.proteinatlas.org` | HTTPS |
-| `obo` | OBO-format ontology files (Gene Ontology `go-basic.obo`) | `purl.obolibrary.org` (PURL) redirecting to `current.geneontology.org` for the bytes | HTTPS |
+| `obo` | OBO-format ontology files (Gene Ontology `go-basic.obo`, Disease Ontology `doid.obo`) | `purl.obolibrary.org` (PURL) redirecting to the release host for the bytes (`current.geneontology.org` for GO; `raw.githubusercontent.com` for DOID) | HTTPS |
 | `ensembl_tsv` | Ensembl per-species TSV cross-reference tables (Entrez, RefSeq, UniProt, ENA, karyotype) under `current_tsv`, plus `CHECKSUMS` and `README_*` | `ftp.ensembl.org` | HTTPS |
 | `alliancegenome` | Alliance of Genome Resources per-species TSV bulk files (orthology, disease, expression, interactions, gene descriptions, variant-allele, cross-references) from a release snapshot | `fms.alliancegenome.org` for the release version and snapshot; file bytes from `download.alliancegenome.org` | HTTPS |
 
@@ -208,10 +208,11 @@ avoidable, so that "is this current?" can be answered by comparison:
   file names in the `xmlmesh` directory listing without downloading any data.
   MeSH publishes no checksum sidecars, so files get the size check plus the
   gzip archive check (for the gzipped descriptor and SCR files).
-- `obo`: the ontology's own `data-version` header (e.g. GO's
-  `data-version: releases/2026-05-19`), read from the first few kilobytes of the
-  file with the `releases/` prefix stripped to `2026-05-19`. No full download is
-  needed to learn the version.
+- `obo`: the ontology's own `data-version` header, read from the first few
+  kilobytes of the file. An embedded `YYYY-MM-DD` is extracted when present, so
+  both GO's `releases/2026-05-19` and DOID's `releases/2026-05-30/doid.obo`
+  resolve to a date (`2026-05-19`, `2026-05-30`); otherwise the last path
+  segment is used. No full download is needed to learn the version.
 - `retractionwatch`: `committed_date` of the latest commit on the tracked
   branch as `YYYY-MM-DD` (Crossref's bot commits one rebuilt CSV per working
   day), read from the GitLab commits API without downloading the file.

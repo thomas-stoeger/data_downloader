@@ -343,6 +343,18 @@ url = "https://creativecommons.org/licenses/by/4.0/legalcode.txt"
 spdx = "CC-BY-4.0"
 note = "Human Protein Atlas data is licensed CC BY 4.0. Attribution required: cite the primary publication and 'Human Protein Atlas proteinatlas.org' (with the version, vNN.proteinatlas.org). Third-party data integrated into the Atlas keeps its own licenses."
 
+[disease_ontology]
+description = "Human Disease Ontology (DOID) — OBO release of standardized human disease terms and their hierarchy; versioned by the ontology's own data-version date"
+downloader = "obo"
+url = "https://purl.obolibrary.org/obo/doid.obo"
+filename = "doid.obo"
+
+[disease_ontology.license]
+declared_at = "https://obofoundry.org/ontology/doid.html"
+url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt"
+spdx = "CC0-1.0"
+note = "The Disease Ontology is released CC0 1.0 (stated in the OBO header's dcterms:license and remark)."
+
 [opentargets]
 description = "Open Targets Platform — release Parquet datasets, plus the field-level schema (croissant.json) and the per-dataset text descriptions shown on the Downloads page (downloads.json)"
 downloader = "opentargets"
