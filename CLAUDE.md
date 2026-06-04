@@ -84,11 +84,14 @@ That permission is scoped. Confine all network activity to these domains:
 - `nlmpubs.nlm.nih.gov` — NLM data distribution server: the MeSH XML record
   sets (descriptors, qualifiers, pharmacological actions, supplementary concept
   records) under `/projects/mesh/MESH_FILES/xmlmesh/`.
+- `unknome.mrc-lmb.cam.ac.uk` — Unknome database (MRC LMB): the download page
+  and the per-release compressed protein/cluster summary endpoints under
+  `/download/`.
 - `creativecommons.org` — Creative Commons legal-code text captured by license
   tracking: the CC BY 4.0, CC0 1.0, and CC BY-NC-SA 4.0 `legalcode.txt` files
-  stored as the license copy for the Gene Ontology and Alliance of Genome
-  Resources (CC BY 4.0), the CC0 datasets (iCite, OpenAlex, Open Targets,
-  Retraction Watch database), and Harmonizome.
+  stored as the license copy for the Gene Ontology, Alliance of Genome
+  Resources, and Unknome (CC BY 4.0), the CC0 datasets (iCite, OpenAlex, Open
+  Targets, Retraction Watch database), and Harmonizome.
 - `www.ncbi.nlm.nih.gov` — the NCBI Website and Data Usage Policies page,
   captured as the license copy for the NCBI gene/taxonomy datasets, GeneRIFs,
   and PubTator3.

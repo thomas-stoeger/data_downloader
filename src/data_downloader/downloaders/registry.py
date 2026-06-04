@@ -16,6 +16,7 @@ from .opentargets import OpenTargetsDownloader
 from .pubmed import PubmedDownloader
 from .pubtator3 import Pubtator3Downloader
 from .retractionwatch import RetractionWatchDownloader
+from .unknome import UnknomeDownloader
 
 _DOWNLOADERS: dict[str, type[BaseDownloader]] = {
     "ftp": FtpDownloader,
@@ -35,6 +36,7 @@ _DOWNLOADERS: dict[str, type[BaseDownloader]] = {
     "pubmed": PubmedDownloader,
     "pubtator3": Pubtator3Downloader,
     "retractionwatch": RetractionWatchDownloader,
+    "unknome": UnknomeDownloader,
 }
 
 

@@ -285,6 +285,19 @@ filename = "predatory_journals.csv"
 declared_at = "https://docs.google.com/spreadsheets/d/1Qa1lAlSbl7iiKddYINNsDB4wxI7uUA4IVseeLnCc5U4"
 note = "Community-maintained public Google Sheet (https://www.predatoryjournals.org); no upstream license stated."
 
+[unknome]
+description = "Unknome — MRC LMB database ranking proteins by how little is known about them; the compressed protein summary and compressed cluster summary TSVs (not the full SQLite database); versioned by release date"
+downloader = "unknome"
+# Which summaries to download. Options: "protein", "cluster", "database" (the
+# full ~6 GB SQLite database). Defaults to protein + cluster.
+summaries = ["protein", "cluster"]
+
+[unknome.license]
+declared_at = "https://unknome.mrc-lmb.cam.ac.uk/"
+url = "https://creativecommons.org/licenses/by/4.0/legalcode.txt"
+spdx = "CC-BY-4.0"
+note = "Unknome is licensed CC BY 4.0 (License and Disclaimer section on the site). Cite Rocha et al., PLoS Biol 2023;21(8):e3002222. Underlying sources (UniProt, Panther DB, Gene Ontology) keep their own licenses."
+
 [geneontology_basic]
 description = "Gene Ontology (go-basic) — the filtered, cycle-free OBO release suitable for most uses; versioned by the file's own data-version date"
 downloader = "obo"
