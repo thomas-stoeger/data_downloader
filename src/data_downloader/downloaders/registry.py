@@ -10,6 +10,7 @@ from .mesh import MeshDownloader
 from .nih_exporter import NihExporterDownloader
 from .nlmcatalog import NlmCatalogDownloader
 from .obo import OboDownloader
+from .ols import OlsDownloader
 from .openalex import OpenAlexDownloader
 from .opentargets import OpenTargetsDownloader
 from .pubmed import PubmedDownloader
@@ -28,6 +29,7 @@ _DOWNLOADERS: dict[str, type[BaseDownloader]] = {
     "nih_exporter": NihExporterDownloader,
     "nlmcatalog": NlmCatalogDownloader,
     "obo": OboDownloader,
+    "ols": OlsDownloader,
     "openalex": OpenAlexDownloader,
     "opentargets": OpenTargetsDownloader,
     "pubmed": PubmedDownloader,

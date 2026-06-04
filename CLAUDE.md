@@ -58,10 +58,12 @@ That permission is scoped. Confine all network activity to these domains:
   Checker).
 - the `googleusercontent.com` hosts that the Google Sheets `export` endpoint
   redirects to for the CSV bytes.
-- `ftp.ebi.ac.uk` — Open Targets Platform releases (served over HTTPS): the
-  Parquet datasets under `.../platform/<version>/output/`, the `croissant.json`
-  schema, the `release_data_integrity.sha1` checksums, and the release
-  `manifest.json`.
+- `ftp.ebi.ac.uk` — EBI FTP server (served over HTTPS): Open Targets Platform
+  releases (the Parquet datasets under `.../platform/<version>/output/`, the
+  `croissant.json` schema, the `release_data_integrity.sha1` checksums, and the
+  release `manifest.json`), and the Ontology Lookup Service snapshots under
+  `/pub/databases/spot/ols/<timestamp>/` (the `ontology_jsons_linked.tgz`
+  archive).
 - `api.platform.opentargets.org` — Open Targets GraphQL API, used only to read
   the `meta.downloads` payload that holds the per-dataset text descriptions
   shown on the Downloads page.

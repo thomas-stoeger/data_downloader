@@ -297,6 +297,24 @@ url = "https://creativecommons.org/licenses/by/4.0/legalcode.txt"
 spdx = "CC-BY-4.0"
 note = "Gene Ontology content is licensed CC BY 4.0"
 
+[ols]
+description = "Ontology Lookup Service (OLS) — EMBL-EBI dated snapshot of all loaded ontologies as linked JSON (ontology_jsons_linked.tgz, ~150 GB uncompressed; supports resolving a term's ancestors across ontologies); versioned by snapshot timestamp"
+downloader = "ols"
+# Which archive(s) to download from the latest snapshot. Defaults to the linked
+# JSON. Other archives per snapshot: ontology_jsons.tgz, neo4j.tgz, solr.tgz,
+# sssom.tgz.
+files = ["ontology_jsons_linked.tgz"]
+
+# Declared-only: OLS aggregates many third-party ontologies, each distributed
+# under its own license; OLS asserts no single license over the compilation and
+# the snapshot is "internal to OLS and subject to change" (per the FTP README).
+# Use under EMBL-EBI's terms of use, and honor each contained ontology's own
+# license on redistribution. The EBI terms page host is not contacted (recorded
+# verbatim, never fetched), so no copy is captured.
+[ols.license]
+declared_at = ["https://www.ebi.ac.uk/licencing", "https://www.ebi.ac.uk/ols4/about"]
+note = "OLS is an EMBL-EBI aggregation of many third-party ontologies, each under its own license; OLS asserts no single license over the compilation. Subject to EMBL-EBI terms of use; clear each contained ontology's license before redistributing. No license file is fetched."
+
 [opentargets]
 description = "Open Targets Platform — release Parquet datasets, plus the field-level schema (croissant.json) and the per-dataset text descriptions shown on the Downloads page (downloads.json)"
 downloader = "opentargets"

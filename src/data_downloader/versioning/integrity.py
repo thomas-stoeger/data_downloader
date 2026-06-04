@@ -17,7 +17,9 @@ def verify_file(path: Path) -> None:
 
     suffix = "".join(path.suffixes).lower()
 
-    if suffix.endswith(".gz"):
+    # `.tgz` is a gzipped tar; treat it like any other gzip for the read-through
+    # decompression check (plain `.gz` and `.tar.gz` already end with ".gz").
+    if suffix.endswith(".gz") or suffix.endswith(".tgz"):
         _verify_gzip(path)
     elif suffix.endswith(".zip"):
         _verify_zip(path)

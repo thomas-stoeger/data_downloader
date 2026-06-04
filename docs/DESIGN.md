@@ -89,6 +89,7 @@ Each downloader type maps to a real upstream source and contact host(s):
 | `google_sheet` | Public Google Sheet tabs exported as CSV (e.g. Retraction Watch Hijacked Journal Checker) | `docs.google.com` for the gviz version cell and CSV `export`; bytes from the `googleusercontent.com` host it redirects to | HTTPS |
 | `google_sheet_hashed` | Public Google Sheet tabs with no version marker, exported as CSV (predatory publishers, predatory journals) | `docs.google.com` CSV `export`; bytes from the `googleusercontent.com` host it redirects to | HTTPS |
 | `opentargets` | Open Targets Platform release datasets (Parquet), plus the field-level schema (`croissant.json`) and the per-dataset Downloads-page descriptions (`downloads.json`) | `ftp.ebi.ac.uk` for data, schema, checksums; `api.platform.opentargets.org` for the descriptions | HTTPS |
+| `ols` | Ontology Lookup Service (OLS) dated snapshot of all loaded ontologies as linked JSON (`ontology_jsons_linked.tgz`); other snapshot archives selectable | `ftp.ebi.ac.uk` | HTTPS |
 | `obo` | OBO-format ontology files (Gene Ontology `go-basic.obo`) | `purl.obolibrary.org` (PURL) redirecting to `current.geneontology.org` for the bytes | HTTPS |
 | `ensembl_tsv` | Ensembl per-species TSV cross-reference tables (Entrez, RefSeq, UniProt, ENA, karyotype) under `current_tsv`, plus `CHECKSUMS` and `README_*` | `ftp.ensembl.org` | HTTPS |
 | `alliancegenome` | Alliance of Genome Resources per-species TSV bulk files (orthology, disease, expression, interactions, gene descriptions, variant-allele, cross-references) from a release snapshot | `fms.alliancegenome.org` for the release version and snapshot; file bytes from `download.alliancegenome.org` | HTTPS |
@@ -97,9 +98,10 @@ Note that `figshare` and `harmonizome` discover their actual byte-download URLs
 at runtime from API responses and scraped HTML, `opentargets` and `ensembl_tsv`
 read the FTP autoindex to learn the per-folder file names, `alliancegenome`
 reads the FMS release snapshot to learn each file's download URL, path, and MD5,
-and `mesh` reads the autoindex to learn the production year and the available
-per-record-set file names. Those URLs and names are upstream data, not
-configuration (see Invariants).
+`mesh` reads the autoindex to learn the production year and the available
+per-record-set file names, and `ols` reads the autoindex to learn the newest
+snapshot timestamp. Those URLs and names are upstream data, not configuration
+(see Invariants).
 
 ## Companion documents
 
@@ -184,6 +186,11 @@ avoidable, so that "is this current?" can be answered by comparison:
   FMS `releaseversion/current` endpoint without downloading any data. Each TSV
   file is verified against the `md5Sum` the release snapshot publishes for it,
   in addition to the size and gzip checks.
+- `ols`: the newest OLS snapshot timestamp (e.g. `2026_05_22__06_33_19`), the
+  max timestamped directory name in the listing, read without downloading
+  anything. OLS publishes no checksum sidecars, so the `.tgz` is verified by the
+  size check plus the gzip read-through (`.tgz` is recognized as gzip by
+  `verify_file`).
 - `mesh`: the MeSH production year (e.g. `2026`), read from the `descYYYY`
   file names in the `xmlmesh` directory listing without downloading any data.
   MeSH publishes no checksum sidecars, so files get the size check plus the
