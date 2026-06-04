@@ -431,8 +431,8 @@ files = ["gwas-catalog-associations_ontology-annotated-full.zip", "gwas-catalog-
 declared_at = ["https://www.ebi.ac.uk/gwas/docs/about", "https://www.ebi.ac.uk/about/terms-of-use"]
 note = "NHGRI-EBI GWAS Catalog, a collaboration of EMBL-EBI and NHGRI. Distributed under EMBL-EBI's terms of use; the catalog content is freely reusable (cite the Catalog and the underlying studies). No fetchable license file; no copy captured."
 
-[biogrid]
-description = "BioGRID — curated protein, genetic, and chemical interactions; the comprehensive all-interactions table in TAB3 format (BIOGRID-ALL) from the Latest-Release; versioned by BioGRID release number"
+[biogrid_interactions]
+description = "BioGRID interaction data — the curated protein, genetic, and chemical interaction database (the comprehensive BIOGRID-ALL TAB3 table from the Latest-Release); versioned by BioGRID release number. This is the BioGRID interaction database (thebiogrid.org), NOT BioGRID ORCS, the separate CRISPR-screen / functional-genomics repository (orcs.thebiogrid.org), which is not downloaded here."
 downloader = "biogrid"
 # Which stable Latest-Release files to download. Defaults to the comprehensive
 # all-interactions TAB3 archive. "LATEST" is replaced with the release number in
@@ -443,7 +443,7 @@ files = ["BIOGRID-ALL-LATEST.tab3.zip"]
 # Declared-only: BioGRID data is distributed under the MIT License, but no
 # standalone legalcode file is published on an allowed host to capture. The
 # BioGRID downloads/wiki pages are recorded as provenance, never fetched.
-[biogrid.license]
+[biogrid_interactions.license]
 declared_at = ["https://downloads.thebiogrid.org/BioGRID", "https://wiki.thebiogrid.org/doku.php/downloads"]
 spdx = "MIT"
 note = "BioGRID data is released under the MIT License. No standalone license document is captured (no clean legalcode on an allowed host); cite BioGRID and the underlying source publications."

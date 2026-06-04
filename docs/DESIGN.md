@@ -81,7 +81,7 @@ Each downloader type maps to a real upstream source and contact host(s):
 | `pubtator3` | PubTator3 entity/relation annotation tables (optionally BioCXML archives) | `ftp.ncbi.nlm.nih.gov` | Anonymous FTP |
 | `nlmcatalog` | NLM Catalog records matching a configurable Entrez search term (e.g. `reportedmedline`) | `eutils.ncbi.nlm.nih.gov` | HTTPS (E-utilities esearch + efetch) |
 | `mesh` | MeSH (Medical Subject Headings) XML record sets: descriptors (carry the tree numbers for parent/ancestor lookups), qualifiers, pharmacological actions, supplementary concept records | `nlmpubs.nlm.nih.gov` | HTTPS |
-| `biogrid` | BioGRID interactions (the stable Latest-Release TAB3 archive, default BIOGRID-ALL) | `downloads.thebiogrid.org` for bytes; `thebiogrid.org` home page for the release number | HTTPS |
+| `biogrid` | BioGRID interaction data — `biogrid_interactions` (the stable Latest-Release TAB3 archive, default BIOGRID-ALL; the interaction database, not BioGRID ORCS) | `downloads.thebiogrid.org` for bytes; `thebiogrid.org` home page for the release number | HTTPS |
 | `omim` | OMIM `mim2gene.txt` cross-reference (the only openly served OMIM file) | `omim.org` | HTTPS |
 | `hgnc` | HGNC complete set, newest monthly archive snapshot (TSV) from the `public-download-files` GCS bucket | `storage.googleapis.com` | HTTPS |
 | `reactome` | Reactome release files (gene/protein-to-pathway mappings, pathway list, hierarchy relations) from `download/current/` | `reactome.org` | HTTPS |
