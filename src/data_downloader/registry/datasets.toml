@@ -389,6 +389,20 @@ url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt"
 spdx = "CC0-1.0"
 note = "The Disease Ontology is released CC0 1.0 (stated in the OBO header's dcterms:license and remark)."
 
+[intact]
+description = "IntAct (EMBL-EBI) molecular interactions — the full curated binary-interaction table in PSI-MITAB format (interactors, detection method, publication, confidence) plus its column README; versioned by the release's Last-Modified date"
+downloader = "intact"
+# Which files to download from current/psimitab/. Defaults to the full MITAB
+# table and its README. Other files include intact-micluster.zip (MI-cluster
+# scored) and the negative-interaction sets.
+files = ["intact.zip", "README"]
+
+[intact.license]
+declared_at = "https://www.ebi.ac.uk/intact/about"
+url = "https://creativecommons.org/licenses/by/4.0/legalcode.txt"
+spdx = "CC-BY-4.0"
+note = "IntAct data is licensed CC BY 4.0. Cite IntAct and the underlying source publications; curated records draw on member IMEx databases that may carry their own attribution terms."
+
 [interpro]
 description = "InterPro — per-protein matches to integrated InterPro entries (protein2ipr.dat.gz, accession + name), the entry hierarchy (ParentChildTreeFile.txt) for ancestor expansion, plus entry metadata, schema, and lookups; versioned by InterPro release number"
 downloader = "interpro"

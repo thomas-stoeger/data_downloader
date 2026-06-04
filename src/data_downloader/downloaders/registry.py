@@ -7,6 +7,7 @@ from .google_sheet import GoogleSheetDownloader
 from .google_sheet_hashed import GoogleSheetHashedDownloader
 from .gwas_catalog import GwasCatalogDownloader
 from .harmonizome import HarmonizomeDownloader
+from .intact import IntActDownloader
 from .interpro import InterProDownloader
 from .mesh import MeshDownloader
 from .nih_exporter import NihExporterDownloader
@@ -31,6 +32,7 @@ _DOWNLOADERS: dict[str, type[BaseDownloader]] = {
     "google_sheet_hashed": GoogleSheetHashedDownloader,
     "gwas_catalog": GwasCatalogDownloader,
     "harmonizome": HarmonizomeDownloader,
+    "intact": IntActDownloader,
     "interpro": InterProDownloader,
     "mesh": MeshDownloader,
     "nih_exporter": NihExporterDownloader,

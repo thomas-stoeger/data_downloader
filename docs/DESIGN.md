@@ -90,6 +90,7 @@ Each downloader type maps to a real upstream source and contact host(s):
 | `google_sheet_hashed` | Public Google Sheet tabs with no version marker, exported as CSV (predatory publishers, predatory journals) | `docs.google.com` CSV `export`; bytes from the `googleusercontent.com` host it redirects to | HTTPS |
 | `opentargets` | Open Targets Platform release datasets (Parquet), plus the field-level schema (`croissant.json`) and the per-dataset Downloads-page descriptions (`downloads.json`) | `ftp.ebi.ac.uk` for data, schema, checksums; `api.platform.opentargets.org` for the descriptions | HTTPS |
 | `gwas_catalog` | NHGRI-EBI GWAS Catalog release files (EFO-annotated associations, studies, ancestry, trait-ontology mappings) from `releases/latest/` | `ftp.ebi.ac.uk` | HTTPS |
+| `intact` | IntAct molecular interactions (full PSI-MITAB `intact.zip` plus its README) from `current/psimitab/` | `ftp.ebi.ac.uk` | HTTPS |
 | `ols` | Ontology Lookup Service (OLS) dated snapshot of all loaded ontologies as linked JSON (`ontology_jsons_linked.tgz`); other snapshot archives selectable | `ftp.ebi.ac.uk` | HTTPS |
 | `unknome` | Unknome (MRC LMB) per-release compressed protein summary and cluster summary TSVs (the full SQLite database is selectable but off by default) | `unknome.mrc-lmb.cam.ac.uk` | HTTPS |
 | `proteinatlas` | Human Protein Atlas bulk files (the per-gene summary `proteinatlas.tsv.zip` by default; the JSON and comprehensive XML are selectable) | `www.proteinatlas.org` | HTTPS |
@@ -208,6 +209,9 @@ avoidable, so that "is this current?" can be answered by comparison:
   date of a stable file in `releases/latest/`, read with a HEAD request without
   downloading any data. `latest/` is a symlink to the newest dated release, so
   this tracks whatever it currently points to (mirrors `ftp` MDTM versioning).
+- `intact`: the release date (e.g. `2026-01-14`), the `Last-Modified` date of
+  `intact.zip` in `current/psimitab/`, read with a HEAD request without
+  downloading any data (mirrors `ftp` MDTM versioning).
 - `interpro`: the InterPro release number (e.g. `108.0`), read from
   `release_notes.txt` without downloading any data file. Files that ship a
   `<name>.md5` sidecar are verified against it, plus the size and gzip checks.
