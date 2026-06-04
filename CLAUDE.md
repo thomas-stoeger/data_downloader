@@ -41,7 +41,7 @@ That permission is scoped. Confine all network activity to these domains:
 - `ftp.ncbi.nlm.nih.gov` — NCBI gene data, taxonomy, and PubMed (FTP).
 - `eutils.ncbi.nlm.nih.gov` — NCBI E-utilities (esearch + efetch) for NLM
   Catalog snapshots.
-- `api.figshare.com` — Figshare metadata API (iCite).
+- `api.figshare.com` — Figshare metadata API (iCite, ORCID Public Data File).
 - `ndownloader.figshare.com` and the AWS S3 endpoints it redirects to — Figshare
   file bytes.
 - `maayanlab.cloud` — Harmonizome dataset index and per-dataset pages.
@@ -107,7 +107,7 @@ That permission is scoped. Confine all network activity to these domains:
   stored as the license copy for the Gene Ontology, Alliance of Genome
   Resources, Unknome, and the Human Protein Atlas (CC BY 4.0), the CC0 datasets
   (iCite, OpenAlex, Open Targets, Retraction Watch database, Disease Ontology,
-  InterPro), and Harmonizome.
+  InterPro, ORCID), and Harmonizome.
 - `www.ncbi.nlm.nih.gov` — the NCBI Website and Data Usage Policies page,
   captured as the license copy for the NCBI gene/taxonomy datasets, GeneRIFs,
   and PubTator3.

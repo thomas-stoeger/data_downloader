@@ -151,6 +151,23 @@ url = "https://creativecommons.org/licenses/by/4.0/legalcode.txt"
 spdx = "CC-BY-4.0"
 note = "Each iCite snapshot is tagged CC BY 4.0 on figshare (per-article license field). The NIH-OCC paper describes the source collection as CC0, but the figshare distribution asserts CC BY 4.0."
 
+[orcid]
+description = "ORCID Public Data File — the annual public record snapshot (author identity, affiliations, education, employment, external IDs and works); the record summaries tarball by default"
+downloader = "figshare"
+collection_id = "7931102"
+# Each annual article holds ORCID_<YYYY>_<MM>_summaries.tar.gz (record
+# summaries: names, affiliations, education, employment, external IDs) and
+# ORCID_<YYYY>_<MM>_activities_{0-9,X}.tar.gz (works, funding, peer review;
+# ~17 GB each). The glob matches across years. Remove 'files' to download the
+# whole article (~250 GB).
+files = ["*_summaries.tar.gz"]
+
+[orcid.license]
+declared_at = "https://orcid.org/content/download-file"
+url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt"
+spdx = "CC0-1.0"
+note = "ORCID releases the annual Public Data File under CC0 1.0 (also tagged CC0 on each figshare article). The ORCID Public Data File Use Policy requests acknowledgment of ORCID as the source."
+
 [harmonizome]
 description = "Harmonizome — all distribution files per dataset (except similarity matrices) plus a JSON metadata sidecar (~150 datasets)"
 downloader = "harmonizome"

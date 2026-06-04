@@ -9,9 +9,12 @@ Required config keys:
 
 Optional config keys:
     files          — list of filenames to download (downloads all if omitted).
+                     Entries may be glob patterns (e.g. '*_summaries.tar.gz')
+                     to match files whose names embed a changing year/month.
                      README-shaped companion files in the article are always
                      included even when this allowlist is set.
 """
+import fnmatch
 import hashlib
 import json
 import re
@@ -51,9 +54,28 @@ def _article_files(article_id: int) -> list[dict]:
 
 
 def _version_from_title(title: str) -> str:
-    """Extract 'YYYY-MM' from titles like 'iCite Database Snapshot 2026-03'."""
+    """Extract a version from the article title. Prefer 'YYYY-MM' (e.g.
+    'iCite Database Snapshot 2026-03'); fall back to a bare 'YYYY' (e.g.
+    'ORCID Public Data File 2025'), then the whole title."""
     m = re.search(r"\d{4}-\d{2}", title)
+    if m:
+        return m.group(0)
+    m = re.search(r"\d{4}", title)
     return m.group(0) if m else title
+
+
+def _wanted_match(name: str, wanted: list[str]) -> bool:
+    """True if `name` matches an entry in `wanted`. Entries containing a glob
+    metacharacter (`*`, `?`, `[`) are matched with fnmatch (so a per-year file
+    like 'ORCID_2025_10_summaries.tar.gz' can be selected with
+    '*_summaries.tar.gz'); all other entries match exactly."""
+    for pat in wanted:
+        if any(c in pat for c in "*?["):
+            if fnmatch.fnmatch(name, pat):
+                return True
+        elif name == pat:
+            return True
+    return False
 
 
 def _download_file(url: str, name: str, expected_size: int, expected_md5: str | None, dest: Path) -> Path:
@@ -96,9 +118,9 @@ class FigshareDownloader(BaseDownloader):
         if wanted:
             selected = [
                 f for f in files
-                if f["name"] in wanted or is_doc_filename(f["name"])
+                if _wanted_match(f["name"], wanted) or is_doc_filename(f["name"])
             ]
-            if not any(f["name"] in wanted for f in selected):
+            if not any(_wanted_match(f["name"], wanted) for f in selected):
                 raise RuntimeError(
                     f"None of the requested files {wanted} found in article {article_id}. "
                     f"Available: {[f['name'] for f in files]}"
