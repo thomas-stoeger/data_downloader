@@ -111,6 +111,27 @@ species = ["homo_sapiens", "mus_musculus", "rattus_norvegicus", "danio_rerio", "
 declared_at = "https://www.ensembl.org/info/about/legal/disclaimer.html"
 note = "Ensembl-generated data is available without restriction; some included third-party data may carry constraints. No license file is fetched (the legal page redirects to a regional mirror)."
 
+[alliancegenome]
+description = "Alliance of Genome Resources — all per-species TSV bulk files for a release (orthology, disease, expression, molecular/genetic interactions, gene descriptions, variant-allele, cross-references); versioned by release number"
+downloader = "alliancegenome"
+# Which TSV data types to download. Use ["*"] for every TSV data type in the
+# release. Restrict with a list, e.g. ["ORTHOLOGY-ALLIANCE", "DISEASE-ALLIANCE"].
+# Unknown names fail with the list of what is available.
+data_types = ["*"]
+# Which species / member-database subtypes to download (e.g. FB, MGI, RGD, SGD,
+# WB, ZFIN, HUMAN, XBXL, XBXT, COMBINED; some data types subtype by NCBI taxon
+# id). Use ["*"] for every species.
+species = ["*"]
+
+# Alliance distributes its data under CC BY 4.0 (stated on the
+# privacy-warranty-licensing page). Constituent member databases (FlyBase, MGI,
+# RGD, SGD, WormBase, ZFIN, Xenbase) may carry their own terms on redistribution.
+[alliancegenome.license]
+declared_at = "https://www.alliancegenome.org/privacy-warranty-licensing"
+url = "https://creativecommons.org/licenses/by/4.0/legalcode.txt"
+spdx = "CC-BY-4.0"
+note = "Alliance of Genome Resources data is licensed CC BY 4.0. The aggregating Alliance asserts CC BY 4.0; constituent member databases (FlyBase, MGI, RGD, SGD, WormBase, ZFIN, Xenbase) may keep their own licenses on redistribution."
+
 [icite]
 description = "iCite Database Snapshots — NIH Open Citation Collection (monthly)"
 downloader = "figshare"

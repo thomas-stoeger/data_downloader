@@ -90,11 +90,13 @@ Each downloader type maps to a real upstream source and contact host(s):
 | `opentargets` | Open Targets Platform release datasets (Parquet), plus the field-level schema (`croissant.json`) and the per-dataset Downloads-page descriptions (`downloads.json`) | `ftp.ebi.ac.uk` for data, schema, checksums; `api.platform.opentargets.org` for the descriptions | HTTPS |
 | `obo` | OBO-format ontology files (Gene Ontology `go-basic.obo`) | `purl.obolibrary.org` (PURL) redirecting to `current.geneontology.org` for the bytes | HTTPS |
 | `ensembl_tsv` | Ensembl per-species TSV cross-reference tables (Entrez, RefSeq, UniProt, ENA, karyotype) under `current_tsv`, plus `CHECKSUMS` and `README_*` | `ftp.ensembl.org` | HTTPS |
+| `alliancegenome` | Alliance of Genome Resources per-species TSV bulk files (orthology, disease, expression, interactions, gene descriptions, variant-allele, cross-references) from a release snapshot | `fms.alliancegenome.org` for the release version and snapshot; file bytes from `download.alliancegenome.org` | HTTPS |
 
 Note that `figshare` and `harmonizome` discover their actual byte-download URLs
-at runtime from API responses and scraped HTML, and `opentargets` and
-`ensembl_tsv` read the FTP autoindex to learn the per-folder file names. Those
-URLs and names are upstream data, not configuration (see Invariants).
+at runtime from API responses and scraped HTML, `opentargets` and `ensembl_tsv`
+read the FTP autoindex to learn the per-folder file names, and `alliancegenome`
+reads the FMS release snapshot to learn each file's download URL, path, and MD5.
+Those URLs and names are upstream data, not configuration (see Invariants).
 
 ## Companion documents
 
@@ -175,6 +177,10 @@ avoidable, so that "is this current?" can be answered by comparison:
   is a symlink to that release's `tsv` tree. Files are verified against each
   folder's `CHECKSUMS` (the classic Unix `sum` BSD checksum and block count)
   where present, in addition to the size and gzip checks.
+- `alliancegenome`: the Alliance release version (e.g. `9.0.0`), read from the
+  FMS `releaseversion/current` endpoint without downloading any data. Each TSV
+  file is verified against the `md5Sum` the release snapshot publishes for it,
+  in addition to the size and gzip checks.
 - `obo`: the ontology's own `data-version` header (e.g. GO's
   `data-version: releases/2026-05-19`), read from the first few kilobytes of the
   file with the `releases/` prefix stripped to `2026-05-19`. No full download is

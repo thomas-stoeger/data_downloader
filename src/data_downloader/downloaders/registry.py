@@ -1,3 +1,4 @@
+from .alliancegenome import AllianceGenomeDownloader
 from .base import BaseDownloader
 from .ensembl_tsv import EnsemblTsvDownloader
 from .figshare import FigshareDownloader
@@ -16,6 +17,7 @@ from .retractionwatch import RetractionWatchDownloader
 
 _DOWNLOADERS: dict[str, type[BaseDownloader]] = {
     "ftp": FtpDownloader,
+    "alliancegenome": AllianceGenomeDownloader,
     "ensembl_tsv": EnsemblTsvDownloader,
     "figshare": FigshareDownloader,
     "google_sheet": GoogleSheetDownloader,

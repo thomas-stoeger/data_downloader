@@ -74,10 +74,16 @@ That permission is scoped. Confine all network activity to these domains:
   `current_tsv` per-species cross-reference tables and their `CHECKSUMS` and
   `README_*` companions, and the `/pub/VERSION` file used to read the release
   number.
+- `fms.alliancegenome.org` — Alliance of Genome Resources File Management
+  System API: the current release version (`/api/releaseversion/current`) and
+  the per-release snapshot of data files (`/api/snapshot/release/<version>`).
+- `download.alliancegenome.org` — Alliance of Genome Resources file bytes (the
+  `s3Url` each snapshot data file advertises).
 - `creativecommons.org` — Creative Commons legal-code text captured by license
   tracking: the CC BY 4.0, CC0 1.0, and CC BY-NC-SA 4.0 `legalcode.txt` files
-  stored as the license copy for the Gene Ontology, the CC0 datasets (iCite,
-  OpenAlex, Open Targets, Retraction Watch database), and Harmonizome.
+  stored as the license copy for the Gene Ontology and Alliance of Genome
+  Resources (CC BY 4.0), the CC0 datasets (iCite, OpenAlex, Open Targets,
+  Retraction Watch database), and Harmonizome.
 - `www.ncbi.nlm.nih.gov` — the NCBI Website and Data Usage Policies page,
   captured as the license copy for the NCBI gene/taxonomy datasets, GeneRIFs,
   and PubTator3.
