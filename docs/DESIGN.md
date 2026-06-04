@@ -91,6 +91,7 @@ Each downloader type maps to a real upstream source and contact host(s):
 | `opentargets` | Open Targets Platform release datasets (Parquet), plus the field-level schema (`croissant.json`) and the per-dataset Downloads-page descriptions (`downloads.json`) | `ftp.ebi.ac.uk` for data, schema, checksums; `api.platform.opentargets.org` for the descriptions | HTTPS |
 | `ols` | Ontology Lookup Service (OLS) dated snapshot of all loaded ontologies as linked JSON (`ontology_jsons_linked.tgz`); other snapshot archives selectable | `ftp.ebi.ac.uk` | HTTPS |
 | `unknome` | Unknome (MRC LMB) per-release compressed protein summary and cluster summary TSVs (the full SQLite database is selectable but off by default) | `unknome.mrc-lmb.cam.ac.uk` | HTTPS |
+| `proteinatlas` | Human Protein Atlas bulk files (the per-gene summary `proteinatlas.tsv.zip` by default; the JSON and comprehensive XML are selectable) | `www.proteinatlas.org` | HTTPS |
 | `obo` | OBO-format ontology files (Gene Ontology `go-basic.obo`) | `purl.obolibrary.org` (PURL) redirecting to `current.geneontology.org` for the bytes | HTTPS |
 | `ensembl_tsv` | Ensembl per-species TSV cross-reference tables (Entrez, RefSeq, UniProt, ENA, karyotype) under `current_tsv`, plus `CHECKSUMS` and `README_*` | `ftp.ensembl.org` | HTTPS |
 | `alliancegenome` | Alliance of Genome Resources per-species TSV bulk files (orthology, disease, expression, interactions, gene descriptions, variant-allele, cross-references) from a release snapshot | `fms.alliancegenome.org` for the release version and snapshot; file bytes from `download.alliancegenome.org` | HTTPS |
@@ -101,9 +102,11 @@ read the FTP autoindex to learn the per-folder file names, `alliancegenome`
 reads the FMS release snapshot to learn each file's download URL, path, and MD5,
 `mesh` reads the autoindex to learn the production year and the available
 per-record-set file names, `ols` reads the autoindex to learn the newest
-snapshot timestamp, and `unknome` parses its download page for the release
-identifiers and takes each file's name from the `Content-Disposition` header.
-Those URLs and names are upstream data, not configuration (see Invariants).
+snapshot timestamp, `unknome` parses its download page for the release
+identifiers and takes each file's name from the `Content-Disposition` header,
+and `proteinatlas` reads the release number and the available file names off
+its download page. Those URLs and names are upstream data, not configuration
+(see Invariants).
 
 ## Companion documents
 
@@ -193,6 +196,10 @@ avoidable, so that "is this current?" can be answered by comparison:
   anything. OLS publishes no checksum sidecars, so the `.tgz` is verified by the
   size check plus the gzip read-through (`.tgz` is recognized as gzip by
   `verify_file`).
+- `proteinatlas`: the HPA release number (e.g. `25.1`), parsed from the
+  download page without downloading any data file (the bulk URLs are stable and
+  unversioned). No checksum sidecars are published, so each file gets the size
+  check plus the archive read-through (zip or gzip).
 - `unknome`: the newest release date identifier (e.g. `18_Mar_2026`), parsed
   from the download page and selected by parsing each `DD_Mon_YYYY` to a date,
   without downloading any data. No checksum sidecars are published, so each

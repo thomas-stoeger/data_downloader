@@ -87,11 +87,14 @@ That permission is scoped. Confine all network activity to these domains:
 - `unknome.mrc-lmb.cam.ac.uk` — Unknome database (MRC LMB): the download page
   and the per-release compressed protein/cluster summary endpoints under
   `/download/`.
+- `www.proteinatlas.org` — Human Protein Atlas: the download page (read for the
+  release number) and the bulk data files under `/download/`
+  (`proteinatlas.tsv.zip`, `.json.gz`, `.xml.gz`).
 - `creativecommons.org` — Creative Commons legal-code text captured by license
   tracking: the CC BY 4.0, CC0 1.0, and CC BY-NC-SA 4.0 `legalcode.txt` files
   stored as the license copy for the Gene Ontology, Alliance of Genome
-  Resources, and Unknome (CC BY 4.0), the CC0 datasets (iCite, OpenAlex, Open
-  Targets, Retraction Watch database), and Harmonizome.
+  Resources, Unknome, and the Human Protein Atlas (CC BY 4.0), the CC0 datasets
+  (iCite, OpenAlex, Open Targets, Retraction Watch database), and Harmonizome.
 - `www.ncbi.nlm.nih.gov` — the NCBI Website and Data Usage Policies page,
   captured as the license copy for the NCBI gene/taxonomy datasets, GeneRIFs,
   and PubTator3.

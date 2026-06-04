@@ -328,6 +328,21 @@ files = ["ontology_jsons_linked.tgz"]
 declared_at = ["https://www.ebi.ac.uk/licencing", "https://www.ebi.ac.uk/ols4/about"]
 note = "OLS is an EMBL-EBI aggregation of many third-party ontologies, each under its own license; OLS asserts no single license over the compilation. Subject to EMBL-EBI terms of use; clear each contained ontology's license before redistributing. No license file is fetched."
 
+[proteinatlas]
+description = "Human Protein Atlas — per-gene summary table (proteinatlas.tsv.zip) of protein/RNA expression and localization; versioned by HPA release number"
+downloader = "proteinatlas"
+# Which bulk files to download from the HPA download page. Options:
+#   proteinatlas.tsv.zip  - per-gene summary table (the searchable subset)
+#   proteinatlas.json.gz  - the same summary data as JSON
+#   proteinatlas.xml.gz   - the comprehensive record (large, ~730 MB)
+files = ["proteinatlas.tsv.zip"]
+
+[proteinatlas.license]
+declared_at = "https://www.proteinatlas.org/about/licence"
+url = "https://creativecommons.org/licenses/by/4.0/legalcode.txt"
+spdx = "CC-BY-4.0"
+note = "Human Protein Atlas data is licensed CC BY 4.0. Attribution required: cite the primary publication and 'Human Protein Atlas proteinatlas.org' (with the version, vNN.proteinatlas.org). Third-party data integrated into the Atlas keeps its own licenses."
+
 [opentargets]
 description = "Open Targets Platform — release Parquet datasets, plus the field-level schema (croissant.json) and the per-dataset text descriptions shown on the Downloads page (downloads.json)"
 downloader = "opentargets"

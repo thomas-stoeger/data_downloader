@@ -13,6 +13,7 @@ from .obo import OboDownloader
 from .ols import OlsDownloader
 from .openalex import OpenAlexDownloader
 from .opentargets import OpenTargetsDownloader
+from .proteinatlas import ProteinAtlasDownloader
 from .pubmed import PubmedDownloader
 from .pubtator3 import Pubtator3Downloader
 from .retractionwatch import RetractionWatchDownloader
@@ -33,6 +34,7 @@ _DOWNLOADERS: dict[str, type[BaseDownloader]] = {
     "ols": OlsDownloader,
     "openalex": OpenAlexDownloader,
     "opentargets": OpenTargetsDownloader,
+    "proteinatlas": ProteinAtlasDownloader,
     "pubmed": PubmedDownloader,
     "pubtator3": Pubtator3Downloader,
     "retractionwatch": RetractionWatchDownloader,
