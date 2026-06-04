@@ -386,6 +386,23 @@ url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt"
 spdx = "CC0-1.0"
 note = "All ROR IDs and metadata in the data dump are released under CC0 1.0 (the Zenodo record license is cc-zero)."
 
+[gtex]
+description = "GTEx (Genotype-Tissue Expression) — open-access bulk RNA-seq gene-level expression matrices (gene median TPM, gene reads, gene TPM) from the adult-gtex GCS bucket; release pinned by config (default v10)"
+downloader = "gtex"
+# GTEx releases are pinned (newer bucket prefixes can be placeholders without
+# the matrices). To move to a new release, set 'version' and update 'files' to
+# that release's object names (file names embed the version).
+version = "v10"
+files = ["bulk-gex/v10/rna-seq/GTEx_Analysis_v10_RNASeQCv2.4.2_gene_median_tpm.gct.gz", "bulk-gex/v10/rna-seq/GTEx_Analysis_v10_RNASeQCv2.4.2_gene_reads.gct.gz", "bulk-gex/v10/rna-seq/GTEx_Analysis_v10_RNASeQCv2.4.2_gene_tpm.gct.gz"]
+
+# Declared-only: GTEx open-access data is provided under the GTEx Portal terms
+# (no charges; attribution to the GTEx Portal and the dbGaP accession requested).
+# No standalone legalcode file is captured; the terms page host is recorded as
+# provenance, never fetched.
+[gtex.license]
+declared_at = "https://gtexportal.org/home/license"
+note = "GTEx open-access data is provided under the GTEx Portal Terms and Conditions; downloading indicates acceptance. Attribution requested: cite the GTEx Portal and the dbGaP accession (phs000424). No fetchable legalcode; no copy captured. Protected (individual-level) GTEx data is not fetched."
+
 [gwas_catalog]
 description = "NHGRI-EBI GWAS Catalog — published variant-trait associations (EFO-annotated), their studies, ancestry, and trait-ontology mappings, from the latest EBI release; versioned by the release's Last-Modified date"
 downloader = "gwas_catalog"

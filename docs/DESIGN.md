@@ -93,6 +93,7 @@ Each downloader type maps to a real upstream source and contact host(s):
 | `google_sheet` | Public Google Sheet tabs exported as CSV (e.g. Retraction Watch Hijacked Journal Checker) | `docs.google.com` for the gviz version cell and CSV `export`; bytes from the `googleusercontent.com` host it redirects to | HTTPS |
 | `google_sheet_hashed` | Public Google Sheet tabs with no version marker, exported as CSV (predatory publishers, predatory journals) | `docs.google.com` CSV `export`; bytes from the `googleusercontent.com` host it redirects to | HTTPS |
 | `opentargets` | Open Targets Platform release datasets (Parquet), plus the field-level schema (`croissant.json`) and the per-dataset Downloads-page descriptions (`downloads.json`) | `ftp.ebi.ac.uk` for data, schema, checksums; `api.platform.opentargets.org` for the descriptions | HTTPS |
+| `gtex` | GTEx open-access bulk RNA-seq gene-level expression matrices from the `adult-gtex` GCS bucket (release pinned by config) | `storage.googleapis.com` | HTTPS |
 | `gwas_catalog` | NHGRI-EBI GWAS Catalog release files (EFO-annotated associations, studies, ancestry, trait-ontology mappings) from `releases/latest/` | `ftp.ebi.ac.uk` | HTTPS |
 | `intact` | IntAct molecular interactions (full PSI-MITAB `intact.zip` plus its README) from `current/psimitab/` | `ftp.ebi.ac.uk` | HTTPS |
 | `ols` | Ontology Lookup Service (OLS) dated snapshot of all loaded ontologies as linked JSON (`ontology_jsons_linked.tgz`); other snapshot archives selectable | `ftp.ebi.ac.uk` | HTTPS |
@@ -184,6 +185,11 @@ avoidable, so that "is this current?" can be answered by comparison:
 - `pubmed`: the four-digit baseline year (e.g. `2026`).
 - `pubtator3`: the max `MDTM` across the selected files as `YYYY-MM-DD`
   (NCBI refreshes the snapshot in lockstep each month).
+- `gtex`: the configured `version` (default `v10`). GTEx releases are pinned,
+  not auto-detected: the `adult-gtex` bucket keeps several version prefixes and
+  newer ones can be placeholders without the matrices, so `check` compares the
+  configured version to the local one. Files are verified against the MD5 GCS
+  returns in the download response (`x-goog-hash: md5=`).
 - `biogrid`: the BioGRID release number (e.g. `5.0.257`), parsed from the
   BioGRID home page without downloading any data file. The data is fetched from
   the stable `Latest-Release` file names, which are served chunked without a

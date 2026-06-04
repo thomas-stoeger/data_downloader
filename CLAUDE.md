@@ -52,7 +52,8 @@ That permission is scoped. Confine all network activity to these domains:
 - `storage.googleapis.com` — Google Cloud Storage public buckets: the HGNC
   (HUGO Gene Nomenclature Committee) complete-set monthly archive in the
   `public-download-files` bucket (the storage JSON API to list the archive and
-  the object bytes themselves).
+  the object bytes themselves), and the GTEx open-access bulk expression
+  matrices in the `adult-gtex` bucket.
 - `zenodo.org` — Zenodo REST API and file downloads: the Research Organization
   Registry (ROR) data dump, published under concept record `6347574` (the API
   resolves the concept id to the latest version and serves the dump zip bytes
