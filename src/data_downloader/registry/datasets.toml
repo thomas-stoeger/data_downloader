@@ -402,6 +402,17 @@ url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt"
 spdx = "CC0-1.0"
 note = "The Disease Ontology is released CC0 1.0 (stated in the OBO header's dcterms:license and remark)."
 
+[hgnc]
+description = "HGNC (HUGO Gene Nomenclature Committee) complete set — approved human gene symbols, names, locus type/group, location, symbol/name assignment dates, and cross-references; the newest immutable monthly archive snapshot (TSV); versioned by the snapshot date"
+downloader = "hgnc"
+
+# Declared-only: HGNC states it imposes no restrictions on access to or use of
+# its data, but publishes no standalone license file to capture. The genenames
+# policy page is recorded as provenance, never fetched (adds no allowed domain).
+[hgnc.license]
+declared_at = "https://www.genenames.org/about/"
+note = "HGNC imposes no restrictions on access to or use of the data (genenames.org). No standalone license document is published, so no copy is captured."
+
 [intact]
 description = "IntAct (EMBL-EBI) molecular interactions — the full curated binary-interaction table in PSI-MITAB format (interactors, detection method, publication, confidence) plus its column README; versioned by the release's Last-Modified date"
 downloader = "intact"

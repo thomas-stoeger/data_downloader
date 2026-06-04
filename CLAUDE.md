@@ -41,6 +41,10 @@ That permission is scoped. Confine all network activity to these domains:
 - `ftp.ncbi.nlm.nih.gov` — NCBI gene data, taxonomy, and PubMed (FTP).
 - `eutils.ncbi.nlm.nih.gov` — NCBI E-utilities (esearch + efetch) for NLM
   Catalog snapshots.
+- `storage.googleapis.com` — Google Cloud Storage public buckets: the HGNC
+  (HUGO Gene Nomenclature Committee) complete-set monthly archive in the
+  `public-download-files` bucket (the storage JSON API to list the archive and
+  the object bytes themselves).
 - `zenodo.org` — Zenodo REST API and file downloads: the Research Organization
   Registry (ROR) data dump, published under concept record `6347574` (the API
   resolves the concept id to the latest version and serves the dump zip bytes
