@@ -61,9 +61,13 @@ That permission is scoped. Confine all network activity to these domains:
 - `ftp.ebi.ac.uk` — EBI FTP server (served over HTTPS): Open Targets Platform
   releases (the Parquet datasets under `.../platform/<version>/output/`, the
   `croissant.json` schema, the `release_data_integrity.sha1` checksums, and the
-  release `manifest.json`), and the Ontology Lookup Service snapshots under
+  release `manifest.json`), the Ontology Lookup Service snapshots under
   `/pub/databases/spot/ols/<timestamp>/` (the `ontology_jsons_linked.tgz`
-  archive).
+  archive), and the InterPro releases under
+  `/pub/databases/interpro/current_release/` (`protein2ipr.dat.gz` and its
+  `.md5`, `ParentChildTreeFile.txt`, `entry.list`, `interpro.xml.gz` and its
+  `interpro.dtd` schema, `names.dat`, `short_names.dat`, `interpro2go`, and
+  `release_notes.txt`).
 - `api.platform.opentargets.org` — Open Targets GraphQL API, used only to read
   the `meta.downloads` payload that holds the per-dataset text descriptions
   shown on the Downloads page.
@@ -102,7 +106,8 @@ That permission is scoped. Confine all network activity to these domains:
   tracking: the CC BY 4.0, CC0 1.0, and CC BY-NC-SA 4.0 `legalcode.txt` files
   stored as the license copy for the Gene Ontology, Alliance of Genome
   Resources, Unknome, and the Human Protein Atlas (CC BY 4.0), the CC0 datasets
-  (iCite, OpenAlex, Open Targets, Retraction Watch database), and Harmonizome.
+  (iCite, OpenAlex, Open Targets, Retraction Watch database, Disease Ontology,
+  InterPro), and Harmonizome.
 - `www.ncbi.nlm.nih.gov` — the NCBI Website and Data Usage Policies page,
   captured as the license copy for the NCBI gene/taxonomy datasets, GeneRIFs,
   and PubTator3.

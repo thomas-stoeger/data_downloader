@@ -355,6 +355,23 @@ url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt"
 spdx = "CC0-1.0"
 note = "The Disease Ontology is released CC0 1.0 (stated in the OBO header's dcterms:license and remark)."
 
+[interpro]
+description = "InterPro — per-protein matches to integrated InterPro entries (protein2ipr.dat.gz, accession + name), the entry hierarchy (ParentChildTreeFile.txt) for ancestor expansion, plus entry metadata, schema, and lookups; versioned by InterPro release number"
+downloader = "interpro"
+# Which files to download from the release directory. Defaults to the set that
+# supports protein -> InterPro name + parent expansion, plus metadata/schema:
+#   protein2ipr.dat.gz (large, ~17 GB), ParentChildTreeFile.txt, entry.list,
+#   interpro.xml.gz, interpro.dtd, names.dat, short_names.dat, interpro2go,
+#   release_notes.txt. Other files include match_complete.xml.gz (signature
+#   level, much larger), sites.xml.gz, and the *.tar.gz match archives.
+files = ["protein2ipr.dat.gz", "ParentChildTreeFile.txt", "entry.list", "interpro.xml.gz", "interpro.dtd", "names.dat", "short_names.dat", "interpro2go", "release_notes.txt"]
+
+[interpro.license]
+declared_at = "https://www.ebi.ac.uk/interpro/about/license/"
+url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt"
+spdx = "CC0-1.0"
+note = "InterPro's own downloadable data (also Pfam, PRINTS, SFLD) is CC0 1.0. The integrated member databases (CATH-Gene3D, CDD, HAMAP, PANTHER, PIRSF, PROSITE, SMART, SUPERFAMILY, NCBIFAM, etc.) keep their own terms; cite the resource and the relevant member databases."
+
 [uniprot_fasta]
 description = "UniProt protein sequences (FASTA) — reviewed Swiss-Prot sequences from the knowledgebase complete/ directory; versioned by UniProt release tag"
 downloader = "uniprot"
