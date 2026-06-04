@@ -355,6 +355,35 @@ url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt"
 spdx = "CC0-1.0"
 note = "The Disease Ontology is released CC0 1.0 (stated in the OBO header's dcterms:license and remark)."
 
+[uniprot_fasta]
+description = "UniProt protein sequences (FASTA) — reviewed Swiss-Prot sequences from the knowledgebase complete/ directory; versioned by UniProt release tag"
+downloader = "uniprot"
+path = "complete"
+# Which FASTA files to download. Options in complete/: uniprot_sprot.fasta.gz
+# (reviewed Swiss-Prot), uniprot_sprot_varsplic.fasta.gz (isoforms),
+# uniprot_trembl.fasta.gz (unreviewed TrEMBL, ~53 GB).
+files = ["uniprot_sprot.fasta.gz"]
+
+[uniprot_fasta.license]
+declared_at = ["https://www.uniprot.org/help/license", "https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/LICENSE"]
+url = "https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/LICENSE"
+spdx = "CC-BY-4.0"
+note = "UniProt applies CC BY 4.0 to all copyrightable parts of its databases (per the FTP LICENSE file); reproduce the copyright statement with each copy."
+
+[uniprot_idmapping]
+description = "UniProt ID mapping — the full UniProtKB-AC / database / external-ID cross-reference table (idmapping.dat.gz) from the knowledgebase idmapping/ directory; versioned by UniProt release tag"
+downloader = "uniprot"
+path = "idmapping"
+# Options in idmapping/: idmapping.dat.gz (full 3-column mapping),
+# idmapping_selected.tab.gz (selected/denormalized wide table).
+files = ["idmapping.dat.gz"]
+
+[uniprot_idmapping.license]
+declared_at = ["https://www.uniprot.org/help/license", "https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/LICENSE"]
+url = "https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/LICENSE"
+spdx = "CC-BY-4.0"
+note = "UniProt applies CC BY 4.0 to all copyrightable parts of its databases (per the FTP LICENSE file); reproduce the copyright statement with each copy."
+
 [opentargets]
 description = "Open Targets Platform — release Parquet datasets, plus the field-level schema (croissant.json) and the per-dataset text descriptions shown on the Downloads page (downloads.json)"
 downloader = "opentargets"

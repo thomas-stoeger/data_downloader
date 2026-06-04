@@ -17,6 +17,7 @@ from .proteinatlas import ProteinAtlasDownloader
 from .pubmed import PubmedDownloader
 from .pubtator3 import Pubtator3Downloader
 from .retractionwatch import RetractionWatchDownloader
+from .uniprot import UniProtDownloader
 from .unknome import UnknomeDownloader
 
 _DOWNLOADERS: dict[str, type[BaseDownloader]] = {
@@ -38,6 +39,7 @@ _DOWNLOADERS: dict[str, type[BaseDownloader]] = {
     "pubmed": PubmedDownloader,
     "pubtator3": Pubtator3Downloader,
     "retractionwatch": RetractionWatchDownloader,
+    "uniprot": UniProtDownloader,
     "unknome": UnknomeDownloader,
 }
 

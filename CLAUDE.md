@@ -93,6 +93,11 @@ That permission is scoped. Confine all network activity to these domains:
 - `www.proteinatlas.org` — Human Protein Atlas: the download page (read for the
   release number) and the bulk data files under `/download/`
   (`proteinatlas.tsv.zip`, `.json.gz`, `.xml.gz`).
+- `ftp.uniprot.org` — UniProt knowledgebase (served over HTTPS) under
+  `/pub/databases/uniprot/current_release/knowledgebase/`: the protein
+  sequences in `complete/` (and its `reldate.txt` release marker and
+  `RELEASE.metalink` checksums), the cross-references in `idmapping/`, and the
+  `complete/LICENSE` file captured as the license copy.
 - `creativecommons.org` — Creative Commons legal-code text captured by license
   tracking: the CC BY 4.0, CC0 1.0, and CC BY-NC-SA 4.0 `legalcode.txt` files
   stored as the license copy for the Gene Ontology, Alliance of Genome

@@ -92,6 +92,7 @@ Each downloader type maps to a real upstream source and contact host(s):
 | `ols` | Ontology Lookup Service (OLS) dated snapshot of all loaded ontologies as linked JSON (`ontology_jsons_linked.tgz`); other snapshot archives selectable | `ftp.ebi.ac.uk` | HTTPS |
 | `unknome` | Unknome (MRC LMB) per-release compressed protein summary and cluster summary TSVs (the full SQLite database is selectable but off by default) | `unknome.mrc-lmb.cam.ac.uk` | HTTPS |
 | `proteinatlas` | Human Protein Atlas bulk files (the per-gene summary `proteinatlas.tsv.zip` by default; the JSON and comprehensive XML are selectable) | `www.proteinatlas.org` | HTTPS |
+| `uniprot` | UniProt knowledgebase files from a configured subdirectory: protein sequences (`complete/`, e.g. `uniprot_sprot.fasta.gz`) and ID cross-references (`idmapping/`, e.g. `idmapping.dat.gz`) | `ftp.uniprot.org` | HTTPS |
 | `obo` | OBO-format ontology files (Gene Ontology `go-basic.obo`, Disease Ontology `doid.obo`) | `purl.obolibrary.org` (PURL) redirecting to the release host for the bytes (`current.geneontology.org` for GO; `raw.githubusercontent.com` for DOID) | HTTPS |
 | `ensembl_tsv` | Ensembl per-species TSV cross-reference tables (Entrez, RefSeq, UniProt, ENA, karyotype) under `current_tsv`, plus `CHECKSUMS` and `README_*` | `ftp.ensembl.org` | HTTPS |
 | `alliancegenome` | Alliance of Genome Resources per-species TSV bulk files (orthology, disease, expression, interactions, gene descriptions, variant-allele, cross-references) from a release snapshot | `fms.alliancegenome.org` for the release version and snapshot; file bytes from `download.alliancegenome.org` | HTTPS |
@@ -104,9 +105,10 @@ reads the FMS release snapshot to learn each file's download URL, path, and MD5,
 per-record-set file names, `ols` reads the autoindex to learn the newest
 snapshot timestamp, `unknome` parses its download page for the release
 identifiers and takes each file's name from the `Content-Disposition` header,
-and `proteinatlas` reads the release number and the available file names off
-its download page. Those URLs and names are upstream data, not configuration
-(see Invariants).
+`proteinatlas` reads the release number and the available file names off
+its download page, and `uniprot` reads the autoindex to validate file names and
+parses `RELEASE.metalink` for per-file MD5s. Those URLs and names are upstream
+data, not configuration (see Invariants).
 
 ## Companion documents
 
@@ -196,6 +198,11 @@ avoidable, so that "is this current?" can be answered by comparison:
   anything. OLS publishes no checksum sidecars, so the `.tgz` is verified by the
   size check plus the gzip read-through (`.tgz` is recognized as gzip by
   `verify_file`).
+- `uniprot`: the UniProt release tag (e.g. `2026_01`), read from
+  `complete/reldate.txt` without downloading any data file. The same tag
+  versions both the sequence and idmapping datasets (UniProt rebuilds a release
+  together). Files are verified against the per-file MD5 in the subdirectory's
+  `RELEASE.metalink` where present, plus the size and gzip checks.
 - `proteinatlas`: the HPA release number (e.g. `25.1`), parsed from the
   download page without downloading any data file (the bulk URLs are stable and
   unversioned). No checksum sidecars are published, so each file gets the size
