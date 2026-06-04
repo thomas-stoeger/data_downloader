@@ -79,6 +79,9 @@ That permission is scoped. Confine all network activity to these domains:
   the per-release snapshot of data files (`/api/snapshot/release/<version>`).
 - `download.alliancegenome.org` — Alliance of Genome Resources file bytes (the
   `s3Url` each snapshot data file advertises).
+- `nlmpubs.nlm.nih.gov` — NLM data distribution server: the MeSH XML record
+  sets (descriptors, qualifiers, pharmacological actions, supplementary concept
+  records) under `/projects/mesh/MESH_FILES/xmlmesh/`.
 - `creativecommons.org` — Creative Commons legal-code text captured by license
   tracking: the CC BY 4.0, CC0 1.0, and CC BY-NC-SA 4.0 `legalcode.txt` files
   stored as the license copy for the Gene Ontology and Alliance of Genome
@@ -88,7 +91,7 @@ That permission is scoped. Confine all network activity to these domains:
   captured as the license copy for the NCBI gene/taxonomy datasets, GeneRIFs,
   and PubTator3.
 - `www.nlm.nih.gov` — the NLM data Terms and Conditions page, captured as the
-  license copy for PubMed and the NLM Catalog.
+  license copy for PubMed, the NLM Catalog, and MeSH.
 
 License capture (see "Licenses" in [docs/DESIGN.md](docs/DESIGN.md)) downloads
 each dataset's license document from the host named in its `[<name>.license]`

@@ -80,6 +80,7 @@ Each downloader type maps to a real upstream source and contact host(s):
 | `pubmed` | NCBI PubMed baseline + updatefiles | `ftp.ncbi.nlm.nih.gov` | Anonymous FTP |
 | `pubtator3` | PubTator3 entity/relation annotation tables (optionally BioCXML archives) | `ftp.ncbi.nlm.nih.gov` | Anonymous FTP |
 | `nlmcatalog` | NLM Catalog records matching a configurable Entrez search term (e.g. `reportedmedline`) | `eutils.ncbi.nlm.nih.gov` | HTTPS (E-utilities esearch + efetch) |
+| `mesh` | MeSH (Medical Subject Headings) XML record sets: descriptors (carry the tree numbers for parent/ancestor lookups), qualifiers, pharmacological actions, supplementary concept records | `nlmpubs.nlm.nih.gov` | HTTPS |
 | `figshare` | iCite / NIH Open Citation Collection | `api.figshare.com` for metadata; file bytes from Figshare download URLs (`ndownloader.figshare.com`, may redirect to AWS S3) | HTTPS |
 | `harmonizome` | Harmonizome (~150 datasets) | `maayanlab.cloud` for the dataset index and per-dataset JSON-LD; distribution files from the S3 `contentUrl` each page advertises | HTTPS |
 | `nih_exporter` | NIH ExPORTER bulk data | `reporter.nih.gov` | HTTPS |
@@ -94,9 +95,11 @@ Each downloader type maps to a real upstream source and contact host(s):
 
 Note that `figshare` and `harmonizome` discover their actual byte-download URLs
 at runtime from API responses and scraped HTML, `opentargets` and `ensembl_tsv`
-read the FTP autoindex to learn the per-folder file names, and `alliancegenome`
-reads the FMS release snapshot to learn each file's download URL, path, and MD5.
-Those URLs and names are upstream data, not configuration (see Invariants).
+read the FTP autoindex to learn the per-folder file names, `alliancegenome`
+reads the FMS release snapshot to learn each file's download URL, path, and MD5,
+and `mesh` reads the autoindex to learn the production year and the available
+per-record-set file names. Those URLs and names are upstream data, not
+configuration (see Invariants).
 
 ## Companion documents
 
@@ -181,6 +184,10 @@ avoidable, so that "is this current?" can be answered by comparison:
   FMS `releaseversion/current` endpoint without downloading any data. Each TSV
   file is verified against the `md5Sum` the release snapshot publishes for it,
   in addition to the size and gzip checks.
+- `mesh`: the MeSH production year (e.g. `2026`), read from the `descYYYY`
+  file names in the `xmlmesh` directory listing without downloading any data.
+  MeSH publishes no checksum sidecars, so files get the size check plus the
+  gzip archive check (for the gzipped descriptor and SCR files).
 - `obo`: the ontology's own `data-version` header (e.g. GO's
   `data-version: releases/2026-05-19`), read from the first few kilobytes of the
   file with the `releases/` prefix stripped to `2026-05-19`. No full download is

@@ -6,6 +6,7 @@ from .ftp import FtpDownloader
 from .google_sheet import GoogleSheetDownloader
 from .google_sheet_hashed import GoogleSheetHashedDownloader
 from .harmonizome import HarmonizomeDownloader
+from .mesh import MeshDownloader
 from .nih_exporter import NihExporterDownloader
 from .nlmcatalog import NlmCatalogDownloader
 from .obo import OboDownloader
@@ -23,6 +24,7 @@ _DOWNLOADERS: dict[str, type[BaseDownloader]] = {
     "google_sheet": GoogleSheetDownloader,
     "google_sheet_hashed": GoogleSheetHashedDownloader,
     "harmonizome": HarmonizomeDownloader,
+    "mesh": MeshDownloader,
     "nih_exporter": NihExporterDownloader,
     "nlmcatalog": NlmCatalogDownloader,
     "obo": OboDownloader,
