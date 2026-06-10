@@ -111,6 +111,28 @@ species = ["homo_sapiens", "mus_musculus", "rattus_norvegicus", "danio_rerio", "
 declared_at = "https://www.ensembl.org/info/about/legal/disclaimer.html"
 note = "Ensembl-generated data is available without restriction; some included third-party data may carry constraints. No license file is fetched (the legal page redirects to a regional mirror)."
 
+[ensembl_gtf]
+description = "Ensembl GTF gene annotation — per-species gzipped GTF files (gene/transcript/exon models) from the release-numbered FTP tree, plus README and CHECKSUMS; versioned by Ensembl release number"
+downloader = "ensembl_gtf"
+# Which species directories to download. Set species = ["*"] to fetch every
+# species in the release (large: 350+ species). Unknown names fail with the
+# list of what is available (browse https://ftp.ensembl.org/pub/current/gtf/).
+# Only vertebrates (plus a few model organisms) live here; invertebrate model
+# organisms such as fly, worm, and yeast are in Ensembl Genomes, not this tree.
+species = ["homo_sapiens", "mus_musculus", "rattus_norvegicus", "danio_rerio", "gallus_gallus"]
+# Which GTF flavors to keep. "primary" is the full gene set
+# (<species>.<assembly>.<release>.gtf.gz). Remove this key to also fetch
+# "abinitio", "chr", and "chr_patch_hapl_scaff". README and CHECKSUMS are
+# always taken alongside.
+variants = ["primary"]
+
+# Declared-only: Ensembl-generated data is available without restriction, but
+# the legal page 302-redirects to a regional mirror (useast/uswest/...), a poor
+# stable fetch target, so no copy is downloaded.
+[ensembl_gtf.license]
+declared_at = "https://www.ensembl.org/info/about/legal/disclaimer.html"
+note = "Ensembl-generated data is available without restriction; some included third-party data may carry constraints. No license file is fetched (the legal page redirects to a regional mirror)."
+
 [alliancegenome]
 description = "Alliance of Genome Resources — all per-species TSV bulk files for a release (orthology, disease, expression, molecular/genetic interactions, gene descriptions, variant-allele, cross-references); versioned by release number"
 downloader = "alliancegenome"

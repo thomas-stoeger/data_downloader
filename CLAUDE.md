@@ -112,8 +112,9 @@ That permission is scoped. Confine all network activity to these domains:
   `DiseaseOntology/HumanDiseaseOntology` repository).
 - `ftp.ensembl.org` — Ensembl release files (served over HTTPS): the
   `current_tsv` per-species cross-reference tables and their `CHECKSUMS` and
-  `README_*` companions, and the `/pub/VERSION` file used to read the release
-  number.
+  `README_*` companions, the per-species GTF gene-annotation files under
+  `release-<N>/gtf/` (the `.gtf.gz` flavors and their `CHECKSUMS` and `README`),
+  and the `/pub/VERSION` file used to read the release number.
 - `fms.alliancegenome.org` — Alliance of Genome Resources File Management
   System API: the current release version (`/api/releaseversion/current`) and
   the per-release snapshot of data files (`/api/snapshot/release/<version>`).

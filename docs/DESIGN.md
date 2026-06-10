@@ -105,11 +105,13 @@ Each downloader type maps to a real upstream source and contact host(s):
 | `interpro` | InterPro release files: per-protein integrated matches (`protein2ipr.dat.gz`), the entry hierarchy (`ParentChildTreeFile.txt`), entry metadata/schema (`interpro.xml.gz`, `interpro.dtd`), and lookups (`entry.list`, `names.dat`, `interpro2go`) | `ftp.ebi.ac.uk` | HTTPS |
 | `obo` | OBO-format ontology files (Gene Ontology `go-basic.obo`, Disease Ontology `doid.obo`) | `purl.obolibrary.org` (PURL) redirecting to the release host for the bytes (`current.geneontology.org` for GO; `raw.githubusercontent.com` for DOID) | HTTPS |
 | `ensembl_tsv` | Ensembl per-species TSV cross-reference tables (Entrez, RefSeq, UniProt, ENA, karyotype) under `current_tsv`, plus `CHECKSUMS` and `README_*` | `ftp.ensembl.org` | HTTPS |
+| `ensembl_gtf` | Ensembl per-species GTF gene-annotation files (the full `.gtf.gz` gene set plus selectable `chr`, `chr_patch_hapl_scaff`, and `abinitio` flavors) under `release-<N>/gtf/`, plus `CHECKSUMS` and `README` | `ftp.ensembl.org` | HTTPS |
 | `alliancegenome` | Alliance of Genome Resources per-species TSV bulk files (orthology, disease, expression, interactions, gene descriptions, variant-allele, cross-references) from a release snapshot | `fms.alliancegenome.org` for the release version and snapshot; file bytes from `download.alliancegenome.org` | HTTPS |
 
 Note that `figshare` and `harmonizome` discover their actual byte-download URLs
-at runtime from API responses and scraped HTML, `opentargets` and `ensembl_tsv`
-read the FTP autoindex to learn the per-folder file names, `alliancegenome`
+at runtime from API responses and scraped HTML, `opentargets`, `ensembl_tsv`,
+and `ensembl_gtf` read the FTP autoindex to learn the per-folder file names,
+`alliancegenome`
 reads the FMS release snapshot to learn each file's download URL, path, and MD5,
 `mesh` reads the autoindex to learn the production year and the available
 per-record-set file names, `ols` reads the autoindex to learn the newest
@@ -230,6 +232,12 @@ avoidable, so that "is this current?" can be answered by comparison:
   is a symlink to that release's `tsv` tree. Files are verified against each
   folder's `CHECKSUMS` (the classic Unix `sum` BSD checksum and block count)
   where present, in addition to the size and gzip checks.
+- `ensembl_gtf`: the Ensembl release number (e.g. `116`), read from the same
+  `/pub/VERSION` file without downloading any data. GTF has no `current_gtf`
+  symlink, so the release-numbered path (`release-<N>/gtf/<species>/`) is built
+  from that number. Files are verified against each species folder's
+  `CHECKSUMS` (the same BSD `sum` checksum and block count) where present, plus
+  the size and gzip checks.
 - `alliancegenome`: the Alliance release version (e.g. `9.0.0`), read from the
   FMS `releaseversion/current` endpoint without downloading any data. Each TSV
   file is verified against the `md5Sum` the release snapshot publishes for it,
