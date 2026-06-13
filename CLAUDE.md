@@ -38,7 +38,10 @@ process or interpret dataset contents in this repo.
 This repo has network egress permission, because downloading is its purpose.
 That permission is scoped. Confine all network activity to these domains:
 
-- `ftp.ncbi.nlm.nih.gov` — NCBI gene data, taxonomy, and PubMed (FTP).
+- `ftp.ncbi.nlm.nih.gov` — NCBI gene data, taxonomy, PubMed, and the PMC bulk
+  article datasets under `/pub/pmc/` (the Open Access Subset `oa_bulk`, the
+  Author Manuscript Dataset `manuscript`, and the Historical OCR collection)
+  (FTP).
 - `eutils.ncbi.nlm.nih.gov` — NCBI E-utilities (esearch + efetch) for NLM
   Catalog snapshots.
 - `www.research.gov` — NSF Award Search API: the public

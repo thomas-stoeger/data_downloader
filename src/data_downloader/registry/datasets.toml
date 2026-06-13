@@ -603,3 +603,64 @@ declared_at = "https://platform-docs.opentargets.org/licence"
 url = "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt"
 spdx = "CC0-1.0"
 note = "CC0 1.0 applies to the Open Targets compilation ONLY (confirmed by croissant.json top-level license). Constituent sources keep their own licenses: attribution (CC-BY), share-alike (ChEMBL + Human Protein Atlas, CC-BY-SA 3.0), EMBL-EBI terms (ClinVar/EVA, Gene2Phenotype, IntAct, Signor, GWAS Catalog), and 'commercial use for Open Targets' (COSMIC/Cancer Gene Census, Genomics England PanelApp, Project Score) which is NOT a blanket grant to downstream redistributors. Clear share-alike and commercial-use sources before redistributing, especially commercially. Full per-source table is at the declared_at licence page."
+
+[pmc_open_access]
+description = "PMC Open Access Subset (oa_bulk) — bulk full-text article archives from PubMed Central's commercial-, non-commercial-, and other-license groups, in plain text and JATS XML; each leaf directory holds a dated baseline (full corpus, chunked by PMC-ID range) plus daily incremental archives, with per-tarball .filelist companions (PMCID, citation, per-article license). Versioned by the newest baseline/incremental date. NOTE: these legacy FTP files are scheduled for removal by NLM in August 2026; the current distribution moves to AWS/HTTPS."
+downloader = "pmc"
+host = "ftp.ncbi.nlm.nih.gov"
+path = "/pub/pmc/deprecated/oa_bulk"
+# Leaf subdirectories under path, as <group>/<format>. Groups: oa_comm
+# (commercial reuse allowed), oa_noncomm (non-commercial), oa_other (other
+# terms). Formats: txt (plain text), xml (JATS structured). Trim this list to
+# fetch fewer groups or a single format.
+subdirs = ["oa_comm/txt", "oa_comm/xml", "oa_noncomm/txt", "oa_noncomm/xml", "oa_other/txt", "oa_other/xml"]
+# Which archive sets to take: "baseline" (the dated full-corpus snapshot) and
+# "incremental" (the daily add-on archives). Set modes = ["baseline"] for a
+# stable, reproducible snapshot dated by the baseline build; including the
+# incrementals advances the version each day new ones are published.
+modes = ["baseline", "incremental"]
+
+# Declared-only: PMC articles are provided by their publishers/authors, each
+# carrying its own copyright statement; there is no single fetchable license.
+# The OA subset is split by reuse tier (oa_comm = commercial reuse allowed,
+# typically CC BY/CC0; oa_noncomm = non-commercial, e.g. CC BY-NC; oa_other =
+# other terms). The PMC copyright and NCBI policy pages are recorded as
+# provenance, never fetched, so no copy is captured.
+[pmc_open_access.license]
+declared_at = ["https://pmc.ncbi.nlm.nih.gov/about/copyright/", "https://www.ncbi.nlm.nih.gov/home/about/policies/"]
+note = "PMC full-text articles are provided by their publishers or authors and usually carry an explicit copyright statement. The Open Access Subset is split by reuse tier: oa_comm permits commercial reuse (typically CC BY or CC0), oa_noncomm is non-commercial (e.g. CC BY-NC), oa_other carries other terms; clear the per-article license (in the .filelist companion) before reuse, especially for the noncomm/other groups. Downloading indicates acceptance of the NLM data Terms and Conditions; acknowledge NLM as the source and do not use the PMC wordmark/logo. No single license document is fetched."
+
+[pmc_author_manuscripts]
+description = "PMC Author Manuscript Dataset (manuscript) — bulk archives of peer-reviewed author manuscripts deposited in PMC under funder public-access policies, in plain text and JATS XML; a dated baseline (chunked by PMC-ID range) plus daily incremental archives, with per-tarball .filelist companions. Versioned by the newest baseline/incremental date. NOTE: these legacy FTP files are scheduled for removal by NLM in August 2026; the current distribution moves to AWS/HTTPS."
+downloader = "pmc"
+host = "ftp.ncbi.nlm.nih.gov"
+path = "/pub/pmc/deprecated/manuscript"
+# Formats: txt (plain text), xml (JATS structured). Trim to a single format if
+# desired.
+subdirs = ["txt", "xml"]
+# "baseline" (dated full-corpus snapshot) and/or "incremental" (daily add-ons).
+# Set modes = ["baseline"] for a stable, reproducible snapshot.
+modes = ["baseline", "incremental"]
+
+# Declared-only: author manuscripts are provided by their authors/publishers,
+# each carrying its own copyright statement; there is no single fetchable
+# license. The PMC copyright and NCBI policy pages are recorded as provenance,
+# never fetched.
+[pmc_author_manuscripts.license]
+declared_at = ["https://pmc.ncbi.nlm.nih.gov/about/copyright/", "https://www.ncbi.nlm.nih.gov/home/about/policies/"]
+note = "PMC author manuscripts are made available for text mining and reuse under funder public-access policies, but individual articles are provided by their authors/publishers and usually carry an explicit copyright statement; clear the per-article terms before redistribution. Downloading indicates acceptance of the NLM data Terms and Conditions; acknowledge NLM as the source and do not use the PMC wordmark/logo. No single license document is fetched."
+
+[pmc_historical_ocr]
+description = "PMC Historical OCR collection (historical_ocr) — OCR-derived full text of historical (largely 19th-century) medical journals in PMC, one gzipped tar archive per journal title (~95 titles). Flat directory with no baseline/incremental split; versioned by the newest file modification date. NOTE: these legacy FTP files are scheduled for removal by NLM in August 2026."
+downloader = "pmc"
+host = "ftp.ncbi.nlm.nih.gov"
+path = "/pub/pmc/deprecated/historical_ocr"
+# Flat directory: every per-journal <Journal>.tar.gz is taken. Add a 'files'
+# allowlist of exact tarball names to restrict to specific journals, e.g.
+# files = ["BMJ.tar.gz", "Edinb_Med_J.tar.gz"].
+
+# Declared-only: these historical journal articles are distributed by PMC; the
+# PMC copyright and NCBI policy pages are recorded as provenance, never fetched.
+[pmc_historical_ocr.license]
+declared_at = ["https://pmc.ncbi.nlm.nih.gov/about/copyright/", "https://www.ncbi.nlm.nih.gov/home/about/policies/"]
+note = "OCR-derived text of historical medical journals distributed through PMC. Most underlying works are old enough to be in the public domain, but PMC attaches no blanket license; downloading indicates acceptance of the NLM data Terms and Conditions (acknowledge NLM as the source; do not use the PMC wordmark/logo). No single license document is fetched."

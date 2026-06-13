@@ -22,6 +22,7 @@ from .omim import OmimDownloader
 from .ols import OlsDownloader
 from .openalex import OpenAlexDownloader
 from .opentargets import OpenTargetsDownloader
+from .pmc import PmcDownloader
 from .proteinatlas import ProteinAtlasDownloader
 from .pubmed import PubmedDownloader
 from .pubtator3 import Pubtator3Downloader
@@ -55,6 +56,7 @@ _DOWNLOADERS: dict[str, type[BaseDownloader]] = {
     "omim": OmimDownloader,
     "openalex": OpenAlexDownloader,
     "opentargets": OpenTargetsDownloader,
+    "pmc": PmcDownloader,
     "proteinatlas": ProteinAtlasDownloader,
     "pubmed": PubmedDownloader,
     "pubtator3": Pubtator3Downloader,

@@ -79,6 +79,7 @@ Each downloader type maps to a real upstream source and contact host(s):
 | `ftp` | NCBI gene_info, gene2pubmed, gene2go, gene2accession, gene2ensembl, gene_history, GeneRIFs, taxdump | `ftp.ncbi.nlm.nih.gov` | Anonymous FTP |
 | `pubmed` | NCBI PubMed baseline + updatefiles | `ftp.ncbi.nlm.nih.gov` | Anonymous FTP |
 | `pubtator3` | PubTator3 entity/relation annotation tables (optionally BioCXML archives) | `ftp.ncbi.nlm.nih.gov` | Anonymous FTP |
+| `pmc` | PMC bulk article archives under `/pub/pmc/deprecated/`: the Open Access Subset (`pmc_open_access`, oa_bulk groups x formats), the Author Manuscript Dataset (`pmc_author_manuscripts`, txt/xml), and the Historical OCR collection (`pmc_historical_ocr`, per-journal tarballs). Baseline + daily incremental `.tar.gz` archives with `.filelist` companions | `ftp.ncbi.nlm.nih.gov` | Anonymous FTP |
 | `nlmcatalog` | NLM Catalog records matching a configurable Entrez search term (e.g. `reportedmedline`) | `eutils.ncbi.nlm.nih.gov` | HTTPS (E-utilities esearch + efetch) |
 | `mesh` | MeSH (Medical Subject Headings) XML record sets: descriptors (carry the tree numbers for parent/ancestor lookups), qualifiers, pharmacological actions, supplementary concept records | `nlmpubs.nlm.nih.gov` | HTTPS |
 | `biogrid` | BioGRID interaction data — `biogrid_interactions` (the stable Latest-Release TAB3 archive, default BIOGRID-ALL; the interaction database, not BioGRID ORCS) | `downloads.thebiogrid.org` for bytes; `thebiogrid.org` home page for the release number | HTTPS |
@@ -119,8 +120,10 @@ snapshot timestamp, `unknome` parses its download page for the release
 identifiers and takes each file's name from the `Content-Disposition` header,
 `proteinatlas` reads the release number and the available file names off
 its download page, `uniprot` reads the autoindex to validate file names and
-parses `RELEASE.metalink` for per-file MD5s, and `interpro` reads the autoindex
-to validate file names and reads each file's `.md5` sidecar where present.
+parses `RELEASE.metalink` for per-file MD5s, `interpro` reads the autoindex
+to validate file names and reads each file's `.md5` sidecar where present, and
+`pmc` reads each leaf directory listing to learn the baseline/incremental
+archive names, their embedded dates, and the `.filelist` companions to fetch.
 Those URLs and names are upstream data, not configuration (see Invariants).
 
 ## Companion documents
@@ -189,6 +192,15 @@ avoidable, so that "is this current?" can be answered by comparison:
 - `pubmed`: the four-digit baseline year (e.g. `2026`).
 - `pubtator3`: the max `MDTM` across the selected files as `YYYY-MM-DD`
   (NCBI refreshes the snapshot in lockstep each month).
+- `pmc`: the newest date embedded in the selected baseline/incremental archive
+  filenames (`*.baseline.<date>.tar.gz` / `*.incr.<date>.tar.gz`) as
+  `YYYY-MM-DD`, read from the directory listing without downloading any archive.
+  Leaf directories with no dated filenames (the flat `historical_ocr`
+  collection) fall back to the max `MDTM` like `ftp`/`pubtator3`. With the daily
+  incrementals included (the default), the version advances each day NCBI
+  publishes new ones; restricting `modes` to `baseline` pins a stable snapshot.
+  PMC publishes no checksum sidecars, so each `.tar.gz` gets the size check plus
+  the gzip read-through.
 - `gtex`: the configured `version` (default `v10`). GTEx releases are pinned,
   not auto-detected: the `adult-gtex` bucket keeps several version prefixes and
   newer ones can be placeholders without the matrices, so `check` compares the
