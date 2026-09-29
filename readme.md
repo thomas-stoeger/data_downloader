@@ -58,22 +58,96 @@ Opens at http://127.0.0.1:8000 — shows all datasets, their download status, an
 
 ## Available datasets
 
-| Name | Description |
-|---|---|
-| `ncbi_gene_info` | NCBI gene_info — gene symbols, names, chromosomal location, and identifiers |
-| `ncbi_gene2pubmed` | NCBI gene2pubmed — links between genes and PubMed articles |
-| `ncbi_gene2go` | NCBI gene2go — gene-to-GO term associations |
-| `ncbi_gene2refseq` | NCBI gene2refseq — gene-to-RefSeq accession mappings |
-| `ncbi_gene_history` | NCBI gene_history — discontinued and merged gene ID history |
-| `ncbi_gene2ensembl` | NCBI gene2ensembl — gene-to-Ensembl ID mappings |
-| `ncbi_gene2accession` | NCBI gene2accession — gene-to-nucleotide/protein accession mappings |
-| `ncbi_generifs` | NCBI GeneRIFs — gene functional annotation summaries |
-| `ncbi_taxdump` | NCBI Taxonomy dump — full taxonomy nodes, names, and lineage |
-| `icite` | iCite NIH Open Citation Collection (monthly snapshots) |
-| `harmonizome` | Harmonizome — all distribution files per dataset (except similarity matrices) plus JSON metadata sidecars (~150 datasets) |
-| `openalex` | OpenAlex full snapshot — all entity types, excludes legacy-data (~600 GB, requires AWS CLI) |
-| `nih_exporter` | NIH ExPORTER bulk data — projects, abstracts, publications, link tables, patents, clinical studies |
-| `ncbi_pubmed` | NCBI PubMed XML — annual baseline plus updatefiles, MD5-verified (~45 GB, sequential FTP) |
+45 datasets are registered in
+[src/data_downloader/registry/datasets.toml](src/data_downloader/registry/datasets.toml),
+which is the source of truth; `dl list` prints the same set with local version
+info. The License column summarizes each dataset's `[<name>.license]` entry
+("PD" is US Government public domain; "none stated" means upstream names no
+license). Check the registry notes before reuse, since many aggregators pass
+through the terms of their constituent sources.
+
+### Genes, identifiers, and genomes
+
+| Name | Contents | License |
+|---|---|---|
+| `ncbi_gene_info` | NCBI gene_info: gene symbols, names, chromosomal location, and identifiers | PD |
+| `ncbi_gene2pubmed` | NCBI gene2pubmed: links between genes and PubMed articles | PD |
+| `ncbi_gene2go` | NCBI gene2go: gene-to-GO term associations | PD |
+| `ncbi_gene2accession` | NCBI gene2accession: gene-to-RefSeq/GenBank nucleotide and protein accessions | PD |
+| `ncbi_gene2ensembl` | NCBI gene2ensembl: Entrez Gene to Ensembl gene, transcript, and protein IDs | PD |
+| `ncbi_gene_history` | NCBI gene_history: discontinued and merged gene ID history | PD |
+| `ncbi_generifs` | NCBI GeneRIFs: gene-to-literature functional annotation summaries | PD |
+| `ncbi_taxdump` | NCBI Taxonomy dump: taxonomy nodes, names, and lineage | PD |
+| `hgnc` | HGNC complete set: approved human gene symbols, names, locus types, and cross-references (monthly archive) | unrestricted |
+| `ensembl_tsv` | Ensembl per-species TSV cross-references (Ensembl IDs to Entrez, RefSeq, UniProt, ENA) plus karyotype | unrestricted |
+| `ensembl_gtf` | Ensembl per-species GTF gene annotation (gene/transcript/exon models) | unrestricted |
+| `omim` | OMIM `mim2gene.txt`: MIM number to entry type, Entrez Gene, HGNC symbol, Ensembl gene (gated genemap2/morbidmap not fetched) | OMIM agreement |
+| `alliancegenome` | Alliance of Genome Resources per-species TSV bulk files (orthology, disease, expression, interactions, gene descriptions, variants, cross-references) | CC-BY-4.0 |
+
+### Proteins, domains, and expression
+
+| Name | Contents | License |
+|---|---|---|
+| `uniprot_fasta` | UniProt reviewed Swiss-Prot protein sequences (FASTA) | CC-BY-4.0 |
+| `uniprot_idmapping` | UniProt ID mapping: UniProtKB accession to external database IDs (`idmapping.dat.gz`) | CC-BY-4.0 |
+| `interpro` | InterPro protein-to-entry matches (`protein2ipr.dat.gz`), entry hierarchy, entry metadata, and lookups | CC0-1.0 |
+| `proteinatlas` | Human Protein Atlas per-gene summary of protein/RNA expression and localization | CC-BY-4.0 |
+| `gtex` | GTEx open-access bulk RNA-seq gene-level matrices (median TPM, reads, TPM); release pinned by config (default v10) | GTEx terms |
+| `unknome` | Unknome protein and cluster summaries ranking proteins by how little is known about them | CC-BY-4.0 |
+
+### Interactions, pathways, and associations
+
+| Name | Contents | License |
+|---|---|---|
+| `biogrid_interactions` | BioGRID protein, genetic, and chemical interactions (BIOGRID-ALL TAB3, Latest-Release); not BioGRID ORCS | MIT |
+| `intact` | IntAct curated binary molecular interactions (PSI-MITAB) plus column README | CC-BY-4.0 |
+| `reactome` | Reactome gene/protein (Entrez, UniProt, Ensembl) to pathway mappings, pathway names, and hierarchy | CC0-1.0 |
+| `gwas_catalog` | NHGRI-EBI GWAS Catalog: EFO-annotated variant-trait associations, studies, ancestry, and trait mappings | EMBL-EBI terms |
+| `opentargets` | Open Targets Platform release Parquet datasets plus `croissant.json` schema and per-dataset descriptions | CC0-1.0 (compilation) |
+| `harmonizome` | Harmonizome distribution files for ~150 datasets (except similarity matrices) plus JSON metadata sidecars | CC-BY-NC-SA-4.0 |
+
+### Ontologies and vocabularies
+
+| Name | Contents | License |
+|---|---|---|
+| `geneontology_basic` | Gene Ontology `go-basic.obo` (filtered, cycle-free) | CC-BY-4.0 |
+| `disease_ontology` | Human Disease Ontology `doid.obo` | CC0-1.0 |
+| `ols` | Ontology Lookup Service snapshot of all loaded ontologies as linked JSON (~150 GB uncompressed) | per ontology |
+| `mesh` | MeSH XML: descriptors (with tree numbers), qualifiers, pharmacological actions, supplementary concept records | PD (NLM terms) |
+
+### Literature and full text
+
+| Name | Contents | License |
+|---|---|---|
+| `ncbi_pubmed` | PubMed XML annual baseline plus updatefiles, MD5-verified (~45 GB) | NLM terms |
+| `ncbi_pubtator3` | PubTator3 entity and relation annotation tables plus BioCXML archives (~225 GB) | PD |
+| `pmc_open_access` | PMC Open Access Subset (`oa_bulk`): full-text plain text and JATS XML, baseline plus daily incrementals | per article |
+| `pmc_author_manuscripts` | PMC Author Manuscript Dataset: full-text plain text and JATS XML, baseline plus daily incrementals | per article |
+| `pmc_historical_ocr` | PMC Historical OCR collection: OCR text of historical medical journals (~95 titles) | per article |
+| `ncbi_nlmcatalog_reportedmedline` | NLM Catalog journals reporting MEDLINE indexing status (full XML via E-utilities) | NLM terms |
+| `icite` | iCite NIH Open Citation Collection (monthly snapshots) | CC-BY-4.0 |
+| `openalex` | OpenAlex snapshot, all entity types under `data/` (~600 GB, requires AWS CLI) | CC0-1.0 |
+
+The three `pmc_*` datasets read legacy FTP paths that NLM plans to remove in
+August 2026.
+
+### Research integrity
+
+| Name | Contents | License |
+|---|---|---|
+| `retractionwatch_retractiondatabase` | Retraction Watch retraction database: Crossref's daily `retraction_watch.csv` plus README | none stated |
+| `retractionwatch_hijackedjournals` | Retraction Watch Hijacked Journal Checker (Google Sheet exported as CSV) | none stated |
+| `predatory_publishers` | Predatory publishers list (Google Sheet as CSV; versioned by capture date plus content hash) | none stated |
+| `predatory_journals` | Predatory journals list (Google Sheet as CSV; versioned by capture date plus content hash) | none stated |
+
+### Researchers, organizations, and funding
+
+| Name | Contents | License |
+|---|---|---|
+| `orcid` | ORCID Public Data File: annual record summaries (identity, affiliations, employment, works) | CC0-1.0 |
+| `ror` | Research Organization Registry data dump (JSON + CSV, schema v1 and v2) | CC0-1.0 |
+| `nih_exporter` | NIH ExPORTER bulk data: projects, abstracts, publications, link tables, patents, clinical studies | PD |
+| `nsf_awards` | NSF Award Search per-fiscal-year award archives plus the pre-1976 Historical set | PD |
 
 ## Resuming interrupted downloads
 
